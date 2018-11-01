@@ -283,7 +283,7 @@ footer li a:hover, footer li.active a {
 }
 .content-area.contact {
     padding-bottom: 100px;
-}
+} 
 .panel-heading .accordion-toggle.collapsed:after {
     font-family: 'fontAwesome';   
     content: "\f067" !important;

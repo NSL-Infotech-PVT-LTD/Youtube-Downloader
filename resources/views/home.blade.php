@@ -1,5 +1,4 @@
 @extends('layouts.frontend')
-
 @section('content')
 <!--inner page content start here-->
 <section class="content-area home">
