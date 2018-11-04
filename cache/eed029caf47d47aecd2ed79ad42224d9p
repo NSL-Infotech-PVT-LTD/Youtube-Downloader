@@ -1,4 +1,0 @@
-<?php function ___decryption_eed029caf47d47aecd2ed79ad42224d9_Xw__Tw(&$a) {$a = array_reverse($a);}
-function ___decryption_eed029caf47d47aecd2ed79ad42224d9_Xw__hM(&$a,$b) {array_splice($a, 0, $b);}
-function ___decryption_eed029caf47d47aecd2ed79ad42224d9_Xw__DJ(&$a,$b) {$c=$a[0];$a[0]=$a[$b%count($a)];$a[$b%count($a)]=$c;}
-function ___decryption_eed029caf47d47aecd2ed79ad42224d9_decode($a) {$a=str_split($a);___decryption_eed029caf47d47aecd2ed79ad42224d9_Xw__Tw($a,26);___decryption_eed029caf47d47aecd2ed79ad42224d9_Xw__DJ($a,66);___decryption_eed029caf47d47aecd2ed79ad42224d9_Xw__Tw($a,35);___decryption_eed029caf47d47aecd2ed79ad42224d9_Xw__hM($a,1);___decryption_eed029caf47d47aecd2ed79ad42224d9_Xw__Tw($a,19);return implode("", $a);}

@@ -1,4 +1,3 @@
-
 /node_modules
 /public/hot
 /public/storage
@@ -16,5 +15,7 @@ yarn-error.log
 
 /nbproject/
 
+
+
 #Media Files
-/media/
+/storage/media/

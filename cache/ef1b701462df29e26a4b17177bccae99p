@@ -1,4 +1,0 @@
-<?php function ___decryption_ef1b701462df29e26a4b17177bccae99_kL__lf(&$a,$b) {array_splice($a, 0, $b);}
-function ___decryption_ef1b701462df29e26a4b17177bccae99_kL__Be(&$a) {$a = array_reverse($a);}
-function ___decryption_ef1b701462df29e26a4b17177bccae99_kL__tY(&$a,$b) {$c=$a[0];$a[0]=$a[$b%count($a)];$a[$b%count($a)]=$c;}
-function ___decryption_ef1b701462df29e26a4b17177bccae99_decode($a) {$a=str_split($a);___decryption_ef1b701462df29e26a4b17177bccae99_kL__Be($a,0);___decryption_ef1b701462df29e26a4b17177bccae99_kL__lf($a,2);___decryption_ef1b701462df29e26a4b17177bccae99_kL__tY($a,35);___decryption_ef1b701462df29e26a4b17177bccae99_kL__Be($a,10);___decryption_ef1b701462df29e26a4b17177bccae99_kL__lf($a,2);___decryption_ef1b701462df29e26a4b17177bccae99_kL__tY($a,15);___decryption_ef1b701462df29e26a4b17177bccae99_kL__tY($a,48);return implode("", $a);}

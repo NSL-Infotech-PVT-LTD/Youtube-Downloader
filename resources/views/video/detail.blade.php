@@ -137,45 +137,48 @@
 
 
                                     <div id="subtitle" class="tab-pane fade">
-                                        <table>
-                                            <tr>
-                                                <th>Language</th>
-                                                <th>Type</th>
-                                                <th></th>
-                                                <th></th>
-                                                <th>Download Links</th>			 
-                                            </tr>
+                                        <?php if ($videoInfo->captions): ?>
+                                            <table>
+                                                <tr>
+                                                    <th>Language</th>
+                                                    <th>Type</th>
+                                                    <th>Format</th>
+                                                    <th></th>
+                                                    <th></th>			 
+                                                </tr>
+                                                <?php
+                                                foreach ($videoInfo->captions as $captions):
+                                                    ?>
+                                                    <tr>
+                                                        <td><?= $captions->name->simpleText ?></td>
+                                                        <td>Uploaded</td>
+                                                        <td>
+                                                            <select id="format" class="form-control ">
+                                                                <option selected>SRT</option>
+                                                                <option>XML</option>
+                                                                <option>TXT</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <div class="checkbox">
+                                                                <input type="checkbox" value=""><label>Timeline</label>
+                                                            </div>
+                                                        </td>
+                                                        <td >
+                                                            <span class="download caption">
+                                                                <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" href="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
+                                                            </span>
+                                                            <span>
+                                                                <button class="share-vdo" data-toggle="modal" data-target="#share"><i class="fa fa-share" aria-hidden="true"></i></button>									
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </table>
+                                        <?php else: ?>
 
-<!--                                            <tr>
-                                                <td>English</td>
-                                                <td>Unloaded</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td><span class="download"><a href="">Download</a></span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>English</td>
-                                                <td>Unloaded</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td><span class="download"><a href="">Download</a></span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Arabic</td>
-                                                <td>Unloaded</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td><span class="download"><a href="">Download</a></span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>English</td>
-                                                <td>Unloaded</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td><span class="download"><a href="">Download</a></span></td>
-                                            </tr>-->
-                                        </table>
-                                        <div class="tips"><span>Tip</span> If download didn't start directly, right click on video in the new window and select "Save video as".</div>
+                                            <div class="tips "><span>Info </span>No Subtitle found</div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>						  
                             </div>
@@ -278,5 +281,26 @@
     </div>
 </div>
 <!-- Modal End here -->	
+<script type="text/javascript">
+    $(function () {
+        $('.download.caption > a').click(function (event) {
+            event.preventDefault();
+            var req = new XMLHttpRequest();
+            var fileR = $(this).attr("href");
+            var dataName = $(this).attr("data-name");
+            req.open("GET", fileR, true);
+            req.responseType = "blob";
 
+            req.onload = function (event) {
+                var blob = req.response;
+                console.log(blob.size);
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = dataName + ".xml";
+                link.click();
+            };
+            req.send();
+        });
+    });
+</script>
 @endsection

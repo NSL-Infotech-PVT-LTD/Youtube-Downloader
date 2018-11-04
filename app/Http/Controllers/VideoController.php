@@ -17,7 +17,6 @@ class VideoController extends Controller {
         try {
 
             $youtube = new YoutubeDownloader($request->search);
-//            dd($youtube);
             $videoInfo = $youtube->getInfo();
 //            dd($videoInfo);
             if ($videoInfo->response_type === 'video'):
@@ -30,7 +29,7 @@ class VideoController extends Controller {
                 return view('video.playlist', compact('videoInfo', 'request', 'page'));
             endif;
         } catch (\Exception $ex) {
-//            dd($ex->getMessage());
+            dd($ex->getMessage());
             return view('video.nodatafound', compact('request'));
         }
     }
