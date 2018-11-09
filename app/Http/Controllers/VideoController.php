@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DevsWebDev\DevTube\Download;
+//use DevsWebDev\DevTube\Download;
 use Masih\YoutubeDownloader\YoutubeDownloader;
+
 
 class VideoController extends Controller {
 
@@ -18,18 +19,18 @@ class VideoController extends Controller {
 
             $youtube = new YoutubeDownloader($request->search);
             $videoInfo = $youtube->getInfo();
-//            dd($videoInfo);
             if ($videoInfo->response_type === 'video'):
                 $videoFormat = $this->videoFormat;
                 $videoResolution = $this->videoResolution;
                 $audioFormat = $this->audioFormat;
+                \QRCode::url($request->url() . '?search=' . $videoInfo->video_id)->setOutfile(public_path('qrcodes/' . $videoInfo->video_id . '.png'))->setSize(8)->setMargin(2)->png();
                 return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat'));
             else:
                 $page = ['offset' => '0', 'limit' => $this->cardLimit];
                 return view('video.playlist', compact('videoInfo', 'request', 'page'));
             endif;
         } catch (\Exception $ex) {
-            dd($ex->getMessage());
+//            dd($ex->getMessage());
             return view('video.nodatafound', compact('request'));
         }
     }

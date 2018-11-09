@@ -15,7 +15,10 @@
                     <div class="col-md-4">
                         <div class="video_thum">
                             <div class="video_inr">
-                                <iframe width="auto" height="200" src="https://www.youtube.com/embed/<?= $videoInfo->video_id ?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                <div class="itemsContainer" data-toggle="modal" data-target="#video-player">
+                                    <img width="auto" height="200" src="<?= $videoInfo->image['high_quality'] ?>"/>
+                                    <div class="play"><i class="fa fa-youtube-play"></i> </div>
+                                </div>
                                 <div class="video-des">
                                     <h4><?= $videoInfo->title ?></h4>
                                     <table>
@@ -34,6 +37,11 @@
                                     <li class="active"><a data-toggle="tab" href="#video">Video</a></li>
                                     <li><a data-toggle="tab" href="#audio">Audio</a></li>
                                     <li><a data-toggle="tab" href="#subtitle">Subtitle</a></li>
+                                    <li style="float: right; ">
+                                        <div class="qrcode hidden-xs">
+                                            <a href="javascript:void(0);" data-toggle="modal" data-target="#share-video"><i class="fa fa-qrcode"></i></a>
+                                        </div>
+                                    </li>
                                 </ul>
                                 <div class="tab-content">
                                     <div id="video" class="tab-pane fade in active">
@@ -59,7 +67,7 @@
                                                             <a href="<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
                                                         </span>
                                                         <span>
-                                                            <button class="share-vdo" data-toggle="modal" data-target="#share"><i class="fa fa-share" aria-hidden="true"></i></button>									
+                                                            <button class="share-vdo" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -88,7 +96,7 @@
                                                             <a href="<?= isset($afullFormats->url) ? $afullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
                                                         </span>
                                                         <span>
-                                                            <button class="share-vdo" data-toggle="modal" data-target="#share"><i class="fa fa-share" aria-hidden="true"></i></button>
+                                                            <button class="share-vdo" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -126,7 +134,7 @@
                                                             <a href="<?= isset($audiofullFormats->url) ? $audiofullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
                                                         </span>
                                                         <span>
-                                                            <button class="share-vdo" data-toggle="modal" data-target="#share"><i class="fa fa-share" aria-hidden="true"></i></button>									
+                                                            <button class="share-vdo" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -169,7 +177,7 @@
                                                                 <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" href="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
                                                             </span>
                                                             <span>
-                                                                <button class="share-vdo" data-toggle="modal" data-target="#share"><i class="fa fa-share" aria-hidden="true"></i></button>									
+                                                                <button class="share-vdo" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -197,33 +205,19 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">Close</button>
-                <h4 class="modal-title">Share option</h4>
+                <h4 class="modal-title">Share</h4>
             </div>
             <div class="modal-body row">
-                <div class="col-md-6 model-qrcode">
-                    <i class="fa fa-qrcode"></i>
-                </div>
-                <div class="col-md-6 model-links">
-                    <a href="">Copy links to clipboard</a>
+                <div class="col-md-12 model-links">
                     <a href="">Save to dropbox</a>
                     <a href="">Save to Google drive</a>
                 </div>
             </div> 
-            <div class="share">
-                <ul>						
-                    <li class="fb"><a><i class="fa fa-facebook" aria-hidden="true"></i><span> Facebook</span></a></li>
-                    <li class="tw"><a><i class="fa fa-twitter" aria-hidden="true"></i><span> Twitter</span></a></li>
-                    <li class="gplus"><a><i class="fa fa-google-plus" aria-hidden="true"></i><span> Google Plus</span></a></li>
-                    <li class="more"><a><i class="fa fa-ellipsis-h" aria-hidden="true"></i><span> More</span></a></li>
-                </ul>
-            </div>
         </div>      
     </div>
 </div>
 <!-- Modal End here -->	
-
-<!-- Modal start here -->
-<div class="modal fade" id="download" role="dialog">
+<div class="modal fade" id="share-video" role="dialog">
     <div class="modal-dialog">    
         <!-- Modal content-->
         <div class="modal-content">
@@ -232,49 +226,26 @@
                 <h4 class="modal-title">Share option</h4>
             </div>
             <div class="modal-body row">
+                <div class="col-md-12 model-links">
+                   <div> <img src="<?= url('qrcodes/' . $videoInfo->video_id . '.png') ?>"/></div   >
+                    <a href="">Copy links to clipboard</a>
+                </div>
+            </div> 
+        </div>      
+    </div>
+</div>
+<!-- Modal start here -->
+<div class="modal fade" id="video-player" role="dialog">
+    <div class="modal-dialog">    
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">Close</button>
+                <h4 class="modal-title"><?= $videoInfo->title ?></h4>
+            </div>
+            <div class="modal-body row">
                 <div class="share-model-inr">
-                    <table>
-                        <tr class="model-lang">
-                            <td><span>Single language</span></td>
-                            <td>Dual language</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-                        <tr class="model-lang-format">
-                            <td>Language</td>
-                            <td>Type</td>
-                            <td>Format</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
-                        <tr class="model-detail-format">
-                            <td><i class="fa fa-eye"></i> English</td>
-                            <td>User Uploaded</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">SRT
-                                        <span class="caret"></span></button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">Option1</a></li>
-                                        <li><a href="#">Option2</a></li>
-                                        <li><a href="#">Option3</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="checkbox">
-                                    <input type="checkbox" value=""><label>Timeline</label>
-                                </div>
-                            </td>
-                            <td class="share_download">
-                                <a href=""><i class="fa fa-download" aria-hidden="true"></i></a> 
-                                <a href=""><i class="fa fa-share" aria-hidden="true"></i></a>
-                            </td>
-                        </tr>
-                    </table>
+                    <iframe width="auto" height="540" src="https://www.youtube.com/embed/<?= $videoInfo->video_id ?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 </div>		   
             </div> 
         </div>      

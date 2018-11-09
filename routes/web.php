@@ -10,14 +10,18 @@
   | contains the "web" middleware group. Now create something great!
   |
  */
-/* * ******For Language Switcher ******* */
+/* * ******For Language Switcher start******* */
 
 Route::get('/lang/{lang?}', [
     'uses' => 'LangSwitcherController@LangSwitcher',
     'as' => 'lang.switch'
 ]);
 
-/* * ******For Language Switcher ******* */
+/* * ******For Language Switcher end******* */
+
+
+Route::get('glogin', array('as' => 'glogin', 'uses' => 'UserController@googleLogin'));
+Route::post('upload-file', array('as' => 'upload-file', 'uses' => 'UserController@uploadFileUsingAccessToken'));
 
 Route::get('/video-search', [
     'uses' => 'VideoController@VideoSearch',
