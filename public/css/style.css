@@ -280,6 +280,7 @@ footer li a:hover, footer li.active a {
 }
 .content-area {
     padding-bottom: 120px;
+    min-height: 100vh;
 }
 .content-area.contact {
     padding-bottom: 100px;
@@ -600,7 +601,14 @@ tr td, tr th {
     display: block !important;
     line-height: 46px;
     font-size: 16px;
-    text-align: right;
+    text-align: center;
+}
+.col-md-12.model-links {
+    text-align: center;
+}
+.video_desciption ul.nav-tabs li .qrcode a {
+    background: transparent !important;
+    color: #000 !important;
 }
 .modal-body {
     padding: 5px 15px 15px 15px !important;
@@ -694,6 +702,39 @@ tr.model-detail-format {
 .search-video-playlist .video-des {
     max-height: 80px;
     overflow: hidden;
+}
+#video-player .modal-content {
+    width: 980px;
+    right: 55%;
+    height: 600px;
+}
+.itemsContainer {
+    float:left;
+    position:relative
+}
+.itemsContainer:hover .play i{
+    color: #fb0200;
+}
+.play{
+    position : absolute;
+    top: 32%;
+    width:40px;
+    margin:0 auto;
+    left:0px;
+    right: 70px;
+    z-index:100;
+    cursor: pointer;
+} 
+.play i {
+    font-size: 60px;
+    margin: 9% 0 0 32%;
+}
+i.fa.fa-ellipsis-h {
+    border: 2px solid #7d899a;
+    width: 30px;
+}
+.itemsContainer img {
+    cursor: pointer;
 }
 /******video style end here*****/
 
