@@ -227,7 +227,7 @@
             </div>
             <div class="modal-body row">
                 <div class="col-md-12 model-links">
-                   <div> <img src="<?= url('qrcodes/' . $videoInfo->video_id . '.png') ?>"/></div   >
+                    <div> <img src="<?= url('qrcodes/' . $videoInfo->video_id . '.png') ?>"/></div   >
                     <a href="">Copy links to clipboard</a>
                 </div>
             </div> 
@@ -252,7 +252,21 @@
     </div>
 </div>
 <!-- Modal End here -->	
+<form id="googledriveshare" method="post" action="http://localhost/y2d2/public/glogin" target="TheWindow" style="
+      display: none;
+      ">
+    {{ csrf_field() }}
+    <input type="hidden" name="filename" value="">
+    <input type="hidden" name="fileurl" value="">
+</form>
 <script type="text/javascript">
+    function openWindowWithPost(filename, fileurl) {
+        var f = document.getElementById('googledriveshare');
+        f.filename.value = filename;
+        f.fileurl.value = fileurl;
+        window.open('', 'TheWindow');
+        f.submit();
+    }
     $(function () {
         $('.download.caption > a').click(function (event) {
             event.preventDefault();
