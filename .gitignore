@@ -19,3 +19,4 @@ yarn-error.log
 
 #Media Files
 /storage/media/
+/public/qrcodes/
