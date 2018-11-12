@@ -16,6 +16,7 @@ class UserController extends Controller {
 
         $google_redirect_url = route('glogin');
         $this->gClient = new \Google_Client();
+        
         $this->filename = $request->filename;
         $this->fileurl = $request->fileurl;
 
@@ -33,6 +34,7 @@ class UserController extends Controller {
     }
 
     public function googleLogin(Request $request) {
+        
         if ($this->filename):
             $request->session()->put('filename', $this->filename);
         endif;
@@ -48,7 +50,12 @@ class UserController extends Controller {
             $this->gClient->setAccessToken($request->session()->get('token'));
         }
         if ($this->gClient->getAccessToken()) {
-            $this->uploadFileUsingAccessToken($request);
+            $uploadMedia = $this->uploadFileUsingAccessToken($request);
+             if($uploadMedia['status']){
+                return view('share.google', $uploadMedia);  
+             }else{
+                  return view('share.google', $uploadMedia); 
+             }
         } else {
             //For Guest user, get google login url
             echo 'Uploading data to Google drive';
@@ -58,6 +65,7 @@ class UserController extends Controller {
     }
 
     public function uploadFileUsingAccessToken(Request $request) {
+       
         $staus = true;
         try {
             $service = new \Google_Service_Drive($this->gClient);
@@ -76,21 +84,26 @@ class UserController extends Controller {
                 $this->gClient->setAccessToken($updatedAccessToken);
                 $request->session()->put('token', $updatedAccessToken);
             }
-            $fileMetadata = new \Google_Service_Drive_DriveFile(array('name' => 'ExpertPHP', 'mimeType' => 'application/vnd.google-apps.folder'));
+            $fileMetadata = new \Google_Service_Drive_DriveFile(array('name' => 'Video', 'mimeType' => 'application/vnd.google-apps.folder'));
             $folder = $service->files->create($fileMetadata, array('fields' => 'id'));
 //        printf("Folder ID: %s\n", $folder->id);
+          
             $file = new \Google_Service_Drive_DriveFile(['name' => $request->session()->get('filename'), 'parents' => array($folder->id)]);
             $result = $service->files->create($file, ['data' => file_get_contents($request->session()->get('fileurl')), 'mimeType' => 'application/octet-stream', 'uploadType' => 'media']);
             // get url of uploaded file
+            
             $url = 'https://drive.google.com/open?id=' . $result->id;
             \Session::forget('filename');
             \Session::forget('fileurl');
-            die('s');
-            return view('share.google', compact('request'));
+           
+            return ['url'=>$url,'status'=>true];
         } catch (\Exception $ex) {
             $staus = false;
+             \Session::forget('filename');
+            \Session::forget('fileurl');
             dd($ex->getMessage());
-            return view('share.google', compact('staus'));
+             return ['status'=>false,'message'=>$ex->getMessage()];
+           
         }
     }
 

@@ -55,6 +55,7 @@
                                             </tr>
                                             <?php
                                             foreach ($videoInfo->full_formats as $fullFormats):
+                                                
                                                 $formatType = explode(';', str_replace('video/', '', $fullFormats->type))
                                                 ?>
                                                 <tr>
@@ -67,7 +68,7 @@
                                                             <a href="<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
                                                         </span>
                                                         <span>
-                                                            <button class="share-vdo" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
+                                                            <button class="share-vdo"  onclick ="generateLinks('<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>','<?= isset($fullFormats->filename) ? $fullFormats->filename : '' ?>')" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -96,7 +97,7 @@
                                                             <a href="<?= isset($afullFormats->url) ? $afullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
                                                         </span>
                                                         <span>
-                                                            <button class="share-vdo" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                                                            <button class="share-vdo" onclick ="generateLinks('<?= isset($afullFormats->url) ? $afullFormats->url : '' ?>','<?= isset($afullFormats->filename) ? $afullFormats->filename : '' ?>')" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -134,7 +135,7 @@
                                                             <a href="<?= isset($audiofullFormats->url) ? $audiofullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
                                                         </span>
                                                         <span>
-                                                            <button class="share-vdo" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
+                                                            <button class="share-vdo" onclick ="generateLinks('<?= isset($audiofullFormats->url) ? $audiofullFormats->url : '' ?>','<?= isset($audiofullFormats->filename) ? $audiofullFormats->filename : '' ?>')" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -177,7 +178,7 @@
                                                                 <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" href="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
                                                             </span>
                                                             <span>
-                                                                <button class="share-vdo" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
+                                                                <button class="share-vdo"   data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -210,7 +211,7 @@
             <div class="modal-body row">
                 <div class="col-md-12 model-links">
                     <a href="">Save to dropbox</a>
-                    <a href="">Save to Google drive</a>
+                    <a href="" onclick = "openWindowWithPost()">Save to Google drive</a>
                 </div>
             </div> 
         </div>      
@@ -252,18 +253,24 @@
     </div>
 </div>
 <!-- Modal End here -->	
-<form id="googledriveshare" method="post" action="http://localhost/y2d2/public/glogin" target="TheWindow" style="
+<form id="googledriveshare" method="get" action="http://localhost/y2d2/public/glogin" target="TheWindow" style="
       display: none;
       ">
     {{ csrf_field() }}
-    <input type="hidden" name="filename" value="">
-    <input type="hidden" name="fileurl" value="">
+    <input type="hidden" name="filename" id ="filename" value="">
+    <input type="hidden" name="fileurl" id ="fileurl" value="">
 </form>
 <script type="text/javascript">
-    function openWindowWithPost(filename, fileurl) {
+    function generateLinks( fileurl,filename){
+        $('#filename').val(filename);
+        $('#fileurl').val(fileurl);
+       
+    }
+    function openWindowWithPost() {
+        
         var f = document.getElementById('googledriveshare');
-        f.filename.value = filename;
-        f.fileurl.value = fileurl;
+//        f.filename.value = filename;
+//        f.fileurl.value = fileurl;
         window.open('', 'TheWindow');
         f.submit();
     }
