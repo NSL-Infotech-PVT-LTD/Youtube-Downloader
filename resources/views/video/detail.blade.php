@@ -68,7 +68,7 @@
                                                             <a href="<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
                                                         </span>
                                                         <span>
-                                                            <button class="share-vdo"  onclick ="generateLinks('<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>','<?= isset($fullFormats->filename) ? $fullFormats->filename : '' ?>')" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
+                                                            <button class="share-vdo"  id= "<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -97,7 +97,7 @@
                                                             <a href="<?= isset($afullFormats->url) ? $afullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
                                                         </span>
                                                         <span>
-                                                            <button class="share-vdo" onclick ="generateLinks('<?= isset($afullFormats->url) ? $afullFormats->url : '' ?>','<?= isset($afullFormats->filename) ? $afullFormats->filename : '' ?>')" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                                                            <button class="share-vdo" id ="<?= isset($afullFormats->url) ? $afullFormats->url : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -135,7 +135,7 @@
                                                             <a href="<?= isset($audiofullFormats->url) ? $audiofullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
                                                         </span>
                                                         <span>
-                                                            <button class="share-vdo" onclick ="generateLinks('<?= isset($audiofullFormats->url) ? $audiofullFormats->url : '' ?>','<?= isset($audiofullFormats->filename) ? $audiofullFormats->filename : '' ?>')" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
+                                                            <button class="share-vdo" id = "<?= isset($audiofullFormats->url) ? $audiofullFormats->url : '' ?>" onclick ="generateLinks(this.id)"  data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -156,7 +156,9 @@
                                                     <th></th>			 
                                                 </tr>
                                                 <?php
+                                               
                                                 foreach ($videoInfo->captions as $captions):
+                                                    
                                                     ?>
                                                     <tr>
                                                         <td><?= $captions->name->simpleText ?></td>
@@ -178,7 +180,7 @@
                                                                 <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" href="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
                                                             </span>
                                                             <span>
-                                                                <button class="share-vdo"   data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
+                                                                <button class="share-vdo" id ="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -261,7 +263,8 @@
     <input type="hidden" name="fileurl" id ="fileurl" value="">
 </form>
 <script type="text/javascript">
-    function generateLinks( fileurl,filename){
+    function generateLinks( fileurl){
+        var filename= "<?= $videoInfo->title ?>";
         $('#filename').val(filename);
         $('#fileurl').val(fileurl);
        
