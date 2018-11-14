@@ -736,6 +736,12 @@ i.fa.fa-ellipsis-h {
 .itemsContainer img {
     cursor: pointer;
 }
+.radio label, .checkbox label{
+    padding-left:50px !important;
+}
+input.textonly {
+    margin-top: 10px;
+}
 /******video style end here*****/
 
 

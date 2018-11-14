@@ -55,14 +55,14 @@
                                             </tr>
                                             <?php
                                             foreach ($videoInfo->full_formats as $fullFormats):
-                                                
+
                                                 $formatType = explode(';', str_replace('video/', '', $fullFormats->type))
                                                 ?>
                                                 <tr>
                                                     <td><?= $formatType['0'] ?></td>
-                                                    <td><?= isset($fullFormats->quality_label) ? $fullFormats->quality_label : '-' ?></td>
-                                                    <td><?= isset($fullFormats->size) ? $fullFormats->size : '-' ?></td>
-                                                    <td>233</td>
+                                                    <td><?= $quality[$formatType['0']] ?></td>
+                                                    <td><?= $resolution[$formatType['0']] ?></td>
+                                                    <td><?= App\Helpers\Y2D2::getFileSize($fullFormats->url) ?></td>
                                                     <td>
                                                         <span class="download">
                                                             <a href="<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
@@ -91,7 +91,7 @@
                                                     <td><?= $aformatType['0'] ?></td>
                                                     <td><?= isset($afullFormats->quality_label) ? $afullFormats->quality_label : '-' ?> <sup>FULL HD</sup></td>
                                                     <td><?= isset($afullFormats->size) ? $afullFormats->size : '-' ?></td>
-                                                    <td><?= isset($afullFormats->bitrate) ? $afullFormats->bitrate : '-' ?></td>
+                                                    <td><?= App\Helpers\Y2D2::getFileSize($afullFormats->url) ?></td>
                                                     <td>
                                                         <span class="download">
                                                             <a href="<?= isset($afullFormats->url) ? $afullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
@@ -127,8 +127,8 @@
                                                 ?>
                                                 <tr>
                                                     <td><?= str_replace('audio/', '', $audioformatType['0']) ?></td>
-                                                    <td><?= isset($audiofullFormats->quality_label) ? $audiofullFormats->quality_label : '-' ?> <sup>FULL HD</sup></td>
-                                                    <td><?= isset($audiofullFormats->bitrate) ? $audiofullFormats->bitrate : '-' ?></td>
+                                                    <td><?= isset($audiofullFormats->quality_label) ? $audiofullFormats->quality_label : '- Kbps' ?></td>
+                                                    <td><?= App\Helpers\Y2D2::getFileSize($audiofullFormats->url) ?></td>
                                                     <td></td>
                                                     <td>
                                                         <span class="download">
@@ -156,28 +156,26 @@
                                                     <th></th>			 
                                                 </tr>
                                                 <?php
-                                               
                                                 foreach ($videoInfo->captions as $captions):
-                                                    
                                                     ?>
                                                     <tr>
                                                         <td><?= $captions->name->simpleText ?></td>
                                                         <td>Uploaded</td>
                                                         <td>
-                                                            <select id="format" class="form-control ">
+                                                            <select class="form-control format">
                                                                 <option selected>SRT</option>
-                                                                <option>XML</option>
                                                                 <option>TXT</option>
                                                             </select>
                                                         </td>
                                                         <td>
                                                             <div class="checkbox">
-                                                                <input type="checkbox" value=""><label>Timeline</label>
+                                                                <input name="textonly" type="checkbox" value="" class="textonly">
+                                                                <label id="textonly">Timeline</label>
                                                             </div>
                                                         </td>
                                                         <td >
                                                             <span class="download caption">
-                                                                <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" href="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
+                                                                <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
                                                             </span>
                                                             <span>
                                                                 <button class="share-vdo" id ="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
@@ -212,7 +210,6 @@
             </div>
             <div class="modal-body row">
                 <div class="col-md-12 model-links">
-                    <a href="">Save to dropbox</a>
                     <a href="" onclick = "openWindowWithPost()">Save to Google drive</a>
                 </div>
             </div> 
@@ -255,7 +252,7 @@
     </div>
 </div>
 <!-- Modal End here -->	
-<form id="googledriveshare" method="get" action="http://localhost/y2d2/public/glogin" target="TheWindow" style="
+<form id="googledriveshare" method="get" action="<?= route('glogin') ?>" target="TheWindow" style="
       display: none;
       ">
     {{ csrf_field() }}
@@ -263,14 +260,14 @@
     <input type="hidden" name="fileurl" id ="fileurl" value="">
 </form>
 <script type="text/javascript">
-    function generateLinks( fileurl){
-        var filename= "<?= $videoInfo->title ?>";
+    function generateLinks(fileurl) {
+        var filename = "<?= $videoInfo->title ?>";
         $('#filename').val(filename);
         $('#fileurl').val(fileurl);
-       
+
     }
     function openWindowWithPost() {
-        
+
         var f = document.getElementById('googledriveshare');
 //        f.filename.value = filename;
 //        f.fileurl.value = fileurl;
@@ -281,17 +278,23 @@
         $('.download.caption > a').click(function (event) {
             event.preventDefault();
             var req = new XMLHttpRequest();
-            var fileR = $(this).attr("href");
             var dataName = $(this).attr("data-name");
-            req.open("GET", fileR, true);
+            var href = encodeURIComponent($(this).attr("href"));
+            var PURL = "<?= url('subtitleDownload') ?>";
+            var format = $(this).parent().parent().parent().find('.format').val();
+            var textonly = $(this).parent().parent().parent().find('.textonly').prop("checked");
+
+            req.open("POST", PURL, true);
+            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            req.send("url=" + href + "&textonly=" + textonly + "&_token={{csrf_token()}}");
             req.responseType = "blob";
 
             req.onload = function (event) {
                 var blob = req.response;
-                console.log(blob.size);
+//                console.log(blob.size);
                 var link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
-                link.download = dataName + ".xml";
+                link.download = dataName + "." + format;
                 link.click();
             };
             req.send();
