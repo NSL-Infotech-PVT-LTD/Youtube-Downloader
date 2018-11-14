@@ -66,3 +66,4 @@ Auth::routes();
 Route::get('/test', 'HomeController@test');
 
 Route::get('checksubtitle', 'VideoController@checksubtitle');
+Route::post('subtitleDownload', 'VideoController@subtitleDownload');

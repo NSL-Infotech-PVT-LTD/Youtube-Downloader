@@ -12,24 +12,30 @@ class VideoController extends Controller {
     public $audioFormat = ['audio/mp4', 'audio/webm'];
     public $videoResolution = ['1080p', '720p', '360p', '240p'];
     private $cardLimit = '8';
+    public $resolution = ['mp4' => '640 x 360', '3gp' => '320 x 180', '3gpp' => '176 x 144','webm'=>'640 x 360'];
+    public $quality = ['mp4' => '360p', '3gp' => '180p', '3gpp' => '144p','webm'=>'360p'];
 
     public function VideoSearch(Request $request) {
         try {
-
             $youtube = new YoutubeDownloader($request->search);
-            $videoInfo = $youtube->getInfo();
+            $videoInfo = $youtube->getInfo(true);
+            
+//            echo intval($videoInfo->adaptive_formats['7']->audio_sample_rate);
+//            dd($videoInfo->adaptive_formats['7']);
             if ($videoInfo->response_type === 'video'):
                 $videoFormat = $this->videoFormat;
                 $videoResolution = $this->videoResolution;
                 $audioFormat = $this->audioFormat;
+                $resolution = $this->resolution;
+                $quality = $this->quality;
                 \QRCode::url($request->url() . '?search=' . $videoInfo->video_id)->setOutfile(public_path('qrcodes/' . $videoInfo->video_id . '.png'))->setSize(8)->setMargin(2)->png();
-                return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat'));
+                return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution'));
             else:
                 $page = ['offset' => '0', 'limit' => $this->cardLimit];
                 return view('video.playlist', compact('videoInfo', 'request', 'page'));
             endif;
         } catch (\Exception $ex) {
-//            dd($ex->getMessage());
+            dd($ex->getMessage());
             return view('video.nodatafound', compact('request'));
         }
     }
@@ -50,20 +56,20 @@ class VideoController extends Controller {
     }
 
     public function checksubtitle() {
+        $textonly = false;
+        $url = 'https://www.youtube.com/api/timedtext?signature=7594AC828B50CC663C81B536C6B0F2896A0109B4.81B0BEBB3E6D806DE59A9FDC00B68008DF95730A&caps=asr&hl=en&sparams=asr_langs%2Ccaps%2Cv%2Cxoaf%2Cxorp%2Cexpire&key=yttt1&expire=1542213583&v=0-YrRDlV0Gg&asr_langs=de%2Cko%2Cru%2Cen%2Cja%2Cnl%2Cpt%2Ces%2Cit%2Cfr&xoaf=1&xorp=True&lang=en&fmt=ttml';
+        return $this->convert($url, $textonly);
+    }
 
-        $data_array = explode('.', 'sub.txt');
-        $title = $data_array[0];
-        $ext = $data_array[1];
-        $textonly = $ext == 'txt' ? true : false;
-        $file_name = $title . '.' . $ext;
-        $url = 'https://www.youtube.com/api/timedtext?lang=en&xorp=True&sparams=asr_langs%2Ccaps%2Cv%2Cxoaf%2Cxorp%2Cexpire&key=yttt1&asr_langs=fr%2Cru%2Cpt%2Cnl%2Ces%2Cit%2Cen%2Cde%2Cja%2Cko&fmt=ttml&v=NMPsbTAP508&kind=asr&caps=asr&expire=1542141412&tlang=af&hl=en&signature=9CE4AD13A8A4FFF84AFC09DD472EEE69FE4365E8.14490E46611F03BED2AC6F533BC6A24326AD25E8&xoaf=1';
-            $this->convert($url, $textonly);
+    public function subtitleDownload(Request $request) {
+        $textonly = ($request->textonly == "true") ? false : true;
+        return $this->convert($request->url, $textonly);
     }
 
     //test functions
 
 
-    public function convert($url, $textonly = false) {
+    private function convert($url, $textonly = false) {
         $curl_handle = curl_init();
         curl_setopt($curl_handle, CURLOPT_URL, $url);
         curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 5);
@@ -76,9 +82,9 @@ class VideoController extends Controller {
         }
 // Replace <br/>'s
         $cont = str_replace(['<br/>', '<br />'], "\n", $cont);
-        // dd($cont);
+//         dd($cont);
         $xml = simplexml_load_string($cont);
-        
+
         //  dd($xml);
 
         $subs = $xml->body->div->p;
