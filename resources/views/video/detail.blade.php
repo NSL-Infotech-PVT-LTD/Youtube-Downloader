@@ -177,9 +177,9 @@
                                                             <span class="download caption">
                                                                 <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load" download target="_BLANK">Download</a>
                                                             </span>
-                                                            <span>
+<!--                                                            <span>
                                                                 <button class="share-vdo" id ="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
-                                                            </span>
+                                                            </span>-->
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
