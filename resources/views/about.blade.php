@@ -4,7 +4,7 @@
 <section class="content-area about">
     <div class="container">
         <div class="row banner content">
-            <h1 class="heading">Who <span>We </span>Are</h1>
+            <h1 class="heading">{{__('about.who') }} <span>{{__('about.we') }} </span>{{__('about.are') }}</h1>
             <p class="sub-heading">Dummy text of the printing and typesetting industry Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since</p>
         </div>
     </div>
