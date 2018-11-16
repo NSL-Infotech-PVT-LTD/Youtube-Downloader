@@ -22,6 +22,9 @@ return [
     'or_send_us_email' => '或发送电子邮件给我们',
     'email_info' => 'info@y2d2.com',
     'please-read' => '请在联系我们之前阅读常见问题解答并用英文撰写留言。',
+    'placeholder_name' => '名称',
+    'placeholder_email' => '电子邮件',
+    'placeholder_message' => '信息',
 
 
 

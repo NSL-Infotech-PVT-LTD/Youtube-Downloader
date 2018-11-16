@@ -16,12 +16,15 @@ return [
 
     'contact' => 'Contact',
     'us' => 'Us',
-    'we_love' => 'We"d love to hear from you!',
+    'we_love' => "We'd love to hear from you!",
     'please_fill' => 'Please fill contact form below',
     'send_message' => 'Send Message',
     'or_send_us_email' => 'Or send us email',
     'email_info' => 'info@y2d2.com',
     'please-read' => 'Please read the FAQ before contacting us and write message in English.',
+    'placeholder_name' => 'Name',
+    'placeholder_email' => 'Email',
+    'placeholder_message' => 'message',
 
 
 

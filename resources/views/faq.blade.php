@@ -121,7 +121,7 @@
 				<p> {{__('faq.cant_find') }}<br>
 				{{__('faq.we_are_here') }}</p>				
 				<h5><i class="fa fa-comment-o"></i> {{__('faq.ask_question_in') }} <a href="">{{__('faq.form_page') }}</a></h5>
-				<h5><i class="fa fa-envelope-o"></i>{{__('faq.contact_us_by') }}<a href="">{{__('faq.form_page') }}</a>	</h5>
+				<h5><i class="fa fa-envelope-o"></i> {{__('faq.contact_us_by') }}<a href="">{{__('faq.form_page') }}</a>	</h5>
 				</div>
 			</div>
 		</div>	
