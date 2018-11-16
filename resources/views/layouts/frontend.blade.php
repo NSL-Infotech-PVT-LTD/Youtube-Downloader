@@ -29,7 +29,7 @@
     <body>
         <!--header start here-->
         <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
+            <div class="container-fluid navsection">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle navigation</span>
@@ -47,7 +47,7 @@
                         <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'about' ? 'active' : ''; ?>" ><a href="<?= url('about'); ?>">{{ __('menu.about')}}</a></li>
                         <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'faq' ? 'active' : ''; ?>" ><a href="<?= url('faq'); ?>">{{ __('menu.faq')}}</a></li>
                         <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'blog' ? 'active' : ''; ?>" ><a href="<?= url('blog'); ?>">{{ __('menu.blog')}}</a></li>
-                        <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'feedback' ? 'active' : ''; ?>" ><a href="<?= url('feedback'); ?>">{{ __('menu.feedback')}}</a></li>
+                       <!--  <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'feedback' ? 'active' : ''; ?>" ><a href="<?= url('feedback'); ?>">{{ __('menu.feedback')}}</a></li> -->
                         <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'contact' ? 'active' : ''; ?>" ><a href="<?= url('contact'); ?>">{{ __('menu.contact')}}</a></li>
 
                         <li class="language dropdown">
@@ -77,7 +77,10 @@
             <div class="container">
                 <div class="row">				
                     <div class="col-md-6 col-sm-12">
-                        <p>© 2018 Y2D2.com</p>
+                       <!--  <p>© 2018 Y2D2.com</p> -->
+                       <ul class="site">
+                     <li>   © 2018 Y2D2.com  </li>
+                 </ul >
                     </div>
 
                     <div class="col-md-6 col-sm-12">
