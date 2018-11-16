@@ -6,7 +6,7 @@
 		<div class="row banner content">
 				<h1 class="heading">{{__('faq.frequently_asked') }}<span>{{__('faq.questions') }}</span></h1>
 				<p class="sub-heading">{{__('faq.do_you') }}</p>
-			<div class="col-md-7">				
+			<div class="col-md-9">				
   
   <div class="panel-group" id="accordion">
  
@@ -20,7 +20,7 @@
     </div>
     <div id="collapseOne" class="panel-collapse collapse in">
 	    <div class="panel-body">
-        <p>{{__('faq.content') }}</p>
+        <p>{{__('faq.contant') }}</p>
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@
     </div>
     <div id="collapseTwo" class="panel-collapse collapse">
       <div class="panel-body">
-        <p>{{__('faq.content') }}</p>
+        <p>{{__('faq.contant_1') }}</p>
       </div>
     </div>
   </div>
@@ -48,7 +48,7 @@
     </div>
     <div id="collapseThree" class="panel-collapse collapse">
       <div class="panel-body">
-        <p>{{__('faq.content') }}</p>
+        <p>{{__('faq.contant_2') }}</p>
       </div>
     </div>
   </div>
@@ -63,7 +63,7 @@
     </div>
     <div id="collapse4" class="panel-collapse collapse">
       <div class="panel-body">
-        <p>{{__('faq.content') }}</p>
+        <p>{{__('faq.contant_3') }}</p>
       </div>
     </div>
   </div>
@@ -77,7 +77,7 @@
     </div>
     <div id="collapse5" class="panel-collapse collapse">
       <div class="panel-body">
-        <p>{{__('faq.content') }}</p>
+        <p>{{__('faq.contant_4') }}</p>
       </div>
     </div>
   </div>
@@ -91,7 +91,7 @@
     </div>
     <div id="collapse6" class="panel-collapse collapse">
       <div class="panel-body">
-        <p>{{__('faq.content') }}</p>
+        <p>{{__('faq.contant_5') }}</p>
       </div>
     </div>
   </div>
@@ -105,7 +105,7 @@
     </div>
     <div id="collapse7" class="panel-collapse collapse">
       <div class="panel-body"><p>
-       {{__('faq.content') }}</p>
+       {{__('faq.contant_6') }}</p>
       </div>
     </div>
   </div>
@@ -114,13 +114,13 @@
 </div>
 			</div>
 			
-			<div class="col-md-5">	
+			<div class="col-md-3">	
 				
 				<div class="help-inner panel panel-default">
 				<h5><i class="fa fa-question-circle"></i> {{__('faq.helps') }}</h5>
 				<p> {{__('faq.cant_find') }}<br>
 				{{__('faq.we_are_here') }}</p>				
-				<h5><i class="fa fa-comment-o"></i> {{__('faq.ask_question_in') }} <a href="">Forum page</a></h5>
+				<h5><i class="fa fa-comment-o"></i> {{__('faq.ask_question_in') }} <a href="">{{__('faq.form_page') }}</a></h5>
 				<h5><i class="fa fa-envelope-o"></i>{{__('faq.contact_us_by') }}<a href="">{{__('faq.form_page') }}</a>	</h5>
 				</div>
 			</div>

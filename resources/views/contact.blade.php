@@ -7,7 +7,7 @@
             <h1 class="heading">{{__('contact.contact') }}<span>{{__('contact.us') }}</span></h1>
             <p class="sub-heading">{{__('contact.we_love') }}</p>
             <div class="col-md-1"></div>					
-            <div class="col-md-5 form-area">
+            <div class="col-md-6 form-area">
                 <form>
                     <h5>{{__('contact.please_fill') }}</h5>
                     <div class="form-group">
@@ -35,7 +35,7 @@
                     <p><span class="red">*</span>{{__('contact.please-read') }} </p>
                 </div>
             </div>
-            <div class="col-md-1"></div>
+           <!--  <div class="col-md-1"></div> -->
 
         </div>	
     </div>
