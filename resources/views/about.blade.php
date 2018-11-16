@@ -6,7 +6,7 @@
         <div class="row banner content">
             <h1 class="heading">{{__('about.who') }}<span> {{__('about.we') }}</span> {{__('about.are') }}</h1>
             <p class="sub-heading">{{__('about.sub_title') }}</p>
-        </div>
+        </div> 
     </div>
     <div class="about-banner">
         <div class="container">
