@@ -4,7 +4,7 @@
 <section class="content-area about">
     <div class="container">
         <div class="row banner content">
-            <h1 class="heading">{{__('about.who') }}<span>{{__('about.we') }}</span>{{__('about.are') }}</h1>
+            <h1 class="heading">{{__('about.who') }}<span> {{__('about.we') }}</span> {{__('about.are') }}</h1>
             <p class="sub-heading">{{__('about.sub_title') }}</p>
         </div>
     </div>
