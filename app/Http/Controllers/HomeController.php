@@ -16,12 +16,17 @@ class HomeController extends Controller {
     public function __construct() {
 //        $this->middleware('auth');
     }
+
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index(Request $request) {
+        $QRCodeFilePath = public_path('home-qrcode.png');
+//        echo $QRCodeFilePath;die;
+        if (!file_exists($QRCodeFilePath))
+            \QRCode::url($request->url())->setOutfile(public_path('home-qrcode.png'))->setSize(8)->setMargin(2)->png();
         return view('home');
     }
 

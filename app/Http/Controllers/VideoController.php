@@ -35,7 +35,7 @@ class VideoController extends Controller {
                 return view('video.playlist', compact('videoInfo', 'request', 'page'));
             endif;
         } catch (\Exception $ex) {
-            dd($ex->getMessage());
+//            dd($ex->getMessage());
             return view('video.nodatafound', compact('request'));
         }
     }

@@ -16,16 +16,16 @@
                 </div>
                 <div class="search-data">
                     <h4><?= $videoInfo->title ?></h4>
-                    <h5><?= count($videoInfo->video) ?> videos found</h5>
+                    <h5><?= count($videoInfo->video) ?> {{__('video.videos_found') }}</h5>
                 </div>                
                 <div class="row">
                     <div class="col-md-12" id="playList-card">
                         @include('video.playlist.card')
                     </div>
                     <div class="ajax-load text-center" style="display:none">
-                        <p><img src="http://demo.itsolutionstuff.com/plugin/loader.gif">Fetching more video's From Play-list</p>
+                        <p><img src="http://demo.itsolutionstuff.com/plugin/loader.gif">{{__('video.fetching_more') }}</p>
                     </div>
-                    <button type="button" class="load-more" onclick="loadMoreCard();">Load More</button>
+                    <button type="button" class="load-more" onclick="loadMoreCard();">{{__('video.load_more') }}</button>
                 </div>		
             </div>
         </div>	
