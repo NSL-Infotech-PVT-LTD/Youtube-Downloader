@@ -32,12 +32,9 @@ Route::get('/video-playlist-card', [
     'as' => 'video.playlist.card'
 ]);
 
-Route::get('/', function () {
-    return view('home');
-});
-Route::get('/home', function () {
-    return view('home');
-});
+Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
+
 Route::get('/about', function () {
     return view('about');
 });
