@@ -4,7 +4,7 @@
 <section class="content-area about">
     <div class="container">
         <div class="row banner content">
-            <p class="sub-heading">Under development</p>
+            <p class="sub-heading">{{__('feedback.under_development') }}</p>
         </div>
     </div>
 </section>

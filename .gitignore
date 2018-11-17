@@ -12,3 +12,11 @@ npm-debug.log
 yarn-error.log
 .env
 .phpunit.result.cache
+
+/nbproject/
+
+
+
+#Media Files
+/storage/media/
+/public/qrcodes/

@@ -1,16 +1,15 @@
 @extends('layouts.frontend')
-
 @section('content')
 <!--inner page content start here-->
 <section class="content-area home">
     <div class="container">
         <div class="row banner">
             <div class="col-md-8 search-video">	
-                <h1  class="heading">{{__('home.online_youtube_download')}}</h1>
+                <h1  class="heading"><?= htmlspecialchars_decode(__('home.online_youtube_download'))?></h1>
                 <h4>{{__('home.download_head4')}}</h4>
                 <div class="search-container">
-                    <form action="/action_page.php">
-                        <input type="text" placeholder="{{__('home.search_placeholder')}}" name="search">
+                    <form action="<?= url('video-search')?>">
+                        <input type="text"  autocomplete="off" placeholder="{{__('home.search_placeholder')}}" name="search">
                         <button type="submit"><img src="images/search.png"></button>
                     </form>
                 </div>
