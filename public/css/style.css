@@ -1,3 +1,4 @@
+
 ul.useful-links{margin-bottom:0px;float:right;}
 .navbar-nav > li > .dropdown-menu{border-radius:5px !important;}
 li.language.dropdown ul li a {
@@ -13,7 +14,7 @@ li.language.dropdown ul li a {
 .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
     color: #000000 !important;
     background-color: transparent !important;
-    border-bottom: 2px solid #fb0200;
+    border-bottom: 3px solid #fb0200;
     padding-bottom: 5px;
     transition:all .5s ease;
 }
