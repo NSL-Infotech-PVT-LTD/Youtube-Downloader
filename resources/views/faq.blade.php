@@ -13,7 +13,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne">
                                     <h5>{{__('faq.Collapsible_1') }}</h5>
                                 </a>
                             </h4>
@@ -27,7 +27,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseTwo">
                                     <h5>{{__('faq.Collapsible_2') }}</h5>
                                 </a>
                             </h4>
@@ -41,7 +41,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseThree">
                                     <h5>{{__('faq.Collapsible_3') }}</h5>
                                 </a>
                             </h4>
@@ -56,7 +56,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapse4">
                                     <h5>{{__('faq.Collapsible_4') }}</h5>
                                 </a>
                             </h4>
@@ -70,7 +70,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse5">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapse5">
                                     <h5>{{__('faq.Collapsible_5') }}</h5>
                                 </a>
                             </h4>
@@ -84,7 +84,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse6">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapse6">
                                     <h5>{{__('faq.Collapsible_6') }}</h5>
                                 </a>
                             </h4>
@@ -98,7 +98,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse7">
+                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapse7">
                                     <h5>{{__('faq.Collapsible_7') }}</h5>
                                 </a>
                             </h4>

@@ -28,8 +28,8 @@
         <script src="{{ asset('js/jquery.copy-to-clipboard.js') }}"></script>
 
     </head>
-    <body>
-        <!--header start here-->
+    <body class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] ?>">
+       <!--header start here-->
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid navsection">
                 <div class="navbar-header">
@@ -76,7 +76,7 @@
         @yield('content')
         <!--footer start here-->
         <footer>
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">				
                     <div class="col-md-6 col-sm-12">
                        <!--  <p>© 2018 Y2D2.com</p> -->
