@@ -24,7 +24,7 @@ return [
     'please-read' => 'Please read the FAQ before contacting us and write message in English.',
     'placeholder_name' => 'Name',
     'placeholder_email' => 'Email',
-    'placeholder_message' => 'message',
+    'placeholder_message' => 'Message',
 
 
 

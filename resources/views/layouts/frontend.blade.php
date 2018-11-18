@@ -25,6 +25,8 @@
 
         <script src="{{ asset('js/jquery.js') }}"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('js/jquery.copy-to-clipboard.js') }}"></script>
+
     </head>
     <body>
         <!--header start here-->
@@ -51,14 +53,14 @@
                         <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'contact' ? 'active' : ''; ?>" ><a href="<?= url('contact'); ?>">{{ __('menu.contact')}}</a></li>
 
                         <li class="language dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@if(session('locale')=='en'){{ __('English')}} @else {{ __('中文')}} @endif<span class="caret"></span></a>			  
+                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@if(session('locale')=='en'){{ __('English')}} @else {{ __('中文')}} @endif<span class="caret"></span></a>			  
                             <ul class="dropdown-menu">
                                 <li @if(session('locale')=='en') class="lang-active"  @endif ><a href="{{route('lang.switch',['lang'=>'en'])}}">{{ __('English')}}<span class="check"><i class="fa fa-check-circle"></i></span></a></li>
                                 <li role="separator" class="divider"></li> 
                                 <li @if(session('locale')=='zh') class="lang-active"  @endif ><a href="{{route('lang.switch',['lang'=>'zh'])}}">{{ __('中文')}}<span class="check"><i class="fa fa-check-circle"></i></span></a></li> 
                             </ul>			  
                         </li>
-                                    <li><div class="qrcode hidden-xs"><a  href="javascript:void(0);" data-toggle="modal" data-target="#qrcode-popup"><i class="fa fa-qrcode"></i></a></div>
+                        <li><div class="qrcode hidden-xs"><a  data-toggle="modal" data-target="#qrcode-popup"><i class="fa fa-qrcode"></i></a></div>
                         </li>
                     </ul>
                 </div><!--/.nav-collapse -->
@@ -106,7 +108,7 @@
                     <div class="modal-body row">
                         <div class="col-md-12 model-links">
                             <div> <img src="<?= url('home-qrcode.png') ?>"/></div   >
-                            <a href="">{{__('video.copy_links') }}</a>
+                            <a data-clipboard-text="<?= \URL::to('/'); ?>" >{{__('video.copy_links') }}</a>
                         </div>
                     </div> 
                 </div>      
@@ -115,3 +117,4 @@
         <!-- Modal End here -->	
     </body>
 </html>
+
