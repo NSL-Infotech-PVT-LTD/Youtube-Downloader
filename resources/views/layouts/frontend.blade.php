@@ -26,10 +26,10 @@
         <script src="{{ asset('js/jquery.js') }}"></script>
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/jquery.copy-to-clipboard.js') }}"></script>
-
+        <script src="{{ asset('js/share.js') }}"></script>
     </head>
     <body class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] ?>">
-       <!--header start here-->
+        <!--header start here-->
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid navsection">
                 <div class="navbar-header">

@@ -127,7 +127,7 @@
                                                 ?>
                                                 <tr>
                                                     <td><?= str_replace('audio/', '', $audioformatType['0']) ?></td>
-                                                    <td><?= isset($audiofullFormats->quality_label) ? $audiofullFormats->quality_label : '- Kbps' ?></td>
+                                                    <td><?= isset($audiofullFormats->bitrate) ? App\Helpers\Y2D2::convertBitrateToKilobits($audiofullFormats->bitrate) . ' Kbps' : '- ' ?></td>
                                                     <td><?= App\Helpers\Y2D2::getFileSize($audiofullFormats->url) ?></td>
                                                     <td></td>
                                                     <td>

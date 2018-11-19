@@ -21,7 +21,7 @@ class VideoController extends Controller {
             $videoInfo = $youtube->getInfo(true);
             
 //            echo intval($videoInfo->adaptive_formats['7']->audio_sample_rate);
-//            dd($videoInfo->adaptive_formats['7']);
+//echo '<pre>';            print_r($videoInfo->adaptive_formats);die;
             if ($videoInfo->response_type === 'video'):
                 $videoFormat = $this->videoFormat;
                 $videoResolution = $this->videoResolution;

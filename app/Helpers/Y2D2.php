@@ -276,4 +276,19 @@ class Y2D2 {
         return array_pop($args);
     }
 
+    private static function _getClosest($search, $arr) {
+        $closest = null;
+        foreach ($arr as $item) {
+            if ($closest === null || abs($search - $closest) > abs($item - $search)) {
+                $closest = $item;
+            }
+        }
+        return $closest;
+    }
+
+    public static function convertBitrateToKilobits($bitrate) {
+        $ar = ['128', '160', '70', '50'];
+        return self::_getClosest(($bitrate / 1000), $ar);
+    }
+
 }
