@@ -245,9 +245,13 @@
                                                             </td>
                                                             <td>
                                                                 <select class="form-control format">
-                                                                    <?php foreach ($captionFormat as $format): ?>
+                                                                    <?php
+                                                                    foreach ($captionFormat as $format):
+                                                                        if ($format == 'xml')
+                                                                            continue;
+                                                                        ?>
                                                                         <option><?= $format ?></option>
-                                                                    <?php endforeach; ?>
+    <?php endforeach; ?>
                                                                 </select>
                                                             </td>
                                                             <td>
@@ -265,10 +269,10 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                        <?php else: ?>
+<?php else: ?>
 
                                             <div class="tips "><span>{{__('video.info') }} </span>{{__('video.no_subtitle') }}</div>
-                                        <?php endif; ?>
+<?php endif; ?>
 <!--<div class="tips"><span>{{__('video.tip') }}</span>{{__('video.tip_detail') }}</div>-->
                                     </div>
                                 </div>						  
