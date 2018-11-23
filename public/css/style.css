@@ -811,6 +811,7 @@ a{
 }
 #caption .modal-body.row {       
     padding: 13px 13px 30px 31px !important;
+    white-space: pre-line;
 }
 #caption .modal-dialog {
     min-width: 90%;
