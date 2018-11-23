@@ -12,24 +12,26 @@ class VideoController extends Controller {
     public $audioFormat = ['audio/mp4', 'audio/webm'];
     public $videoResolution = ['1080p', '720p', '360p', '240p'];
     private $cardLimit = '8';
-    public $resolution = ['mp4' => '640 x 360', '3gp' => '320 x 180', '3gpp' => '176 x 144','webm'=>'640 x 360'];
-    public $quality = ['mp4' => '360p', '3gp' => '180p', '3gpp' => '144p','webm'=>'360p'];
+    public $resolution = ['mp4' => '640 x 360', '3gp' => '320 x 180', '3gpp' => '176 x 144', 'webm' => '640 x 360'];
+    public $quality = ['mp4' => '360p', '3gp' => '180p', '3gpp' => '144p', 'webm' => '360p'];
+    public $captionFormat = ['srt', 'txt', 'xml', 'ass', 'lrc', 'vtt', 'sbv'];
 
     public function VideoSearch(Request $request) {
         try {
             $youtube = new YoutubeDownloader($request->search);
             $videoInfo = $youtube->getInfo(true);
-            
+
 //            echo intval($videoInfo->adaptive_formats['7']->audio_sample_rate);
-//echo '<pre>';            print_r($videoInfo->adaptive_formats);die;
+//echo '<pre>';            print_r($videoInfo);die;
             if ($videoInfo->response_type === 'video'):
                 $videoFormat = $this->videoFormat;
                 $videoResolution = $this->videoResolution;
                 $audioFormat = $this->audioFormat;
                 $resolution = $this->resolution;
                 $quality = $this->quality;
+                $captionFormat = $this->captionFormat;
                 \QRCode::url($request->url() . '?search=' . $videoInfo->video_id)->setOutfile(public_path('qrcodes/' . $videoInfo->video_id . '.png'))->setSize(8)->setMargin(2)->png();
-                return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution'));
+                return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution', 'captionFormat'));
             else:
                 $page = ['offset' => '0', 'limit' => $this->cardLimit];
                 return view('video.playlist', compact('videoInfo', 'request', 'page'));
@@ -44,7 +46,7 @@ class VideoController extends Controller {
         try {
             if ($request->ajax()) {
                 $youtube = new YoutubeDownloader($request->search . '&list=' . $request->list);
-                $videoInfo = $youtube->getInfo();
+                $videoInfo = $youtube->getInfo(true);
                 $page = ['offset' => $request->offset, 'limit' => $this->cardLimit];
                 $view = view('video.playlist.card', compact('videoInfo', 'request', 'page'))->render();
                 return response()->json(['html' => $view]);
@@ -130,6 +132,102 @@ class VideoController extends Controller {
             }
             $num++;
         }
+    }
+
+    public function dualSubtitleDownload(Request $request) {
+        $textonly = ($request->textonly == "true") ? false : true;
+        return $this->convertDualLanguage($request->url_1, $request->url_2, $textonly);
+    }
+
+    private function convertDualLanguage($url_1, $url_2, $textonly = false) {
+        $subs_1 = $this->curlRequestYouTube($url_1);
+        $subs_2 = $this->curlRequestYouTube($url_2);
+        $subsFormat_1 = $this->subsFormat($subs_1, $textonly);
+        $subsFormat_2 = $this->subsFormat($subs_2, $textonly);
+        for ($i = 1; $i <= count($subsFormat_1); $i++):
+            if ($textonly == false):
+                if (isset($subsFormat_1[$i]['text']) && isset($subsFormat_2[$i]['text'])):
+                    echo $subsFormat_1[$i]['num'];
+                    echo $subsFormat_1[$i]['timecode'];
+                    echo $subsFormat_1[$i]['text'];
+                    echo $subsFormat_2[$i]['text'];
+                else:
+                    continue;
+                endif;
+            else:
+                if (isset($subsFormat_1[$i]['text']) && isset($subsFormat_2[$i]['text'])):
+                    echo $subsFormat_1[$i]['text'];
+                    echo $subsFormat_2[$i]['text'];
+                else:
+                    continue;
+                endif;
+            endif;
+        endfor;
+    }
+
+    private function subsFormat($subs, $textonly) {
+        $num = 1;
+        $subsEncode = [];
+        foreach ($subs as $i => $sub) {
+            $attrs = $sub->attributes();
+            $begin = $attrs['begin'];
+            $dur = $attrs['dur'];
+            // Do we have spans within? Typically for adding bold/italic text.
+            if ($sub->count() > 0) {
+                $text = $sub->asXML();
+                foreach ($sub->children() as $child) {
+                    $child_text = trim($child);
+                    $child_attrs = $child->attributes();
+                    $child_style = isset($child_attrs['style']) ? $child_attrs['style'] : '';
+                    $child_xml = $child->asXML();
+                    if ('italic' == $child_style) {
+                        $t = "<i>{$child_text}</i>\n";
+                    } else if ('bold' == $child_style) {
+                        $t = "<b>{$child_text}</b>\n";
+                    } else {
+                        $t = "{$child_text}\n";
+                    }
+                    $text = str_replace($child_xml, $t, $text);
+                }
+                // Only allow <b> and <i> for SRT compatibility. Don't mind <u>.
+                $text = strip_tags($text, '<b><i>');
+            } else {
+                $text = (string) $sub;
+            }
+            $text = trim($text);
+            // remove weird spacings that sometimes come after a newline
+            // due to xml formatting and >1 newlines.
+            $text = preg_replace([',\n+[ ]+,', ',\n+,'], "\n", $text);
+            $timecode = $this->calc_timecode($begin, $dur);
+            // Output in Subrip format
+            if ($textonly == false) {
+                $subsEncode[$num]['num'] = "${num}\r\n";
+                $subsEncode[$num]['timecode'] = "${timecode}\r\n";
+            }
+            if ($text != '') {
+                $subsEncode[$num]['text'] = "${text}\r\n\r\n";
+            }
+            $num++;
+        }
+        return $subsEncode;
+    }
+
+    private function curlRequestYouTube($url) {
+        $curl_handle = curl_init();
+        curl_setopt($curl_handle, CURLOPT_URL, $url);
+        curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl_handle, CURLOPT_SSL_VERIFYPEER, false);
+        $cont = curl_exec($curl_handle);
+        curl_close($curl_handle);
+        if (empty($cont)) {
+            exit("Nothing returned from url.<p>");
+        }
+// Replace <br/>'s
+        $cont1 = str_replace(['<br/>', '<br />'], "\n", $cont);
+//         dd($cont);
+        $xml = simplexml_load_string($cont1);
+        return $xml->body->div->p;
     }
 
 // Subrip time code handling. God damn.

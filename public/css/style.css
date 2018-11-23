@@ -21,7 +21,7 @@ li.language.dropdown ul li a {
     background-color: transparent !important;
     /* padding-bottom: 5px;*/
     padding-bottom: 8px !important;
-	/* color: #000000 !important; */
+    /* color: #000000 !important; */
     /* transition:all .3s ease;*/
 }
 .navbar-inverse .navbar-nav  > li a:hover {
@@ -302,7 +302,7 @@ a.dropdown-toggle:before {
 footer {
     background-color: #e2e4e9;
     /* margin-top: 70px; */
-	margin-top: 20px;
+    margin-top: 20px;
     /* padding: 20px 0 10px 0;*/
     padding: 7px 0 7px 0;
 }
@@ -402,7 +402,7 @@ a.email {
 .panel-group .panel {
     margin-bottom: 0;
     border-radius: 0 !important;
-	border-left: none !important;
+    border-left: none !important;
     border-right: none !important;
     box-shadow: none !important;
 }
@@ -809,7 +809,19 @@ input.textonly {
 a{
     cursor: pointer;
 }
-
+#caption .modal-body.row {       
+    padding: 13px 13px 30px 31px !important;
+}
+#caption .modal-dialog {
+    min-width: 90%;
+    min-height: 90%;
+    height: 90%;
+    padding: 0;
+    margin: 0;
+}
+select.form-control.format {
+    text-transform: uppercase;
+}
 /******video style end here*****/
 
 
@@ -848,7 +860,7 @@ a{
         bottom: 0;
         width: 100%;
     }
-	.public footer, .contact footer, .blog footer {
+    .public footer, .contact footer, .blog footer {
         position: fixed;
         bottom: 0;
         width: 100%;

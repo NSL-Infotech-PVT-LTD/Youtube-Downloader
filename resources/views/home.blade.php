@@ -16,8 +16,9 @@
                 <div class="share">
                     <ul>
                         <li class="share-hd">{{__('home.share_it')}} <i class="fa fa-share-alt" aria-hidden="true"></i></li>
-                        <?= \Share::page('https://y2d2.com','Try Best Youtube to MP3 & MP4 Converter & Downloader - Y2D2.com!', [], '', '')->facebook()->twitter()->googlePlus();?>
-                        <li class="more"><a><i class="fa fa-ellipsis-h" aria-hidden="true"></i><span> {{__('home.social_more') }}</span></a></li>
+                        <?php // \Share::page('https://y2d2.com','Try Best Youtube to MP3 & MP4 Converter & Downloader - Y2D2.com!', [], '', '')->facebook()->twitter()->googlePlus();?>
+                        <div class="addthis_inline_share_toolbox"></div>
+                        <!--<li class="more"><a><i class="fa fa-ellipsis-h" aria-hidden="true"></i><span> {{__('home.social_more') }}</span></a></li>-->
                     </ul>
                 </div>
                 <div class="row company-spon" style="visibility:hidden;">

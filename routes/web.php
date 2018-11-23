@@ -64,3 +64,4 @@ Route::get('/test', 'HomeController@test');
 
 Route::get('checksubtitle', 'VideoController@checksubtitle');
 Route::post('subtitleDownload', 'VideoController@subtitleDownload');
+Route::post('dualSubtitleDownload', 'VideoController@dualSubtitleDownload');

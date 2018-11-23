@@ -44,6 +44,12 @@ return [
     'videos_found' => 'videos found',
     'fetching_more' => 'Fetching more video"s From Play-list',
     'load_more' => 'Load More',
+    'single_language' => 'Single Language',
+    'dual_language' => 'Dual Language',
+    '1st_language' => '1st Language',
+    '2nd_language' => '2nd Language',
+    'upload_date' => 'Upload Date',
+    'video_channel' => 'Channel',
 
 
 ];
