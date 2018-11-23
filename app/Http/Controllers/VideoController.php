@@ -19,11 +19,12 @@ class VideoController extends Controller {
     public function VideoSearch(Request $request) {
         try {
             $youtube = new YoutubeDownloader($request->search);
-            $videoInfo = $youtube->getInfo(true);
+            $videoInfo = $youtube->getInfo();
 
 //            echo intval($videoInfo->adaptive_formats['7']->audio_sample_rate);
 //echo '<pre>';            print_r($videoInfo);die;
             if ($videoInfo->response_type === 'video'):
+                $videoInfo = $youtube->getInfo(true);
                 $videoFormat = $this->videoFormat;
                 $videoResolution = $this->videoResolution;
                 $audioFormat = $this->audioFormat;
@@ -46,7 +47,7 @@ class VideoController extends Controller {
         try {
             if ($request->ajax()) {
                 $youtube = new YoutubeDownloader($request->search . '&list=' . $request->list);
-                $videoInfo = $youtube->getInfo(true);
+                $videoInfo = $youtube->getInfo();
                 $page = ['offset' => $request->offset, 'limit' => $this->cardLimit];
                 $view = view('video.playlist.card', compact('videoInfo', 'request', 'page'))->render();
                 return response()->json(['html' => $view]);
