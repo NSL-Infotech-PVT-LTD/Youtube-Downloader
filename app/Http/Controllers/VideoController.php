@@ -19,7 +19,7 @@ class VideoController extends Controller {
     public $captionAutoGenerateURL = 'https://www.youtube.com/api/timedtext?lang=en&xorp=True&sparams=asr_langs%2Ccaps%2Cv%2Cxoaf%2Cxorp%2Cexpire&hl=en&fmt=ttml&caps=asr&key=yttt1&v=p3VF6acYG7I&xoaf=1';
 
     public function VideoSearch(Request $request) {
-      
+
 
         try {
             $youtube = new YoutubeDownloader($request->search);

@@ -187,7 +187,7 @@
                                                         <?php
                                                         foreach ($videoInfo->captions as $captions):
                                                             $captionsParams = [];
-                                                            parse_str($captions->baseUrl, $captionsParams);
+                                                            parse_str($videoInfo->captions['0']->baseUrl, $captionsParams);
                                                             ?>
                                                             <tr>
                                                                 <td><?= $captions->name->simpleText ?></td>
