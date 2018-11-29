@@ -8,17 +8,33 @@
             <p class="sub-heading">{{__('contact.we_love') }}</p>
             <div class="col-md-1"></div>					
             <div class="col-md-6 form-area">
-                <form>
+
+                @if(session()->has('message'))
+                <div class="alert alert-success" role="alert">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                    {{ session()->get('message') }}
+                </div>
+                @endif
+
+                @if($errors->any())
+                <div class="alert alert-danger" role="alert">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                    {{ $errors->first() }}
+                </div>
+                @endif
+                <form action="<?= route('contact-us') ?>" method="post">
+                    <input type="hidden" name="_token" id="csrf-token" value="{{ csrf_token() }}" />
+
                     <h5>{{__('contact.please_fill') }}</h5>
                     <div class="form-group">
-                        <input class="form-control input-lg" placeholder="{{__('contact.placeholder_name') }}*" id="inputlg" type="text">
+                        <input class="form-control input-lg" placeholder="{{__('contact.placeholder_name') }}*" id="inputlg" type="text" required="" name="name">
                     </div>
 
                     <div class="form-group">    
-                        <input class="form-control input-lg" placeholder="{{__('contact.placeholder_email') }}*" id="inputlg" type="text">
+                        <input class="form-control input-lg" placeholder="{{__('contact.placeholder_email') }}*" id="inputlg" type="text" required="" name="email">
                     </div>
                     <div class="form-group">      
-                        <textarea placeholder="{{__('contact.placeholder_message') }}*"></textarea>
+                        <textarea placeholder="{{__('contact.placeholder_message') }}*"  required="" name="message"></textarea>
                         <div class="form-group btns">
                             <!-- <button class="btn">Prevent spam</button> --> 
                             <button class="btn submit">{{__('contact.send_message') }}</button>		   
@@ -35,7 +51,7 @@
                     <p><span class="red">*</span> {{__('contact.please-read') }} </p>
                 </div>
             </div>
-           <!--  <div class="col-md-1"></div> -->
+            <!--  <div class="col-md-1"></div> -->
 
         </div>	
     </div>

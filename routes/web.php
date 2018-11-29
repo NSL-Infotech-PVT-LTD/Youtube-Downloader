@@ -35,6 +35,10 @@ Route::get('/video-playlist-card', [
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
 
+Route::post('/contact-us', [
+    'uses' => 'UserController@contactUS',
+    'as' => 'contact-us'
+]);
 Route::get('/about', function () {
     return view('about');
 });

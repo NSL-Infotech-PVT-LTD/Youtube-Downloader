@@ -7,12 +7,14 @@
     "require": {
         "php": "^7.1.3",
         "akaunting/language": "^1.0",
+        "alaouy/youtube": "^2.2",
         "fideloper/proxy": "^4.0",
         "google/apiclient": "2.0.*",
         "jorenvanhocht/laravel-share": "^2.0",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
         "masih/youtubedownloader": "~2.9.0",
+        "p3in/l5-youtube-api": "dev-master",
         "werneckbh/laravel-qr-code": "^0.1.3"
     },
     "require-dev": {

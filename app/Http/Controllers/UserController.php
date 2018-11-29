@@ -16,7 +16,7 @@ class UserController extends Controller {
 
         $google_redirect_url = route('glogin');
         $this->gClient = new \Google_Client();
-        
+
         $this->filename = $request->filename;
         $this->fileurl = $request->fileurl;
 
@@ -34,7 +34,7 @@ class UserController extends Controller {
     }
 
     public function googleLogin(Request $request) {
-        
+
         if ($this->filename):
             $request->session()->put('filename', $this->filename);
         endif;
@@ -51,11 +51,11 @@ class UserController extends Controller {
         }
         if ($this->gClient->getAccessToken()) {
             $uploadMedia = $this->uploadFileUsingAccessToken($request);
-             if($uploadMedia['status']){
-                return view('share.google', $uploadMedia);  
-             }else{
-                  return view('share.google', $uploadMedia); 
-             }
+            if ($uploadMedia['status']) {
+                return view('share.google', $uploadMedia);
+            } else {
+                return view('share.google', $uploadMedia);
+            }
         } else {
             //For Guest user, get google login url
             echo 'Uploading data to Google drive';
@@ -65,7 +65,7 @@ class UserController extends Controller {
     }
 
     public function uploadFileUsingAccessToken(Request $request) {
-       
+
         $staus = true;
         try {
             $service = new \Google_Service_Drive($this->gClient);
@@ -87,23 +87,38 @@ class UserController extends Controller {
             $fileMetadata = new \Google_Service_Drive_DriveFile(array('name' => 'Video', 'mimeType' => 'application/vnd.google-apps.folder'));
             $folder = $service->files->create($fileMetadata, array('fields' => 'id'));
 //        printf("Folder ID: %s\n", $folder->id);
-          
+
             $file = new \Google_Service_Drive_DriveFile(['name' => $request->session()->get('filename'), 'parents' => array($folder->id)]);
             $result = $service->files->create($file, ['data' => file_get_contents($request->session()->get('fileurl')), 'mimeType' => 'application/octet-stream', 'uploadType' => 'media']);
             // get url of uploaded file
-            
+
             $url = 'https://drive.google.com/open?id=' . $result->id;
             \Session::forget('filename');
             \Session::forget('fileurl');
-           
-            return ['url'=>$url,'status'=>true];
+
+            return ['url' => $url, 'status' => true];
         } catch (\Exception $ex) {
             $staus = false;
-             \Session::forget('filename');
+            \Session::forget('filename');
             \Session::forget('fileurl');
             dd($ex->getMessage());
-             return ['status'=>false,'message'=>$ex->getMessage()];
-           
+            return ['status' => false, 'message' => $ex->getMessage()];
+        }
+    }
+
+    public function contactUS(Request $request) {
+        try {
+            $to_name = 'Support';
+            $to_email = 'gauravsethi376@gmail.com';
+            $data = ['name' => $request->name, "email" => $request->email, 'support_msg' => $request->message];
+            \Mail::send(['html' => 'emails.contactus'], $data, function($message) use ($to_name, $to_email) {
+//            dd($data);
+                $message->to($to_email, $to_name)->subject('Support Y2D2.com');
+                $message->from('info@y2d2.com', 'Y2D2');
+            });
+            return \Redirect::back()->with(['message' => 'Thanks for contacting support']);
+        } catch (\Exception $ex) {
+            return \Redirect::back()->with(['error' => 'Something Went Wrong']);
         }
     }
 

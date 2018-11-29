@@ -567,8 +567,11 @@ span.share-vdo a {
 }
 tr td, tr th {
     padding: 5px 10px;
-
 }
+#single-language tr td{
+    padding: 5px 5px;
+}
+
 .video_desciption tr th {
     background: #f7f7fa;
     color: #000000;
@@ -777,17 +780,17 @@ tr.model-detail-format {
 }
 .play{
     position : absolute;
-    top: 24%;
+    top: 18%;
     width:40px;
     margin:0 auto;
-    left:6%;
+    left:12%;
     right: 70px;
     z-index:100;
     cursor: pointer;
 } 
 .play i {
     font-size: 60px;
-    margin: 9% 0 0 32%;
+    margin: 0px;
 }
 i.fa.fa-ellipsis-h {
     border: 2px solid #7d899a;
@@ -810,11 +813,11 @@ a{
     cursor: pointer;
 }
 #caption .modal-body.row {       
-    padding: 13px 13px 30px 31px !important;
+    padding: 0px 13px 30px 31px !important;
     white-space: pre-line;
 }
 #caption .modal-dialog {
-    min-width: 90%;
+    min-width: 45%;
     min-height: 90%;
     height: 90%;
     padding: 0;
@@ -822,6 +825,35 @@ a{
 }
 select.form-control.format {
     text-transform: uppercase;
+    padding: 6px 0px;
+}
+.video_desciption ul.nav-tabs li > a {padding: 15px 60px;}
+
+div.col-md-8 > div > div > ul > li:nth-child(4) > div > a {
+    padding: 0 20px 0 0;
+}
+
+#subtitle > ul > li > a {
+    padding: 15px 82px;
+}
+span.download.caption {
+    border-right: 2px solid #cdcdcd;
+}
+span.download {
+    padding: 0 4px 0 4px;
+}
+
+.checkbox input.textonly {margin-top: 10px;}
+
+.checkbox {
+    /* float: left; */
+    width: 100%;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+.checkbox label {
+    cursor: pointer;
 }
 /******video style end here*****/
 

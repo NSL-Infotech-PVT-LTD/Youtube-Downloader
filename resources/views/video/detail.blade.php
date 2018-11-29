@@ -145,23 +145,24 @@
                                                     $mp3File = $audiofullFormats->url;
                                                 endif;
                                             endforeach;
-                                            if (isset($mp3File)):
-                                                ?>
-                                                <tr>
-                                                    <td><?= 'MP3' ?></td>
-                                                    <td><?= '128 Kbps' ?></td>
-                                                    <td><?= App\Helpers\Y2D2::getFileSize($mp3File) ?></td>
-                                                    <td></td>
-                                                    <td>
-                                                        <span class="download">
-                                                            <a href="<?= isset($mp3File) ? $mp3File : '' ?>" class="dwn_load" download target="_BLANK">{{__('video.download') }}</a>
-                                                        </span>
-                                                        <span>
-                                                            <button class="share-vdo" id = "<?= isset($mp3File) ? $mp3File : '' ?>" onclick="generateLinks(this.id)"  data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                            <?php endif; ?>
+                                            /*     if (isset($mp3File)):
+                                              ?>
+                                              <tr>
+                                              <td><?= 'MP3' ?></td>
+                                              <td><?= '128 Kbps' ?></td>
+                                              <td><?= App\Helpers\Y2D2::getFileSize($mp3File) ?></td>
+                                              <td></td>
+                                              <td>
+                                              <span class="download">
+                                              <a href="<?= isset($mp3File) ? $mp3File : '' ?>" class="dwn_load" download target="_BLANK">{{__('video.download') }}</a>
+                                              </span>
+                                              <span>
+                                              <button class="share-vdo" id = "<?= isset($mp3File) ? $mp3File : '' ?>" onclick="generateLinks(this.id)"  data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                                              </span>
+                                              </td>
+                                              </tr>
+                                              <?php endif; */
+                                            ?>
                                         </table>
                                         <div class="tips"><span>{{__('video.tip') }}</span>{{__('video.tip_detail') }}</div>
                                     </div>
@@ -185,10 +186,44 @@
                                                         </tr>
                                                         <?php
                                                         foreach ($videoInfo->captions as $captions):
+                                                            $captionsParams = [];
+                                                            parse_str($captions->baseUrl, $captionsParams);
                                                             ?>
                                                             <tr>
                                                                 <td><?= $captions->name->simpleText ?></td>
                                                                 <td>{{__('video.uploaded') }}</td>
+                                                                <td>
+                                                                    <select class="form-control format">
+                                                                        <?php foreach ($captionFormat as $k => $format): ?>
+                                                                            <option><?= $format ?></option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="checkbox">
+                                                                        <input name="textonly" type="checkbox" value="" class="textonly" checked="checked" id="single-textonly<?= $k ?>">
+                                                                        <label for="single-textonly<?= $k ?>">{{__('video.timeline') }}</label>
+                                                                    </div>
+                                                                </td>
+                                                                <td >
+                                                                    <span class="download caption">
+                                                                        <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load preview" target="_BLANK">{{__('video.preview') }}</a>
+                                                                    </span>
+                                                                    <span class="download">
+                                                                        <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" data-href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load caption-downloader" target="_BLANK">{{__('video.download') }}</a>
+                                                                    </span>
+                <!--                                                            <span>
+                                                                        <button class="share-vdo" id ="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
+                                                                    </span>-->
+                                                                </td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                        <?php
+                                                        foreach ($videoInfo->captions_auto_generated as $ki => $captionsAutoGenerated):
+                                                            ?>
+                                                            <tr>
+                                                                <td><?= $captionsAutoGenerated->languageName->simpleText ?></td>
+                                                                <td>{{__('video.auto_generated') }}</td>
                                                                 <td>
                                                                     <select class="form-control format">
                                                                         <?php foreach ($captionFormat as $format): ?>
@@ -198,13 +233,16 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="checkbox">
-                                                                        <input name="textonly" type="checkbox" value="" class="textonly">
-                                                                        <label for="textonly">{{__('video.timeline') }}</label>
+                                                                        <input name="textonly" type="checkbox" value="" class="textonly" checked="checked" id="single-textonly-auto<?= $ki ?>">
+                                                                        <label for="single-textonly-auto<?= $ki ?>">{{__('video.timeline') }}</label>
                                                                     </div>
                                                                 </td>
                                                                 <td >
                                                                     <span class="download caption">
-                                                                        <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load" target="_BLANK">{{__('video.download') }}</a>
+                                                                        <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captionsAutoGenerated->languageName->simpleText) ?>" href="<?= isset($captionsAutoGenerated->languageCode) ? $captionAutoGenerateURL . '&asr_langs=' . $captionsParams['asr_langs'] . '&signature=' . $captionsParams['signature'] . '&expire=' . $captionsParams['expire'] . '&tlang=' . $captionsAutoGenerated->languageCode . '&fmt=ttml' : '' ?>" class="dwn_load preview" target="_BLANK">{{__('video.preview') }}</a>
+                                                                    </span>
+                                                                    <span class="download">
+                                                                        <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" data-href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load caption-downloader" target="_BLANK">{{__('video.download') }}</a>
                                                                     </span>
                 <!--                                                            <span>
                                                                         <button class="share-vdo" id ="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
@@ -251,28 +289,31 @@
                                                                             continue;
                                                                         ?>
                                                                         <option><?= $format ?></option>
-    <?php endforeach; ?>
+                                                                    <?php endforeach; ?>
                                                                 </select>
                                                             </td>
                                                             <td>
                                                                 <div class="checkbox">
-                                                                    <input name="textonly" type="checkbox" value="" class="textonly">
-                                                                    <label for="textonly">{{__('video.timeline') }}</label>
+                                                                    <input name="textonly" type="checkbox" value="" class="textonly" checked="checked" id="dual-textonly">
+                                                                    <label for="dual-textonly">{{__('video.timeline') }}</label>
                                                                 </div>
                                                             </td>
                                                             <td >
                                                                 <span class="download caption">
-                                                                    <a class="dwn_load" >{{__('video.download') }}</a>
+                                                                    <a class="dwn_load preview" data-type="preview">{{__('video.preview') }}</a>
+                                                                </span>
+                                                                <span class="download">
+                                                                    <a class="dwn_load preview" data-type="download">{{__('video.download') }}</a>
                                                                 </span>
                                                             </td>
                                                         </tr>
                                                     </table>
                                                 </div>
                                             </div>
-<?php else: ?>
+                                        <?php else: ?>
 
                                             <div class="tips "><span>{{__('video.info') }} </span>{{__('video.no_subtitle') }}</div>
-<?php endif; ?>
+                                        <?php endif; ?>
 <!--<div class="tips"><span>{{__('video.tip') }}</span>{{__('video.tip_detail') }}</div>-->
                                     </div>
                                 </div>						  
@@ -327,7 +368,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">{{__('video.close') }}</button>
                 <h4 class="modal-title"><?= 'Caption Viewer' ?></h4>
-                <button id="caption-downloader" class="btn btn-success">Download</button>
+                <button  class="btn btn-success caption-downloader">Download</button>
             </div>
             <div class="modal-body row">
 
@@ -376,8 +417,8 @@
         f.submit();
     }
     $(function () {
-        var captionDownloader = $('#caption-downloader');
-        $('#single-language .download.caption > a').click(function (event) {
+        var captionDownloader = $('.caption-downloader');
+        $('#single-language .download.caption > a.preview').click(function (event) {
             var format = $(this).parent().parent().parent().find('.format').val();
             if (format == 'xml') {
                 return;
@@ -411,6 +452,14 @@
             var DUAL_PURL = "<?= url('dualSubtitleDownload') ?>";
             var format = $(this).attr('data-format');
             var textonly = $(this).attr('data-textonly');
+            if (textonly == null) {
+                textonly = $(this).parent().parent().parent().find('.textonly').prop("checked");
+            }
+            if (format == null) {
+                format = $(this).parent().parent().parent().find('.format').val();
+                href = encodeURIComponent(href);
+            }
+
             if ($("#subtitle > ul > li.active > a").attr('href') == '#dual-language') {
                 var href2 = $(this).attr("data-href2");
                 req.open("POST", DUAL_PURL, true);
@@ -434,9 +483,10 @@
         });
 
 
-        $('#dual-language .download.caption > a').click(function (event) {
+        $('#dual-language .download > a.preview').click(function (event) {
             var format = $(this).parent().parent().parent().find('.format').val();
             event.preventDefault();
+            var dataType = $(this).attr('data-type');
             var req = new XMLHttpRequest();
             var dataName = $('select.Flanguage').find(":selected").attr('data-name');
             var href1 = encodeURIComponent($('select.Flanguage').find(":selected").attr('data-href'));
@@ -452,10 +502,21 @@
             req.open("POST", PURL, true);
             req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             req.send("url_1=" + href1 + "&url_2=" + href2 + "&textonly=" + textonly + "&_token={{csrf_token()}}");
+
+            if (dataType != 'preview') {
+                req.responseType = "blob";
+            }
             req.onload = function (event) {
                 var blob = req.response;
-                $('#caption .modal-body').html(blob);//now its working
-                $('#caption').modal('show');//now its working
+                if (dataType == 'preview') {
+                    $('#caption .modal-body').html(blob);
+                    $('#caption').modal('show');
+                } else {
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = dataName + "." + format;
+                    link.click();
+                }
             };
         });
     });

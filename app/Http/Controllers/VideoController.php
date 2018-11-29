@@ -14,15 +14,16 @@ class VideoController extends Controller {
     private $cardLimit = '8';
     public $resolution = ['mp4' => '640 x 360', '3gp' => '320 x 180', '3gpp' => '176 x 144', 'webm' => '640 x 360'];
     public $quality = ['mp4' => '360p', '3gp' => '180p', '3gpp' => '144p', 'webm' => '360p'];
-    public $captionFormat = ['srt', 'txt', 'xml', 'ass', 'lrc', 'vtt', 'sbv'];
+//    public $captionFormat = ['srt', 'txt', 'xml', 'ass', 'lrc', 'vtt', 'sbv'];
+    public $captionFormat = ['srt', 'txt'];
+    public $captionAutoGenerateURL = 'https://www.youtube.com/api/timedtext?lang=en&xorp=True&sparams=asr_langs%2Ccaps%2Cv%2Cxoaf%2Cxorp%2Cexpire&hl=en&fmt=ttml&caps=asr&key=yttt1&v=p3VF6acYG7I&xoaf=1';
 
     public function VideoSearch(Request $request) {
+      
+
         try {
             $youtube = new YoutubeDownloader($request->search);
             $videoInfo = $youtube->getInfo();
-
-//            echo intval($videoInfo->adaptive_formats['7']->audio_sample_rate);
-//echo '<pre>';            print_r($videoInfo);die;
             if ($videoInfo->response_type === 'video'):
                 $videoInfo = $youtube->getInfo(true);
                 $videoFormat = $this->videoFormat;
@@ -31,8 +32,9 @@ class VideoController extends Controller {
                 $resolution = $this->resolution;
                 $quality = $this->quality;
                 $captionFormat = $this->captionFormat;
+                $captionAutoGenerateURL = $this->captionAutoGenerateURL;
                 \QRCode::url($request->url() . '?search=' . $videoInfo->video_id)->setOutfile(public_path('qrcodes/' . $videoInfo->video_id . '.png'))->setSize(8)->setMargin(2)->png();
-                return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution', 'captionFormat'));
+                return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution', 'captionFormat', 'captionAutoGenerateURL'));
             else:
                 $page = ['offset' => '0', 'limit' => $this->cardLimit];
                 return view('video.playlist', compact('videoInfo', 'request', 'page'));
@@ -58,11 +60,11 @@ class VideoController extends Controller {
         }
     }
 
-    public function checksubtitle() {
-        $textonly = false;
-        $url = 'https://www.youtube.com/api/timedtext?signature=7594AC828B50CC663C81B536C6B0F2896A0109B4.81B0BEBB3E6D806DE59A9FDC00B68008DF95730A&caps=asr&hl=en&sparams=asr_langs%2Ccaps%2Cv%2Cxoaf%2Cxorp%2Cexpire&key=yttt1&expire=1542213583&v=0-YrRDlV0Gg&asr_langs=de%2Cko%2Cru%2Cen%2Cja%2Cnl%2Cpt%2Ces%2Cit%2Cfr&xoaf=1&xorp=True&lang=en&fmt=ttml';
-        return $this->convert($url, $textonly);
-    }
+//    public function checksubtitle() {
+//        $textonly = false;
+//        $url = 'https://www.youtube.com/api/timedtext?signature=7594AC828B50CC663C81B536C6B0F2896A0109B4.81B0BEBB3E6D806DE59A9FDC00B68008DF95730A&caps=asr&hl=en&sparams=asr_langs%2Ccaps%2Cv%2Cxoaf%2Cxorp%2Cexpire&key=yttt1&expire=1542213583&v=0-YrRDlV0Gg&asr_langs=de%2Cko%2Cru%2Cen%2Cja%2Cnl%2Cpt%2Ces%2Cit%2Cfr&xoaf=1&xorp=True&lang=en&fmt=ttml';
+//        return $this->convert($url, $textonly);
+//    }
 
     public function subtitleDownload(Request $request) {
         $textonly = ($request->textonly == "true") ? false : true;
@@ -150,14 +152,16 @@ class VideoController extends Controller {
                 if (isset($subsFormat_1[$i]['text']) && isset($subsFormat_2[$i]['text'])):
                     echo $subsFormat_1[$i]['num'];
                     echo $subsFormat_1[$i]['timecode'];
-                    echo $subsFormat_1[$i]['text'];
+                    $text1 = str_replace(PHP_EOL, '', $subsFormat_1[$i]['text']);
+                    echo "${text1}\r\n";
                     echo $subsFormat_2[$i]['text'];
                 else:
                     continue;
                 endif;
             else:
                 if (isset($subsFormat_1[$i]['text']) && isset($subsFormat_2[$i]['text'])):
-                    echo $subsFormat_1[$i]['text'];
+                    $text1 = str_replace(PHP_EOL, '', $subsFormat_1[$i]['text']);
+                    echo "${text1}\r\n";
                     echo $subsFormat_2[$i]['text'];
                 else:
                     continue;
