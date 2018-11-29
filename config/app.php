@@ -143,7 +143,6 @@ return [
         App\Providers\RouteServiceProvider::class,
         LaravelQRCode\Providers\QRCodeServiceProvider::class,
         Jorenvh\Share\Providers\ShareServiceProvider::class,
-        Alaouy\Youtube\YoutubeServiceProvider::class,
     ],
     /*
       |--------------------------------------------------------------------------
@@ -192,6 +191,5 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'QRCode' => LaravelQRCode\Facades\QRCode::class,
         'Share' => Jorenvh\Share\ShareFacade::class,
-        'Youtube' => Alaouy\Youtube\Facades\Youtube::class,
     ],
 ];
