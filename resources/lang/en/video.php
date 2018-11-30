@@ -33,7 +33,7 @@ return [
     'share_option' => 'Share option',
     'copy_links' => 'Copy links to clipboard',
     'videos_found' => 'videos found',
-    'fetching_more' => 'Fetching more video"s From Play-list',
+    'fetching_more' => "Fetching more video's From Play-list",
     'load_more' => 'Load More',
     'single_language' => 'Single Language',
     'dual_language' => 'Dual Language',
