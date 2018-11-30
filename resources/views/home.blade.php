@@ -5,10 +5,10 @@
     <div class="container">
         <div class="row banner">
             <div class="col-md-8 search-video">	
-                <h1  class="heading"><?= htmlspecialchars_decode(__('home.online_youtube_download'))?></h1>
+                <h1  class="heading"><?= htmlspecialchars_decode(__('home.online_youtube_download')) ?></h1>
                 <h4>{{__('home.download_head4')}}</h4>
                 <div class="search-container">
-                    <form action="<?= url('video-search')?>">
+                    <form action="<?= url('video-search') ?>">
                         <input type="text"  autocomplete="off" placeholder="{{__('home.search_placeholder')}}" name="search">
                         <button type="submit"><img src="images/search.png"></button>
                     </form>
@@ -17,7 +17,7 @@
                     <ul>
                         <li class="share-hd">{{__('home.share_it')}} <i class="fa fa-share-alt" aria-hidden="true"></i></li>
                         <?php // \Share::page('https://y2d2.com','Try Best Youtube to MP3 & MP4 Converter & Downloader - Y2D2.com!', [], '', '')->facebook()->twitter()->googlePlus();?>
-                        <div class="addthis_inline_share_toolbox"></div>
+                        <li class="addthis_inline_share_toolbox"></li>
                         <!--<li class="more"><a><i class="fa fa-ellipsis-h" aria-hidden="true"></i><span> {{__('home.social_more') }}</span></a></li>-->
                     </ul>
                 </div>
@@ -62,4 +62,7 @@
     </div>
 </section>
 <!--inner page content End here-->
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5bf3ce42d953f95a"></script>
+
 @endsection
