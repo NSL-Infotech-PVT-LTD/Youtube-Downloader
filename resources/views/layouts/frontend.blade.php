@@ -9,6 +9,11 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'Y2D2') }}</title>
+        <meta property=og:title content="Free YouTube Video & Subtitle Downloader | Online MP3 & MP4 Converter">
+        <meta property=og:url content="https://y2d2.com/">
+        <meta property=og:type content="website">
+        <meta property=og:description content="Y2D2 is a free and safe online YouTube video downloader which can also be used as a YouTube to MP3, MP4 video converter. This amazing online tool can also download subtitles from YouTube. Download and convert your favourite videos!">
+        <meta property=og:image content="https://y2d2.com/assets/img/brand.png">
         <?php /* ?>
           <!-- Scripts -->
           <script src="{{ asset('js/app.js') }}" defer></script>
