@@ -22,7 +22,7 @@
                                 <div class="video-des">
                                     <h4><?= $videoInfo->title ?></h4>
                                     <table>
-                                        <!--<tr><td>{{__('video.upload_date') }}</td><td><?= '-' ?></td></tr>-->
+                                        <tr><td>{{__('video.upload_date') }}</td><td><?= $publishedAt ?></td></tr>
                                         <tr><td>{{__('video.duration') }}</td><td><?= $videoInfo->duration ?></td></tr>
                                         <tr><td>{{__('video.views') }}</td><td> <?= $videoInfo->views ?></td></tr>
                                         <tr><td>{{__('video.video_id') }}</td><td><a href="https://www.youtube.com/embed/<?= $videoInfo->video_id ?>" target="_BLANK" ><?= $videoInfo->video_id ?></a></td></tr>
@@ -339,7 +339,7 @@
             </div>
             <div class="modal-body row">
                 <div class="col-md-12 model-links">
-                    <a href="" onclick = "openWindowWithPost()">{{__('video.save_to') }}</a>
+                    <a onclick="openWindowWithPost()">{{__('video.save_to') }}</a>
                 </div>
             </div> 
         </div>      

@@ -19,15 +19,12 @@ class VideoController extends Controller {
     public $captionAutoGenerateURL = 'https://www.youtube.com/api/timedtext?lang=en&xorp=True&sparams=asr_langs%2Ccaps%2Cv%2Cxoaf%2Cxorp%2Cexpire&hl=en&fmt=ttml&caps=asr&key=yttt1&v=p3VF6acYG7I&xoaf=1';
 
     public function VideoSearch(Request $request) {
-
-
         try {
             $youtube = new YoutubeDownloader($request->search);
             $videoInfo = $youtube->getInfo();
-//            echo '<pre>';
-//            print_r($videoInfo);
-//            die;
             if ($videoInfo->response_type === 'video'):
+                $youTubeVideoDetails = $this->__getYOUTUBEVideoDetails($videoInfo->video_id);
+                $publishedAt = isset($youTubeVideoDetails['items'][0]['snippet']['publishedAt']) ? date('Y-m-d', strtotime($youTubeVideoDetails['items'][0]['snippet']['publishedAt'])) : '';
                 $videoInfo = $youtube->getInfo(true);
                 $videoFormat = $this->videoFormat;
                 $videoResolution = $this->videoResolution;
@@ -39,12 +36,14 @@ class VideoController extends Controller {
                 if (isset($videoInfo->captions['0'])):
                     $captionsParams = [];
                     parse_str($videoInfo->captions['0']->baseUrl, $captionsParams);
-                    $CPasrLang = isset($captionsParams['asr_langs']) ? $captionsParams['asr_langs'] : $captionsParams['https://www_youtube_com/api/timedtext?asr_langs'];
+//                    dd($captionsParams);
+                    $CPasrLang = isset($captionsParams['asr_langs']) ? $captionsParams['asr_langs'] : 0;
+                    $CPasrLang = $CPasrLang == '0' ? isset($captionsParams['https://www_youtube_com/api/timedtext?asr_langs']) ? $captionsParams['https://www_youtube_com/api/timedtext?asr_langs'] : '' : '';
                     $CPsignatureLang = $captionsParams['signature'];
                     $CPexpire = $captionsParams['expire'];
                 endif;
                 \QRCode::url($request->url() . '?search=' . $videoInfo->video_id)->setOutfile(public_path('qrcodes/' . $videoInfo->video_id . '.png'))->setSize(8)->setMargin(2)->png();
-                return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution', 'captionFormat', 'captionAutoGenerateURL', 'CPasrLang', 'CPsignatureLang', 'CPexpire'));
+                return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution', 'captionFormat', 'captionAutoGenerateURL', 'CPasrLang', 'CPsignatureLang', 'CPexpire', 'publishedAt'));
             else:
                 $page = ['offset' => '0', 'limit' => $this->cardLimit];
                 return view('video.playlist', compact('videoInfo', 'request', 'page'));
@@ -290,6 +289,22 @@ class VideoController extends Controller {
         $o = "{$o_h}:{$o_m}:{$o_s},{$o_ms}";
         $r = "{$r_h}:{$r_m}:{$r_s},{$r_ms}";
         return "{$o} --> {$r}";
+    }
+
+    private function __getYOUTUBEVideoDetails($videoId) {
+        $apikey = 'AIzaSyDFEQxQvIiB2wpKPekpbvoHlsMrx1r7wxE';
+        $googleApiUrl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' . $videoId . '&maxResults=1&key=' . $apikey;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $googleApiUrl);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_VERBOSE, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $data = json_decode($response);
+        return json_decode(json_encode($data), true);
     }
 
 }
