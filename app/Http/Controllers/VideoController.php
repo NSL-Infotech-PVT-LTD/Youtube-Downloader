@@ -24,6 +24,11 @@ class VideoController extends Controller {
         try {
             $youtube = new YoutubeDownloader($request->search);
             $videoInfo = $youtube->getInfo();
+            $captionsParams = [];
+            parse_str($videoInfo->captions['0']->baseUrl, $captionsParams);
+            $CPasrLang = isset($captionsParams['asr_langs']) ? $captionsParams['asr_langs'] : $captionsParams['https://www_youtube_com/api/timedtext?asr_langs'];
+            $CPsignatureLang = $captionsParams['signature'];
+            $CPexpire = $captionsParams['expire'];
             if ($videoInfo->response_type === 'video'):
                 $videoInfo = $youtube->getInfo(true);
                 $videoFormat = $this->videoFormat;
@@ -34,13 +39,13 @@ class VideoController extends Controller {
                 $captionFormat = $this->captionFormat;
                 $captionAutoGenerateURL = $this->captionAutoGenerateURL;
                 \QRCode::url($request->url() . '?search=' . $videoInfo->video_id)->setOutfile(public_path('qrcodes/' . $videoInfo->video_id . '.png'))->setSize(8)->setMargin(2)->png();
-                return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution', 'captionFormat', 'captionAutoGenerateURL'));
+                return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution', 'captionFormat', 'captionAutoGenerateURL', 'CPasrLang', 'CPsignatureLang', 'CPexpire'));
             else:
                 $page = ['offset' => '0', 'limit' => $this->cardLimit];
                 return view('video.playlist', compact('videoInfo', 'request', 'page'));
             endif;
         } catch (\Exception $ex) {
-//            dd($ex->getMessage());
+            dd($ex->getMessage());
             return view('video.nodatafound', compact('request'));
         }
     }
