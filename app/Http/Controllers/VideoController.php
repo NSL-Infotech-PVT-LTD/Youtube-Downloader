@@ -24,10 +24,9 @@ class VideoController extends Controller {
         try {
             $youtube = new YoutubeDownloader($request->search);
             $videoInfo = $youtube->getInfo();
-            echo '<pre>';
-            print_r($videoInfo);
-            die;
-            $captionsParams = [];
+//            echo '<pre>';
+//            print_r($videoInfo);
+//            die;
             if ($videoInfo->response_type === 'video'):
                 $videoInfo = $youtube->getInfo(true);
                 $videoFormat = $this->videoFormat;
@@ -38,6 +37,7 @@ class VideoController extends Controller {
                 $captionFormat = $this->captionFormat;
                 $captionAutoGenerateURL = $this->captionAutoGenerateURL;
                 if (isset($videoInfo->captions['0'])):
+                    $captionsParams = [];
                     parse_str($videoInfo->captions['0']->baseUrl, $captionsParams);
                     $CPasrLang = isset($captionsParams['asr_langs']) ? $captionsParams['asr_langs'] : $captionsParams['https://www_youtube_com/api/timedtext?asr_langs'];
                     $CPsignatureLang = $captionsParams['signature'];
