@@ -38,7 +38,7 @@ class VideoController extends Controller {
                     parse_str($videoInfo->captions['0']->baseUrl, $captionsParams);
 //                    dd($captionsParams);
                     $CPasrLang = isset($captionsParams['asr_langs']) ? $captionsParams['asr_langs'] : 0;
-                    $CPasrLang = $CPasrLang == '0' ? isset($captionsParams['https://www_youtube_com/api/timedtext?asr_langs']) ? $captionsParams['https://www_youtube_com/api/timedtext?asr_langs'] : '' : '';
+                    $CPasrLang = $CPasrLang == '0' ? isset($captionsParams['https://www_youtube_com/api/timedtext?asr_langs']) ? $captionsParams['https://www_youtube_com/api/timedtext?asr_langs'] : '' : $CPasrLang;
                     $CPsignatureLang = $captionsParams['signature'];
                     $CPexpire = $captionsParams['expire'];
                 endif;
