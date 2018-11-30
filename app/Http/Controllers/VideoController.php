@@ -24,11 +24,10 @@ class VideoController extends Controller {
         try {
             $youtube = new YoutubeDownloader($request->search);
             $videoInfo = $youtube->getInfo();
+            echo '<pre>';
+            print_r($videoInfo);
+            die;
             $captionsParams = [];
-            parse_str($videoInfo->captions['0']->baseUrl, $captionsParams);
-            $CPasrLang = isset($captionsParams['asr_langs']) ? $captionsParams['asr_langs'] : $captionsParams['https://www_youtube_com/api/timedtext?asr_langs'];
-            $CPsignatureLang = $captionsParams['signature'];
-            $CPexpire = $captionsParams['expire'];
             if ($videoInfo->response_type === 'video'):
                 $videoInfo = $youtube->getInfo(true);
                 $videoFormat = $this->videoFormat;
@@ -38,6 +37,12 @@ class VideoController extends Controller {
                 $quality = $this->quality;
                 $captionFormat = $this->captionFormat;
                 $captionAutoGenerateURL = $this->captionAutoGenerateURL;
+                if (isset($videoInfo->captions['0'])):
+                    parse_str($videoInfo->captions['0']->baseUrl, $captionsParams);
+                    $CPasrLang = isset($captionsParams['asr_langs']) ? $captionsParams['asr_langs'] : $captionsParams['https://www_youtube_com/api/timedtext?asr_langs'];
+                    $CPsignatureLang = $captionsParams['signature'];
+                    $CPexpire = $captionsParams['expire'];
+                endif;
                 \QRCode::url($request->url() . '?search=' . $videoInfo->video_id)->setOutfile(public_path('qrcodes/' . $videoInfo->video_id . '.png'))->setSize(8)->setMargin(2)->png();
                 return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution', 'captionFormat', 'captionAutoGenerateURL', 'CPasrLang', 'CPsignatureLang', 'CPexpire'));
             else:
