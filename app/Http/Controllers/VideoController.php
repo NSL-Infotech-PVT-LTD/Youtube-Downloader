@@ -8,7 +8,7 @@ use Masih\YoutubeDownloader\YoutubeDownloader;
 
 class VideoController extends Controller {
 
-    public $videoFormat = ['mp4'];
+    public $videoFormat = ['mp4','webm'];
     public $audioFormat = ['audio/mp4', 'audio/webm'];
     public $videoResolution = ['1080p', '720p', '360p', '240p'];
     private $cardLimit = '8';
@@ -24,6 +24,7 @@ class VideoController extends Controller {
             $videoInfo = $youtube->getInfo();
             if ($videoInfo->response_type === 'video'):
                 $youTubeVideoDetails = $this->__getYOUTUBEVideoDetails($videoInfo->video_id);
+//            dd($videoInfo->adaptive_formats);
                 $publishedAt = isset($youTubeVideoDetails['items'][0]['snippet']['publishedAt']) ? date('Y-m-d', strtotime($youTubeVideoDetails['items'][0]['snippet']['publishedAt'])) : '';
                 $videoInfo = $youtube->getInfo(true);
                 $videoFormat = $this->videoFormat;
@@ -36,11 +37,9 @@ class VideoController extends Controller {
                 if (isset($videoInfo->captions['0'])):
                     $captionsParams = [];
                     parse_str($videoInfo->captions['0']->baseUrl, $captionsParams);
-//                    dd($captionsParams);
-                    $CPasrLang = isset($captionsParams['asr_langs']) ? $captionsParams['asr_langs'] : 0;
-                    $CPasrLang = $CPasrLang == '0' ? isset($captionsParams['https://www_youtube_com/api/timedtext?asr_langs']) ? $captionsParams['https://www_youtube_com/api/timedtext?asr_langs'] : '' : $CPasrLang;
-                    $CPsignatureLang = $captionsParams['signature'];
-                    $CPexpire = $captionsParams['expire'];
+                    $CPasrLang = isset($captionsParams['asr_langs']) ? $captionsParams['asr_langs'] : '';
+                    $CPsignatureLang = isset($captionsParams['signature']) ? $captionsParams['signature'] : '';
+                    $CPexpire = isset($captionsParams['expire']) ? $captionsParams['expire'] : '';
                 endif;
                 \QRCode::url($request->url() . '?search=' . $videoInfo->video_id)->setOutfile(public_path('qrcodes/' . $videoInfo->video_id . '.png'))->setSize(8)->setMargin(2)->png();
                 return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution', 'captionFormat', 'captionAutoGenerateURL', 'CPasrLang', 'CPsignatureLang', 'CPexpire', 'publishedAt'));
@@ -49,24 +48,29 @@ class VideoController extends Controller {
                 return view('video.playlist', compact('videoInfo', 'request', 'page'));
             endif;
         } catch (\Exception $ex) {
-            dd($ex->getMessage());
+//            dd($ex->getMessage());
             return view('video.nodatafound', compact('request'));
         }
     }
 
     public function videoPlaylistBYCard(Request $request) {
-        try {
-            if ($request->ajax()) {
-                $youtube = new YoutubeDownloader($request->search . '&list=' . $request->list);
-                $videoInfo = $youtube->getInfo();
-                $page = ['offset' => $request->offset, 'limit' => $this->cardLimit];
-                $view = view('video.playlist.card', compact('videoInfo', 'request', 'page'))->render();
-                return response()->json(['html' => $view]);
-            }
-            return view('home');
-        } catch (\Exception $ex) {
-            dd($ex->getMessage());
+//        try {
+        if ($request->ajax()) {
+            if (strpos($request->search, 'v=') !== false) :
+                $searchData = $request->search . '&list=' . $request->list;
+            else:
+                $searchData = $request->search;
+            endif;
+            $youtube = new YoutubeDownloader($searchData);
+            $videoInfo = $youtube->getInfo();
+            $page = ['offset' => $request->offset, 'limit' => $this->cardLimit];
+            $view = view('video.playlist.card', compact('videoInfo', 'request', 'page'))->render();
+            return response()->json(['html' => $view]);
         }
+        return view('home');
+//        } catch (\Exception $ex) {
+//            dd($ex->getMessage());
+//        }
     }
 
 //    public function checksubtitle() {
@@ -98,9 +102,7 @@ class VideoController extends Controller {
         $cont = str_replace(['<br/>', '<br />'], "\n", $cont);
 //         dd($cont);
         $xml = simplexml_load_string($cont);
-
         //  dd($xml);
-
         $subs = $xml->body->div->p;
         $num = 1;
         foreach ($subs as $i => $sub) {

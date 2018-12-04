@@ -4,7 +4,7 @@
 <section class="content-area video">
     <div class="container">
         <div class="row banner">
-            <div class="col-md-9 search-video">					
+            <div class="col-md-10 search-video">					
                 <div class="search-container">
                     <form action="<?= url('video-search') ?>">
                         <input type="text"  autocomplete="off" placeholder="{{__('home.search_placeholder')}}" name="search" value="<?= $request->search ?>">
@@ -56,25 +56,37 @@
                                                 <th>{{__('video.download_links') }}</th>			 
                                             </tr>
                                             <?php
+                                            $threeGPCNT = 0;
                                             foreach ($videoInfo->full_formats as $fullFormats):
-
-                                                $formatType = explode(';', str_replace('video/', '', $fullFormats->type))
+//                                                $formatType = explode(';', str_replace('video/', '', $fullFormats->type))
+                                                $formatType = explode('.', $fullFormats->filename);
                                                 ?>
                                                 <tr>
-                                                    <td><?= $formatType['0'] ?></td>
-                                                    <td><?= $quality[$formatType['0']] ?></td>
-                                                    <td><?= $resolution[$formatType['0']] ?></td>
+                                                    <td><?= $formatType['1'] ?></td>
+                                                    <?php
+                                                    if ($threeGPCNT > 0):
+                                                        if ($formatType['1'] == '3gp')
+                                                            $formatType['1'] = '3gpp';
+                                                    endif;
+                                                    ?>
+                                                    <td><?= $quality[$formatType['1']] ?></td>
+                                                    <td><?= $resolution[$formatType['1']] ?></td>
                                                     <td><?= App\Helpers\Y2D2::getFileSize($fullFormats->url) ?></td>
                                                     <td>
                                                         <span class="download">
-                                                            <a href="<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">{{__('video.download') }}</a>
+                                                            <a href="<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>" class="dwn_load" download="<?= str_replace(' ', '_', $videoInfo->title . '.' . $formatType['1']) ?>" target="_BLANK">{{__('video.download') }}</a>
                                                         </span>
                                                         <span>
                                                             <button class="share-vdo"  id= "<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
                                                         </span>
                                                     </td>
                                                 </tr>
-                                            <?php endforeach; ?>
+                                                <?php
+                                                if ($formatType['1'] == '3gp'):
+                                                    $threeGPCNT++;
+                                                endif;
+                                            endforeach;
+                                            ?>
                                         </table>
 
                                         <table>
@@ -88,10 +100,13 @@
                                                 if (!in_array($aformatType['0'], $videoFormat) && (!in_array($afullFormats->quality_label, $videoFormat))):
                                                     continue;
                                                 endif;
+
+                                                $aformatTypeT = explode('.', $afullFormats->filename);
+//                                                dd($aformatTypeT);
                                                 ?>
                                                 <tr>
-                                                    <td><?= $aformatType['0'] ?></td>
-                                                    <td><?= isset($afullFormats->quality_label) ? $afullFormats->quality_label : '-' ?> <sup>FULL HD</sup></td>
+                                                    <td><?= $aformatTypeT['1'] ?></td>
+                                                    <td><?= isset($afullFormats->quality_label) ? ($afullFormats->quality_label >= 720) ? $afullFormats->quality_label . ' <sup>FULL HD</sup>' : $afullFormats->quality_label : '-' ?> </td>
                                                     <td><?= isset($afullFormats->size) ? $afullFormats->size : '-' ?></td>
                                                     <td><?= App\Helpers\Y2D2::getFileSize($afullFormats->url) ?></td>
                                                     <td>
@@ -166,8 +181,6 @@
                                         </table>
                                         <div class="tips"><span>{{__('video.tip') }}</span>{{__('video.tip_detail') }}</div>
                                     </div>
-
-
                                     <div id="subtitle" class="tab-pane fade">
                                         <?php if ($videoInfo->captions): ?>
                                             <ul class="nav-tabs">
@@ -181,7 +194,7 @@
                                                             <th>{{__('video.language') }}</th>
                                                             <th>{{__('video.type') }}</th>
                                                             <th>{{__('video.format') }}</th>
-                                                            <th></th>
+                                                            <th>{{__('video.timeline') }}</th>
                                                             <th></th>			 
                                                         </tr>
                                                         <?php
@@ -200,7 +213,7 @@
                                                                 <td>
                                                                     <div class="checkbox">
                                                                         <input name="textonly" type="checkbox" value="" class="textonly" checked="checked" id="single-textonly<?= $k ?>">
-                                                                        <label for="single-textonly<?= $k ?>">{{__('video.timeline') }}</label>
+                                                                        <!--<label for="single-textonly<?= $k ?>">{{__('video.timeline') }}</label>-->
                                                                     </div>
                                                                 </td>
                                                                 <td >
@@ -218,7 +231,7 @@
                                                         <?php endforeach; ?>
                                                         <?php
                                                         foreach ($videoInfo->captions_auto_generated as $ki => $captionsAutoGenerated):
-                                                            if ((isset($CPsignatureLang) && isset($CPasrLang) && isset($CPexpire))):    
+                                                            if ((isset($CPsignatureLang) && isset($CPasrLang) && isset($CPexpire))):
                                                                 ?>
                                                                 <tr>
                                                                     <td><?= $captionsAutoGenerated->languageName->simpleText ?></td>
@@ -233,7 +246,7 @@
                                                                     <td>
                                                                         <div class="checkbox">
                                                                             <input name="textonly" type="checkbox" value="" class="textonly" checked="checked" id="single-textonly-auto<?= $ki ?>">
-                                                                            <label for="single-textonly-auto<?= $ki ?>">{{__('video.timeline') }}</label>
+                                                                            <!--<label for="single-textonly-auto<?= $ki ?>">{{__('video.timeline') }}</label>-->
                                                                         </div>
                                                                     </td>
                                                                     <td >
@@ -248,7 +261,7 @@
                                                                         </span>-->
                                                                     </td>
                                                                 </tr>
-                                                            <?php
+                                                                <?php
                                                             endif;
                                                         endforeach;
                                                         ?>
@@ -271,7 +284,7 @@
                                                                     foreach ($videoInfo->captions as $captions):
                                                                         ?>
                                                                         <option value="<?= $captions->languageCode ?>" data-href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" > <?= $captions->name->simpleText ?></option>
-    <?php endforeach; ?>
+                                                                    <?php endforeach; ?>
                                                                 </select>
                                                             </td>
                                                             <td>
@@ -280,7 +293,7 @@
                                                                     foreach ($videoInfo->captions as $captions):
                                                                         ?>
                                                                         <option value="<?= $captions->languageCode ?>" data-href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" > <?= $captions->name->simpleText ?></option>
-    <?php endforeach; ?>
+                                                                    <?php endforeach; ?>
                                                                 </select>
                                                             </td>
                                                             <td>
@@ -291,13 +304,13 @@
                                                                             continue;
                                                                         ?>
                                                                         <option><?= $format ?></option>
-    <?php endforeach; ?>
+                                                                    <?php endforeach; ?>
                                                                 </select>
                                                             </td>
                                                             <td>
                                                                 <div class="checkbox">
                                                                     <input name="textonly" type="checkbox" value="" class="textonly" checked="checked" id="dual-textonly">
-                                                                    <label for="dual-textonly">{{__('video.timeline') }}</label>
+                                                                    <!--                                                                    <label for="dual-textonly"></label>-->
                                                                 </div>
                                                             </td>
                                                             <td >
@@ -312,10 +325,10 @@
                                                     </table>
                                                 </div>
                                             </div>
-<?php else: ?>
+                                        <?php else: ?>
 
                                             <div class="tips "><span>{{__('video.info') }} </span>{{__('video.no_subtitle') }}</div>
-<?php endif; ?>
+                                        <?php endif; ?>
 <!--<div class="tips"><span>{{__('video.tip') }}</span>{{__('video.tip_detail') }}</div>-->
                                     </div>
                                 </div>						  
@@ -370,7 +383,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">{{__('video.close') }}</button>
                 <h4 class="modal-title"><?= 'Caption Viewer' ?></h4>
-                <button  class="btn btn-success caption-downloader">Download</button>
+                <!--<button  class="btn btn-success caption-downloader">Download</button>-->
             </div>
             <div class="modal-body row">
 
@@ -431,15 +444,18 @@
             var href = encodeURIComponent($(this).attr("href"));
             var PURL = "<?= url('subtitleDownload') ?>";
             var textonly = $(this).parent().parent().parent().find('.textonly').prop("checked");
-            captionDownloader.attr('data-name', dataName);
-            captionDownloader.attr('data-href', href);
-            captionDownloader.attr('data-format', format);
-            captionDownloader.attr('data-textonly', textonly);
+//            captionDownloader.attr('data-name', dataName);
+//            captionDownloader.attr('data-href', href);
+//            captionDownloader.attr('data-format', format);
+//            captionDownloader.attr('data-textonly', textonly);
             req.open("POST", PURL, true);
             req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             req.send("url=" + href + "&textonly=" + textonly + "&_token={{csrf_token()}}");
             req.onload = function (event) {
                 var blob = req.response;
+                var lines = blob.split('\n');
+                lines.splice(0, 1);
+                blob = lines.join('\n');
                 $('#caption .modal-body').html(blob);//now its working
                 $('#caption').modal('show');//now its working
             };
@@ -476,6 +492,7 @@
 
             req.onload = function (event) {
                 var blob = req.response;
+                console.log(format);
                 var link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
                 link.download = dataName + "." + format;
@@ -511,6 +528,9 @@
             req.onload = function (event) {
                 var blob = req.response;
                 if (dataType == 'preview') {
+                    var lines = blob.split('\n');
+                    lines.splice(0, 1);
+                    blob = lines.join('\n');
                     $('#caption .modal-body').html(blob);
                     $('#caption').modal('show');
                 } else {

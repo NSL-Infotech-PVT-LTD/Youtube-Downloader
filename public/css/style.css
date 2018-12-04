@@ -812,9 +812,12 @@ input.textonly {
 a{
     cursor: pointer;
 }
-#caption .modal-body.row {       
-    padding: 0px 13px 30px 31px !important;
+#caption .modal-body.row {
     white-space: pre-line;
+    margin: 0px;
+    overflow-y: scroll;
+    padding: 0px 0 0 10px !important;
+    max-height: 550px;
 }
 #caption .modal-dialog {
     min-width: 45%;
@@ -827,14 +830,14 @@ select.form-control.format {
     text-transform: uppercase;
     padding: 6px 0px;
 }
-.video_desciption ul.nav-tabs li > a {padding: 15px 60px;}
-
+.video_desciption ul.nav-tabs li > a {padding: 15px 72px;}
 div.col-md-8 > div > div > ul > li:nth-child(4) > div > a {
     padding: 0 20px 0 0;
 }
 
 #subtitle > ul > li > a {
-    padding: 15px 82px;
+    padding: 15px 100px;
+    margin-right: 0px !important;
 }
 span.download.caption {
     border-right: 2px solid #cdcdcd;
@@ -842,9 +845,9 @@ span.download.caption {
 span.download {
     padding: 0 4px 0 4px;
 }
-
-.checkbox input.textonly {margin-top: 10px;}
-
+#subtitle input[type="checkbox"] {
+    margin: 0px;
+}
 .checkbox {
     /* float: left; */
     width: 100%;
@@ -884,7 +887,9 @@ span.download {
     .details {
         width: 100%;
     }
-
+    .video_desciption ul.nav-tabs li > a {
+        padding: 15px 50px;
+    }
 }
 
 @media(min-width:1025px){
