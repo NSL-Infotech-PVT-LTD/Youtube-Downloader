@@ -866,9 +866,75 @@ span.badge.badge-danger {
 /******video style end here*****/
 
 
+@media only screen and (min-width:960px){
+    /* styles for browsers larger than 960px; */
+}
+@media only screen and (min-width:1440px){
+    /* styles for browsers larger than 1440px; */
+}
+@media only screen and (min-width:2000px){
+    /* for sumo sized (mac) screens */
+}
+@media only screen and (max-device-width:480px){
+    /* styles for mobile browsers smaller than 480px; (iPhone) */
+}
+@media only screen and (device-width:1366){
+    /* default iPad screens */
+}
+/* different techniques for iPad screening */
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (orientation:portrait) {
+    /* For portrait layouts only */
+    #subtitle > ul > li > a {
+        padding: 14px 69px;
+        margin-right: 1px !important;
+    }
+}
+/* different techniques for iPad screening */
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (orientation:portrait) {
+    .video_desciption ul.nav-tabs li > a {
+        padding: 15px 40px;
+    }
+    #subtitle > ul > li > a {
+        padding: 15px 38px;
+        margin-right: 0px !important;
+    }
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (orientation:portrait) {
+    .video_desciption ul.nav-tabs li > a {
+        padding: 15px 24px;
+    }
+    #subtitle > ul > li > a {
+        padding: 15px 14px;
+        margin-right: 0px !important;
+    }
+}
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (orientation:portrait) {
+    .video_desciption ul.nav-tabs li > a {
+        padding: 15px 34px;
+    }
+    #subtitle > ul > li > a {
+        padding: 15px 28px;
+        margin-right: 0px !important;
+    }
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:portrait) {
+    /* For portrait layouts only */
+    .video_desciption ul.nav-tabs li > a {
+        padding: 15px 51px;
+    }
+    /*    #subtitle > ul > li > a {
+            padding: 14px 122px;
+            margin-right: 0.5px !important;
+        }*/
+    #subtitle > ul > li > a {
+        padding: 14px 69px;
+        margin-right: 1px !important;
+    }
+}
 
-
-
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape) {
+    /* For landscape layouts only */
+}
 
 
 
@@ -892,9 +958,9 @@ span.badge.badge-danger {
     .details {
         width: 100%;
     }
-    .video_desciption ul.nav-tabs li > a {
-        padding: 15px 50px;
-    }
+    /*    .video_desciption ul.nav-tabs li > a {
+            padding: 15px 50px;
+        }*/
 }
 
 @media(min-width:1025px){
