@@ -68,9 +68,10 @@
                                                         if ($formatType['1'] == '3gp')
                                                             $formatType['1'] = '3gpp';
                                                     endif;
+                                                    $formatType['5'] = (strpos($fullFormats->quality, 'hd') !== false) ? str_replace('hd', '', $fullFormats->quality . 'p') : $formatType['1'];
                                                     ?>
-                                                    <td><?= $quality[$formatType['1']] ?></td>
-                                                    <td><?= $resolution[$formatType['1']] ?></td>
+                                                    <td><?= ($fullFormats->quality == 'medium' || $fullFormats->quality == 'small') ? $quality[$formatType['1']] : ((strpos($fullFormats->quality, 'hd') !== false) ? str_replace('hd', '', $fullFormats->quality . 'p') . ' <span class="badge badge-danger">HD</span>' : str_replace('hd', '', $fullFormats->quality . 'p')) ?></td>
+                                                    <td><?= $resolution[$formatType['5']] ?></td>
                                                     <td><?= App\Helpers\Y2D2::getFileSize($fullFormats->url) ?></td>
                                                     <td>
                                                         <span class="download">
@@ -92,36 +93,38 @@
                                         <table>
                                             <div class="video-heading">{{__('video.video_without_audio') }}</div>
                                             <?php
-                                            foreach ($videoInfo->adaptive_formats as $afullFormats):
-                                                $aformatType = explode(';', str_replace('video/', '', $afullFormats->type));
-                                                if (!isset($afullFormats->quality_label))
-                                                    continue;
+                                            foreach ($videoFormat as $format):
+                                                foreach ($videoInfo->adaptive_formats as $afullFormats):
+                                                    $aformatType = explode(';', str_replace('video/', '', $afullFormats->type));
+                                                    if (!isset($afullFormats->quality_label))
+                                                        continue;
 
-                                                if (!in_array($aformatType['0'], $videoFormat) && (!in_array($afullFormats->quality_label, $videoFormat))):
-                                                    continue;
-                                                endif;
+                                                    if (($aformatType['0'] != $format) && (($afullFormats->quality_label != $format))):
+                                                        continue;
+                                                    endif;
 
-                                                $aformatTypeT = explode('.', $afullFormats->filename);
-//                                                dd($aformatTypeT);
-                                                ?>
-                                                <tr>
-                                                    <td><?= $aformatTypeT['1'] ?></td>
-                                                    <td><?= isset($afullFormats->quality_label) ? ($afullFormats->quality_label >= 720) ? $afullFormats->quality_label . ' <sup>FULL HD</sup>' : $afullFormats->quality_label : '-' ?> </td>
-                                                    <td><?= isset($afullFormats->size) ? $afullFormats->size : '-' ?></td>
-                                                    <td><?= App\Helpers\Y2D2::getFileSize($afullFormats->url) ?></td>
-                                                    <td>
-                                                        <span class="download">
-                                                            <a href="<?= isset($afullFormats->url) ? $afullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">{{__('video.download') }}</a>
-                                                        </span>
-                                                        <span>
-                                                            <button class="share-vdo" id ="<?= isset($afullFormats->url) ? $afullFormats->url : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
-                                                        </span>
-                                                    </td>
-                                                </tr>
+                                                    $aformatTypeT = explode('.', $afullFormats->filename);
+                                                    ?>
+                                                    <tr>
+                                                        <td><?= $aformatTypeT['1'] ?></td>
+                                                        <td><?= isset($afullFormats->quality_label) ? ($afullFormats->quality_label >= 720) ? $afullFormats->quality_label . ' <span class="badge badge-danger">HD</span>' : $afullFormats->quality_label : '-' ?> </td>
+                                                        <td><?= isset($afullFormats->size) ? $afullFormats->size : '-' ?></td>
+                                                        <td><?= App\Helpers\Y2D2::getFileSize($afullFormats->url) ?></td>
+                                                        <td>
+                                                            <span class="download">
+                                                                <a href="<?= isset($afullFormats->url) ? $afullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">{{__('video.download') }}</a>
+                                                            </span>
+                                                            <span>
+                                                                <button class="share-vdo" id ="<?= isset($afullFormats->url) ? $afullFormats->url : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
                                             <?php endforeach; ?>
 
                                         </table>
                                         <div class="tips"><span>{{__('video.tip') }}</span> {{__('video.tip_detail') }}</div>
+                                        <div class="tips"><span>{{__('video.tip') }}</span> {{__('video.tip_not_download') }}</div>
                                     </div>
                                     <div id="audio" class="tab-pane fade">
                                         <table>
@@ -133,32 +136,34 @@
                                                 <th>{{__('video.download_links') }}</th>			 
                                             </tr>
                                             <?php
-                                            foreach ($videoInfo->adaptive_formats as $audiofullFormats):
-                                                $audioformatType = explode(';', $audiofullFormats->type);
+                                            foreach ($audioFormat as $aformat):
+                                                foreach ($videoInfo->adaptive_formats as $audiofullFormats):
+                                                    $audioformatType = explode(';', $audiofullFormats->type);
 
 //                                                dd($audiofullFormats);
-                                                if (!in_array($audioformatType['0'], $audioFormat)):
-                                                    continue;
-                                                endif;
-                                                ?>
-                                                <tr>
-                                                    <td><?= str_replace('audio/', '', $audioformatType['0']) ?></td>
-                                                    <td><?= isset($audiofullFormats->bitrate) ? $kbps = App\Helpers\Y2D2::convertBitrateToKilobits($audiofullFormats->bitrate) . ' Kbps' : '- ' ?></td>
-                                                    <td><?= App\Helpers\Y2D2::getFileSize($audiofullFormats->url) ?></td>
-                                                    <td></td>
-                                                    <td>
-                                                        <span class="download">
-                                                            <a href="<?= isset($audiofullFormats->url) ? $audiofullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">{{__('video.download') }}</a>
-                                                        </span>
-                                                        <span>
-                                                            <button class="share-vdo" id = "<?= isset($audiofullFormats->url) ? $audiofullFormats->url : '' ?>" onclick ="generateLinks(this.id)"  data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <?php
-                                                if ($kbps == '128 Kbps'):
-                                                    $mp3File = $audiofullFormats->url;
-                                                endif;
+                                                    if ($audioformatType['0'] != $aformat):
+                                                        continue;
+                                                    endif;
+                                                    ?>
+                                                    <tr>
+                                                        <td><?= (str_replace('audio/', '', $audioformatType['0']) == 'mp4') ? 'm4a' : str_replace('audio/', '', $audioformatType['0']) ?></td>
+                                                        <td><?= isset($audiofullFormats->bitrate) ? $kbps = App\Helpers\Y2D2::convertBitrateToKilobits($audiofullFormats->bitrate) . ' Kbps' : '- ' ?></td>
+                                                        <td><?= App\Helpers\Y2D2::getFileSize($audiofullFormats->url) ?></td>
+                                                        <td></td>
+                                                        <td>
+                                                            <span class="download">
+                                                                <a href="<?= isset($audiofullFormats->url) ? $audiofullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">{{__('video.download') }}</a>
+                                                            </span>
+                                                            <span>
+                                                                <button class="share-vdo" id = "<?= isset($audiofullFormats->url) ? $audiofullFormats->url : '' ?>" onclick ="generateLinks(this.id)"  data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                    if ($kbps == '128 Kbps'):
+                                                        $mp3File = $audiofullFormats->url;
+                                                    endif;
+                                                endforeach;
                                             endforeach;
                                             /*     if (isset($mp3File)):
                                               ?>

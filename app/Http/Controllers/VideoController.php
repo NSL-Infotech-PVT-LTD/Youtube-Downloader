@@ -8,11 +8,11 @@ use Masih\YoutubeDownloader\YoutubeDownloader;
 
 class VideoController extends Controller {
 
-    public $videoFormat = ['mp4','webm'];
+    public $videoFormat = ['mp4', 'webm'];
     public $audioFormat = ['audio/mp4', 'audio/webm'];
     public $videoResolution = ['1080p', '720p', '360p', '240p'];
     private $cardLimit = '8';
-    public $resolution = ['mp4' => '640 x 360', '3gp' => '320 x 180', '3gpp' => '176 x 144', 'webm' => '640 x 360'];
+    public $resolution = ['720p' => '1280 x 720', 'mp4' => '640 x 360', '3gp' => '320 x 180', '3gpp' => '176 x 144', 'webm' => '640 x 360'];
     public $quality = ['mp4' => '360p', '3gp' => '180p', '3gpp' => '144p', 'webm' => '360p'];
 //    public $captionFormat = ['srt', 'txt', 'xml', 'ass', 'lrc', 'vtt', 'sbv'];
     public $captionFormat = ['srt', 'txt'];
@@ -24,7 +24,6 @@ class VideoController extends Controller {
             $videoInfo = $youtube->getInfo();
             if ($videoInfo->response_type === 'video'):
                 $youTubeVideoDetails = $this->__getYOUTUBEVideoDetails($videoInfo->video_id);
-//            dd($videoInfo->adaptive_formats);
                 $publishedAt = isset($youTubeVideoDetails['items'][0]['snippet']['publishedAt']) ? date('Y-m-d', strtotime($youTubeVideoDetails['items'][0]['snippet']['publishedAt'])) : '';
                 $videoInfo = $youtube->getInfo(true);
                 $videoFormat = $this->videoFormat;

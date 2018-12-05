@@ -41,4 +41,5 @@ return [
     '2nd_language' => '2nd Language',
     'upload_date' => 'Upload Date',
     'video_channel' => 'Channel',
+    'tip_not_download' => "If you can't download, try ro change ip.",
 ];
