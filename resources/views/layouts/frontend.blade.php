@@ -45,7 +45,7 @@
                         <span class="icon-bar"></span>
                     </button>
                             <div class="qrcode hidden-lg hidden-sm hidden-md"><a href=""><i class="fa fa-qrcode"></i><!-- <img src="images/qr-code.png"> --></a></div>
-                    <a class="navbar-brand" href="<?= url('/'); ?>"><img src="images/logo.png"></a>
+                    <a class="navbar-brand" href="<?= url('/'); ?>"><img class="imglogo" src="images/logo.png"></a>
                 </div>
 
                 <div id="navbar" class="navbar-collapse collapse" aria-expanded="false">
@@ -58,14 +58,14 @@
                         <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'contact' ? 'active' : ''; ?>" ><a href="<?= url('contact'); ?>">{{ __('menu.contact')}}</a></li>
 
                         <li class="language dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@if(session('locale')=='en'){{ __('English')}} @else {{ __('中文')}} @endif<span class="caret"></span></a>			  
+                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@if(session('locale')=='en'){{ __('English')}} @else {{ __('中文')}} @endif<span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li @if(session('locale')=='en') class="lang-active"  @endif ><a href="{{route('lang.switch',['lang'=>'en'])}}">{{ __('English')}}<span class="check"><i class="fa fa-check-circle"></i></span></a></li>
-                                <li role="separator" class="divider"></li> 
-                                <li @if(session('locale')=='zh') class="lang-active"  @endif ><a href="{{route('lang.switch',['lang'=>'zh'])}}">{{ __('中文')}}<span class="check"><i class="fa fa-check-circle"></i></span></a></li> 
-                            </ul>			  
+                                <li role="separator" class="divider"></li>
+                                <li @if(session('locale')=='zh') class="lang-active"  @endif ><a href="{{route('lang.switch',['lang'=>'zh'])}}">{{ __('中文')}}<span class="check"><i class="fa fa-check-circle"></i></span></a></li>
+                            </ul>
                         </li>
-                        <li><div class="qrcode hidden-xs"><a  data-toggle="modal" data-target="#qrcode-popup"><i class="fa fa-qrcode"></i></a></div>
+                        <li><div class="qrcode hidden-xs"><a  data-toggle="modal" data-target="#qrcode-popup"><i class="fa fa-qrcode qrcode-set"></i></a></div>
                         </li>
                     </ul>
                 </div><!--/.nav-collapse -->
@@ -82,7 +82,7 @@
         <!--footer start here-->
         <footer>
             <div class="container-fluid">
-                <div class="row">				
+                <div class="row">
                     <div class="col-md-6 col-sm-12">
                        <!--  <p>© 2018 Y2D2.com</p> -->
                         <ul class="site">
@@ -92,18 +92,18 @@
 
                     <div class="col-md-6 col-sm-12">
                         <ul class="useful-links">
-                            <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'terms' ? 'active' : ''; ?>" ><a href="<?= url('terms') ?>">{{ __('menu.Terms_of_Use')}}</a></li>                    
-                            <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'privacy-policy' ? 'active' : ''; ?>"><a  href="<?= url('privacy-policy') ?>">{{ __('menu.Privacy_Policy')}} </a></li>                    
-                            <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'site-map' ? 'active' : ''; ?>" ><a href="<?= url('site-map') ?>">{{ __('menu.Site_Map')}} </a></li>  
+                            <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'terms' ? 'active' : ''; ?>" ><a href="<?= url('terms') ?>">{{ __('menu.Terms_of_Use')}}</a></li>
+                            <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'privacy-policy' ? 'active' : ''; ?>"><a  href="<?= url('privacy-policy') ?>">{{ __('menu.Privacy_Policy')}} </a></li>
+                            <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'site-map' ? 'active' : ''; ?>" ><a href="<?= url('site-map') ?>">{{ __('menu.Site_Map')}} </a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-        </footer>	
+        </footer>
         <!--footer start here-->
         <!-- Modal start here -->
         <div class="modal fade" id="qrcode-popup" role="dialog">
-            <div class="modal-dialog">    
+            <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
@@ -115,11 +115,11 @@
                             <div> <img src="<?= url('home-qrcode.png') ?>"/></div   >
                             <a data-clipboard-text="<?= \URL::to('/'); ?>" >{{__('video.copy_links') }}</a>
                         </div>
-                    </div> 
-                </div>      
+                    </div>
+                </div>
             </div>
         </div>
-        <!-- Modal End here -->	
+        <!-- Modal End here -->
     </body>
 </html>
 

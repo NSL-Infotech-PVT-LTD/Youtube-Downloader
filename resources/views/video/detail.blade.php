@@ -4,13 +4,13 @@
 <section class="content-area video">
     <div class="container">
         <div class="row banner">
-            <div class="col-md-10 search-video">					
+            <div class="col-md-10 search-video">
                 <div class="search-container">
                     <form action="<?= url('video-search') ?>">
                         <input type="text"  autocomplete="off" placeholder="{{__('home.search_placeholder')}}" name="search" value="<?= $request->search ?>">
                         <button type="submit"><img src="images/search.png"></button>
                     </form>
-                </div>                
+                </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="video_thum">
@@ -28,11 +28,11 @@
                                         <tr><td>{{__('video.video_id') }}</td><td><a href="https://www.youtube.com/embed/<?= $videoInfo->video_id ?>" target="_BLANK" ><?= $videoInfo->video_id ?></a></td></tr>
                                         <tr><td>{{__('video.video_channel') }}</td><td><a href="https://www.youtube.com/channel/<?= $videoInfo->channel_id ?>" target="_BLANK" ><?= $videoInfo->author ?></a></td></tr>
                                     </table>
-                                </div>							
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-8">	
+                    <div class="col-md-8">
                         <div class="video_desciption">
                             <div class="video_inr">
                                 <ul class="nav-tabs">
@@ -40,8 +40,8 @@
                                     <li><a data-toggle="tab" href="#audio">{{__('video.audio') }}</a></li>
                                     <li><a data-toggle="tab" href="#subtitle">{{__('video.subtitle') }}</a></li>
                                     <li style="float: right; ">
-                                        <div class="qrcode hidden-xs">
-                                            <a href="javascript:void(0);" data-toggle="modal" data-target="#share-video"><i class="fa fa-qrcode"></i></a>
+                                        <div class="qrcode hidden-xs qrcodetab">
+                                            <a href="javascript:void(0);" data-toggle="modal" data-target="#share-video"><i class="fa fa-qrcode "></i></a>
                                         </div>
                                     </li>
                                 </ul>
@@ -53,7 +53,8 @@
                                                 <th>{{__('video.quality') }}</th>
                                                 <th>{{__('video.resolution') }}</th>
                                                 <th>{{__('video.size') }}</th>
-                                                <th>{{__('video.download_links') }}</th>			 
+                                                <th></th>
+<!--                                                <th>{{__('video.download_links') }}</th>-->
                                             </tr>
                                             <?php
                                             $threeGPCNT = 0;
@@ -74,11 +75,11 @@
                                                     <td><?= $resolution[$formatType['5']] ?></td>
                                                     <td><?= App\Helpers\Y2D2::getFileSize($fullFormats->url) ?></td>
                                                     <td>
-                                                        <span class="download">
-                                                            <a href="<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>" class="dwn_load" download="<?= str_replace(' ', '_', $videoInfo->title . '.' . $formatType['1']) ?>" target="_BLANK">{{__('video.download') }}</a>
+                                                        <span class="download  btn btn-success">
+                                                            <a href="<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>" class="dwn_load" download="<?= str_replace(' ', '_', $videoInfo->title . '.' . $formatType['1']) ?>" target="_BLANK"><i class="fa fa-download"></i>  {{__('video.download') }}</a>
                                                         </span>
                                                         <span>
-                                                            <button class="share-vdo"  id= "<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
+                                                            <button class="share-vdo"  id= "<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -111,8 +112,8 @@
                                                         <td><?= isset($afullFormats->size) ? $afullFormats->size : '-' ?></td>
                                                         <td><?= App\Helpers\Y2D2::getFileSize($afullFormats->url) ?></td>
                                                         <td>
-                                                            <span class="download">
-                                                                <a href="<?= isset($afullFormats->url) ? $afullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">{{__('video.download') }}</a>
+                                                            <span class="download btn btn-success">
+                                                                <a href="<?= isset($afullFormats->url) ? $afullFormats->url : '' ?>" class="dwn_load" download target="_BLANK"><i class="fa fa-download"></i> {{__('video.download') }}</a>
                                                             </span>
                                                             <span>
                                                                 <button class="share-vdo" id ="<?= isset($afullFormats->url) ? $afullFormats->url : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
@@ -133,7 +134,7 @@
                                                 <th>{{__('video.quality') }}</th>
                                                 <th>{{__('video.size') }}</th>
                                                 <th></th>
-                                                <th>{{__('video.download_links') }}</th>			 
+<!--                                                <th>{{__('video.download_links') }}</th>-->
                                             </tr>
                                             <?php
                                             foreach ($audioFormat as $aformat):
@@ -151,11 +152,11 @@
                                                         <td><?= App\Helpers\Y2D2::getFileSize($audiofullFormats->url) ?></td>
                                                         <td></td>
                                                         <td>
-                                                            <span class="download">
-                                                                <a href="<?= isset($audiofullFormats->url) ? $audiofullFormats->url : '' ?>" class="dwn_load" download target="_BLANK">{{__('video.download') }}</a>
+                                                            <span class="download btn btn-success">
+                                                                <a href="<?= isset($audiofullFormats->url) ? $audiofullFormats->url : '' ?>" class="dwn_load" download target="_BLANK"><i class="fa fa-download"></i> {{__('video.download') }}</a>
                                                             </span>
                                                             <span>
-                                                                <button class="share-vdo" id = "<?= isset($audiofullFormats->url) ? $audiofullFormats->url : '' ?>" onclick ="generateLinks(this.id)"  data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
+                                                                <button class="share-vdo" id = "<?= isset($audiofullFormats->url) ? $audiofullFormats->url : '' ?>" onclick ="generateLinks(this.id)"  data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -173,7 +174,7 @@
                                               <td><?= App\Helpers\Y2D2::getFileSize($mp3File) ?></td>
                                               <td></td>
                                               <td>
-                                              <span class="download">
+                                              <span class="download btn btn-success">
                                               <a href="<?= isset($mp3File) ? $mp3File : '' ?>" class="dwn_load" download target="_BLANK">{{__('video.download') }}</a>
                                               </span>
                                               <span>
@@ -200,7 +201,7 @@
                                                             <th>{{__('video.type') }}</th>
                                                             <th>{{__('video.format') }}</th>
                                                             <th>{{__('video.timeline') }}</th>
-                                                            <th></th>			 
+                                                            <th></th>
                                                         </tr>
                                                         <?php
                                                         foreach ($videoInfo->captions as $captions):
@@ -222,14 +223,14 @@
                                                                     </div>
                                                                 </td>
                                                                 <td >
-                                                                    <span class="download caption">
-                                                                        <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load preview" target="_BLANK">{{__('video.preview') }}</a>
+                                                                    <span class="download caption btn btn-success">
+                                                                        <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load preview" target="_BLANK"> <i class="fa fa-download"></i> {{__('video.preview') }}</a>
                                                                     </span>
-                                                                    <span class="download">
-                                                                        <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" data-href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load caption-downloader" target="_BLANK">{{__('video.download') }}</a>
+                                                                    <span class="download btn btn-success">
+                                                                        <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" data-href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load caption-downloader" target="_BLANK"><i class="fa fa-download"></i> {{__('video.download') }}</a>
                                                                     </span>
                 <!--                                                            <span>
-                                                                        <button class="share-vdo" id ="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
+                                                                        <button class="share-vdo" id ="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
                                                                     </span>-->
                                                                 </td>
                                                             </tr>
@@ -255,14 +256,14 @@
                                                                         </div>
                                                                     </td>
                                                                     <td >
-                                                                        <span class="download caption">
-                                                                            <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captionsAutoGenerated->languageName->simpleText) ?>" href="<?= $captionAutoGenerateURL . '&asr_langs=' . $CPasrLang . '&signature=' . $CPsignatureLang . '&expire=' . $CPexpire . '&tlang=' . $captionsAutoGenerated->languageCode . '&fmt=ttml' ?>" class="dwn_load preview" target="_BLANK">{{__('video.preview') }}</a>
+                                                                        <span class="download caption btn btn-success">
+                                                                            <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captionsAutoGenerated->languageName->simpleText) ?>" href="<?= $captionAutoGenerateURL . '&asr_langs=' . $CPasrLang . '&signature=' . $CPsignatureLang . '&expire=' . $CPexpire . '&tlang=' . $captionsAutoGenerated->languageCode . '&fmt=ttml' ?>" class="dwn_load preview" target="_BLANK"><i class="fa fa-eye"></i> {{__('video.preview') }}</a>
                                                                         </span>
-                                                                        <span class="download">
-                                                                            <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" data-href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load caption-downloader" target="_BLANK">{{__('video.download') }}</a>
+                                                                        <span class="download btn btn-success">
+                                                                            <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" data-href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load caption-downloader" target="_BLANK"><i class="fa fa-download"></i> {{__('video.download') }}</a>
                                                                         </span>
                     <!--                                                            <span>
-                                                                            <button class="share-vdo" id ="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>									
+                                                                            <button class="share-vdo" id ="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
                                                                         </span>-->
                                                                     </td>
                                                                 </tr>
@@ -280,7 +281,7 @@
                                                             <th>{{__('video.2nd_language') }}</th>
                                                             <th>{{__('video.format') }}</th>
                                                             <th>{{__('video.timeline') }}</th>
-                                                            <th></th>			 
+                                                            <th></th>
                                                         </tr>
                                                         <tr>
                                                             <td>
@@ -322,7 +323,7 @@
                                                                 <span class="download caption">
                                                                     <a class="dwn_load preview" data-type="preview">{{__('video.preview') }}</a>
                                                                 </span>
-                                                                <span class="download">
+                                                                <span class="download btn btn-success">
                                                                     <a class="dwn_load preview" data-type="download">{{__('video.download') }}</a>
                                                                 </span>
                                                             </td>
@@ -336,19 +337,19 @@
                                         <?php endif; ?>
 <!--<div class="tips"><span>{{__('video.tip') }}</span>{{__('video.tip_detail') }}</div>-->
                                     </div>
-                                </div>						  
+                                </div>
                             </div>
-                        </div>					
-                    </div>					
-                </div>		
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>	
+        </div>
     </div>
 </section>
 <!--inner page content End here-->
 <!-- Modal start here -->
 <div class="modal fade" id="share" role="dialog">
-    <div class="modal-dialog">    
+    <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -359,13 +360,13 @@
                 <div class="col-md-12 model-links">
                     <a onclick="openWindowWithPost()">{{__('video.save_to') }}</a>
                 </div>
-            </div> 
-        </div>      
+            </div>
+        </div>
     </div>
 </div>
-<!-- Modal End here -->	
+<!-- Modal End here -->
 <div class="modal fade" id="share-video" role="dialog">
-    <div class="modal-dialog">    
+    <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -377,12 +378,12 @@
                     <div> <img src="<?= url('qrcodes/' . $videoInfo->video_id . '.png') ?>"/></div   >
                     <a data-clipboard-text="<?= url('video-search?search=' . $videoInfo->video_id); ?>" >{{__('video.copy_links') }}</a>
                 </div>
-            </div> 
-        </div>      
+            </div>
+        </div>
     </div>
 </div>
 <div class="modal fade" id="caption" role="dialog">
-    <div class="modal-dialog">    
+    <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -392,13 +393,13 @@
             </div>
             <div class="modal-body row">
 
-            </div> 
-        </div>      
+            </div>
+        </div>
     </div>
 </div>
 <!-- Modal start here -->
 <div class="modal fade" id="video-player" role="dialog">
-    <div class="modal-dialog">    
+    <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -408,12 +409,12 @@
             <div class="modal-body row">
                 <div class="share-model-inr">
                     <iframe width="auto" height="540" src="https://www.youtube.com/embed/<?= $videoInfo->video_id ?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                </div>		   
-            </div> 
-        </div>      
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<!-- Modal End here -->	
+<!-- Modal End here -->
 <form id="googledriveshare" method="get" action="<?= route('glogin') ?>" target="TheWindow" style="
       display: none;
       ">

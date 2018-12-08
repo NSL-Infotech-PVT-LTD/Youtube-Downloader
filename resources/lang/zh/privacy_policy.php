@@ -1,27 +1,50 @@
 <?php
 
 return [
-
     /*
-    |--------------------------------------------------------------------------
-    | Pagination Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used by the paginator library to build
-    | the simple pagination links. You are free to change them to anything
-    | you want to customize your views to better match your application.
-    |
-    */
-
-
- 
-
-'privacy' => '隐私',
-'policy' => '政策',
-'sub_title' => '印刷和排版行业的虚拟文本。',
-'contant' => 'Lorem Ipsum只是印刷和排版行业的虚拟文本。 Lorem Ipsum自16世纪以来一直是业界标准的虚拟文本，当时一个未知的打印机采用了类型的厨房，并将其拼凑成一个类型的样本书。它不仅存活了五个世纪，而且还延伸到电子排版它基本保持不变。它在20世纪60年代推出了包含Lorem Ipsum段落的Letraset表格，最近发布了包括Lorem Ipsum版本在内的Aldus PageMaker等桌面出版软件。',
+      |--------------------------------------------------------------------------
+      | Pagination Language Lines
+      |--------------------------------------------------------------------------
+      |
+      | The following language lines are used by the paginator library to build
+      | the simple pagination links. You are free to change them to anything
+      | you want to customize your views to better match your application.
+      |
+     */
 
 
 
 
+    'privacy' => '隐私',
+    'policy' => '政策',
+    'we_operate' => '我们运营提供SERVICE的<a href="https://y2d2.com"> https://y2d2.com </a>网站。',
+    'inform_website_visitors' => '如果有人决定使用我们的服务，此页面用于通知网站访问者有关我们收集，使用和披露个人信息的政策。',
+    'choose' => '如果您选择使用我们的服务，则表示您同意收集和使用与本政策相关的信息。我们收集的个人信息用于提供和改进服务。除非本隐私政策中另有说明，否则我们不会向任何人使用或分享您的信息。',
+    'the_terms' => '本隐私政策中使用的术语与我们的使用条款具有相同的含义，可通过<a href="https://y2d2.com"> https://y2d2.com </a>访问，除非另有说明本隐私政策中定义的',
+    'information' => '信息收集和使用',
+    'for_a_better' => '为了在使用我们的服务时获得更好的体验，我们可能会要求您向我们提供某些个人身份信息，包括但不限于您的姓名，电话号码和邮寄地址。我们收集的信息将用于联系或识别您。',
+    'log' => '日志数据',
+    'we_want' => '我们想通知您，无论您何时访问我们的服务，我们都会收集您的浏览器发送给我们的信息，称为日志数据。此日志数据可能包括计算机的Internet协议（“IP”）地址，浏览器版本，您访问的服务页面，访问的时间和日期，在这些页面上花费的时间以及其他统计信息。',
+    'cookies' => '饼干',
+    'cookies_are' => 'Cookie是具有少量数据的文件，通常使用匿名唯一标识符。这些内容将从您访问的网站发送到您的浏览器，并存储在您计算机的硬盘上。',
+    'our_website' => '我们的网站使用这些“cookies”来收集信息并改进我们的服务。您可以选择接受或拒绝这些cookie，并知道何时将cookie发送到您的计算机。如果您选择拒绝我们的cookie，您可能无法使用我们服务的某些部分。',
+    'service_provider' => '服务供应商',
+    'third_party' => '由于以下原因，我们可能雇用第三方公司和个人：',
+    'to_facilitate' => '为了方便我们的服务;',
+    'to_provide' => '代表我们提供服务;',
+    'service_related' => '执行与服务相关的服务;',
+    'to_assist' => '协助我们分析我们的服务使用方式;',
+    'however' => '我们希望通知我们的服务用户，这些第三方可以访问您的个人信息。原因是代表我们执行分配给他们的任务。但是，他们有义务不将信息透露或用于任何其他目的。',
+    'security' => '安全',
+    'personal_information' => '我们非常重视您向我们提供您的个人信息，因此我们正在努力使用商业上可接受的方式来保护您的个人信息。但请记住，没有通过互联网传输的方法或电子存储方法是100％安全可靠的，我们无法保证其绝对的安全性。',
+    'links' => '与其他网站的链接',
+    'our_Service' => '我们的服务可能包含其他网站的链接。如果您单击第三方链接，您将被定向到该站点。请注意，这些外部网站不是由我们运营。因此，我们强烈建议您查看这些网站的隐私政策。我们无法控制任何第三方网站或服务的内容，隐私政策或做法，也不承担任何责任。',
+    'children' => '儿童的隐私',
+    'address' => '我们的服务不适用于13岁以下的任何人。我们不会故意收集13岁以下儿童的个人身份信息。如果我们发现13岁以下的儿童向我们提供了个人信息，我们会立即从我们的服务器中删除此信息。如果您是父母或监护人并且您知道您的孩子向我们提供了个人信息，请与我们联系，以便我们能够采取必要的行动。',
+    'changes' => '本隐私政策的变更',
+    'we_may_update' => '
+我们可能会不时更新我们的隐私政策。因此，我们建议您定期查看此页面以了解任何更改。我们将通过在此页面上发布新的隐私政策来通知您任何更改。这些更改在此页面上发布后立即生效。',
+    'contactus' => '联系我们',
+    'please_contact_us' => '如果您对我们的隐私政策有任何疑问，请联系我们：',
+    'email' => '通过电子邮件：<a href="mailto:info@y2d2.com"> info@y2d2.com </a>',
 ];
