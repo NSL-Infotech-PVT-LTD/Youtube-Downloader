@@ -4,7 +4,7 @@
 <section class="content-area home">
     <div class="container">
         <div class="row banner">
-            <div class="col-md-8 search-video">	
+            <div class="col-md-8 search-video">
                 <h1  class="heading"><?= htmlspecialchars_decode(__('home.online_youtube_download')) ?></h1>
                 <h4>{{__('home.download_head4')}}</h4>
                 <div class="search-container">
@@ -15,7 +15,7 @@
                 </div>
                 <div class="share">
                     <ul>
-                        <li class="share-hd">{{__('home.share_it')}} <i class="fa fa-share-alt" aria-hidden="true"></i></li>
+<!--                        <li class="share-hd">{{__('home.share_it')}} <i class="fa fa-share-alt" aria-hidden="true"></i></li>-->
                         <?php // \Share::page('https://y2d2.com','Try Best Youtube to MP3 & MP4 Converter & Downloader - Y2D2.com!', [], '', '')->facebook()->twitter()->googlePlus();?>
                         <li class="addthis_inline_share_toolbox"></li>
                         <!--<li class="more"><a><i class="fa fa-ellipsis-h" aria-hidden="true"></i><span> {{__('home.social_more') }}</span></a></li>-->
@@ -58,7 +58,7 @@
                     </div>
                 </div>
             </div>
-        </div>	
+        </div>
     </div>
 </section>
 <!--inner page content End here-->

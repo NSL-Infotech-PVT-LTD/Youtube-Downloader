@@ -1,17 +1,16 @@
 <?php
 
 return [
-
     /*
-    |--------------------------------------------------------------------------
-    | Pagination Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used by the paginator library to build
-    | the simple pagination links. You are free to change them to anything
-    | you want to customize your views to better match your application.
-    |
-    */
+      |--------------------------------------------------------------------------
+      | Pagination Language Lines
+      |--------------------------------------------------------------------------
+      |
+      | The following language lines are used by the paginator library to build
+      | the simple pagination links. You are free to change them to anything
+      | you want to customize your views to better match your application.
+      |
+     */
 
     'online_youtube_download' => 'Online <span>Youtube</span> Downloader',
     'download_head4' => 'Download video, audio and subtitle from Youtube',
@@ -21,7 +20,7 @@ return [
     'social_twitter' => 'Twitter',
     'social_google_plus' => 'Google Plus',
     'social_more' => 'More',
-    'head_free&easy' => 'Free and easy',
+    'head_free&easy' => 'Free and Easy',
     'head_free&easy_detail' => "Free to use and doesn't require any installation or registration.",
     'head_video' => 'Get Video',
     'head_video_detail' => 'Download videos in MP4, WEBM. 3GP from 144p to 4k',

@@ -3,17 +3,17 @@
 <!--inner page content start here-->
 <section class="content-area faq">
     <div class="container">
-        <div class="row banner content">
+        <div class="row banner content col-md-10 col-md-offset-1">
             <h1 class="heading">{{__('faq.frequently_asked') }}<span>{{__('faq.questions') }}</span></h1>
             <p class="sub-heading">{{__('faq.do_you') }}</p>
-            <div class="col-md-8">				
+            <div class="col-md-8">
 
                 <div class="panel-group" id="accordion">
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne">
+                                <a class="accordion-toggle accordion" data-toggle="collapse" data-target="#collapseOne">
                                     <h5>{{__('faq.Collapsible_1') }}</h5>
                                 </a>
                             </h4>
@@ -27,7 +27,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseTwo">
+                                <a class="accordion-toggle collapsed accordion" data-toggle="collapse" data-target="#collapseTwo">
                                     <h5>{{__('faq.Collapsible_2') }}</h5>
                                 </a>
                             </h4>
@@ -41,7 +41,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapseThree">
+                                <a class="accordion-toggle collapsed accordion" data-toggle="collapse" data-target="#collapseThree">
                                     <h5>{{__('faq.Collapsible_3') }}</h5>
                                 </a>
                             </h4>
@@ -56,7 +56,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapse4">
+                                <a class="accordion-toggle collapsed accordion" data-toggle="collapse" data-target="#collapse4">
                                     <h5>{{__('faq.Collapsible_4') }}</h5>
                                 </a>
                             </h4>
@@ -70,7 +70,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapse5">
+                                <a class="accordion-toggle collapsed accordion" data-toggle="collapse" data-target="#collapse5">
                                     <h5>{{__('faq.Collapsible_5') }}</h5>
                                 </a>
                             </h4>
@@ -98,7 +98,7 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#collapse7">
+                                <a class="accordion-toggle collapsed accordion" data-toggle="collapse" data-target="#collapse7">
                                     <h5>{{__('faq.Collapsible_7') }}</h5>
                                 </a>
                             </h4>
@@ -114,17 +114,17 @@
                 </div>
             </div>
 
-            <div class="col-md-4">	
+            <div class="col-md-4">
 
                 <div class="help-inner panel panel-default">
                     <h5><i class="fa fa-question-circle"></i> {{__('faq.helps') }}</h5>
                     <p> {{__('faq.cant_find') }}<br>
-                        {{__('faq.we_are_here') }}</p>				
+                        {{__('faq.we_are_here') }}</p>
                     <h5><i class="fa fa-comment-o"></i> {{__('faq.ask_question_in') }} <a href="">{{__('faq.form_page') }}</a></h5>
                     <h5><i class="fa fa-envelope-o"></i> {{__('faq.contact_us_by') }}<a href="">{{__('faq.form_page') }}</a>	</h5>
                 </div>
             </div>
-        </div>	
+        </div>
     </div>
 </section>
 <!--inner page content End here-->

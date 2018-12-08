@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'auto_generated' => 'Auto Generated',
     'preview' => 'Preview',
     'duration' => 'Duration',
@@ -20,7 +19,7 @@ return [
     'quality' => 'Quality',
     'resolution' => 'Resolution',
     'size' => 'Size',
-    'download_links' => 'Download Links',
+    'download_links' => 'Download links',
     'download' => 'Download',
     'video_without_audio' => 'Video without Audio',
     'timeline' => 'Timeline',
