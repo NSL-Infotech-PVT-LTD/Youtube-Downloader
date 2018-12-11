@@ -519,6 +519,7 @@ table {
     padding: 15px 20px;
     border-radius: 0;
     border: none;
+    text-decoration:none;
 }
 .video_desciption .nav-tabs, .video_desciption .nav-tabs:hover {
     border-bottom: none;
@@ -846,6 +847,7 @@ select.form-control.format {
 .video_desciption ul.nav-tabs li > a {padding: 15px 72px;}
 div.col-md-8 > div > div > ul > li:nth-child(4) > div > a {
     padding: 0 20px 0 0;
+
 }
 
 #subtitle > ul > li > a {
@@ -1204,6 +1206,9 @@ span.badge.badge-danger {
 .accordion{text-decoration:none !important;}
 .contact-form{z-index:1;}
 .qrcode-set{margin-top: 2px;}
+.sitemap.text-center a:hover {
+    text-decoration: none;
+}
 
 
 
