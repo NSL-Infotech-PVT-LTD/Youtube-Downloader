@@ -60,6 +60,9 @@ Route::get('/terms', function () {
 Route::get('/privacy-policy', function () {
     return view('privacy-policy');
 });
+Route::get('/site-map', function () {
+    return view('site-map');
+});
 
 Auth::routes();
 
