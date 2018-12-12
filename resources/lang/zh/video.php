@@ -3,6 +3,7 @@
 return [
 
     'auto_generated' => '自动生成',
+    'auto_transalted' => '自动翻译',
     'preview' => '预览',
     'duration' => '持续时间',
     'views' => '查看',

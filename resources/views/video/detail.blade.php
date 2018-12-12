@@ -54,47 +54,55 @@
                                                 <th>{{__('video.resolution') }}</th>
                                                 <th>{{__('video.size') }}</th>
                                                 <th></th>
-<!--                                                <th>{{__('video.download_links') }}</th>-->
+                                                <th></th>
                                             </tr>
                                             <?php
                                             $threeGPCNT = 0;
-                                            foreach ($videoInfo->full_formats as $fullFormats):
+                                            foreach ($videoFormat as $format):
+                                                foreach ($videoInfo->full_formats as $fullFormats):
 //                                                $formatType = explode(';', str_replace('video/', '', $fullFormats->type))
-                                                $formatType = explode('.', $fullFormats->filename);
-                                                ?>
-                                                <tr>
-                                                    <td><?= $formatType['1'] ?></td>
-                                                    <?php
-                                                    if ($threeGPCNT > 0):
-                                                        if ($formatType['1'] == '3gp')
-                                                            $formatType['1'] = '3gpp';
+                                                    $formatType = explode('.', $fullFormats->filename);
+                                                    $formatIndex = count($formatType) - 1;
+//                                                dd(count($formatType));
+                                                    if ($formatType[$formatIndex] != $format):
+                                                        continue;
                                                     endif;
-                                                    $formatType['5'] = (strpos($fullFormats->quality, 'hd') !== false) ? str_replace('hd', '', $fullFormats->quality . 'p') : $formatType['1'];
                                                     ?>
-                                                    <td><?= ($fullFormats->quality == 'medium' || $fullFormats->quality == 'small') ? $quality[$formatType['1']] : ((strpos($fullFormats->quality, 'hd') !== false) ? str_replace('hd', '', $fullFormats->quality . 'p') . ' <span class="badge badge-danger">HD</span>' : str_replace('hd', '', $fullFormats->quality . 'p')) ?></td>
-                                                    <td><?= $resolution[$formatType['5']] ?></td>
-                                                    <td><?= App\Helpers\Y2D2::getFileSize($fullFormats->url) ?></td>
-                                                    <td>
-                                                        <span class="download  btn btn-success">
-                                                            <a href="<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>" class="dwn_load" download="<?= str_replace(' ', '_', $videoInfo->title . '.' . $formatType['1']) ?>" target="_BLANK"><i class="fa fa-download"></i>  {{__('video.download') }}</a>
-                                                        </span>
-                                                        <span>
-                                                            <button class="share-vdo"  id= "<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <?php
-                                                if ($formatType['1'] == '3gp'):
-                                                    $threeGPCNT++;
-                                                endif;
+                                                    <tr>
+                                                        <td><?= $formatType[$formatIndex] ?></td>
+                                                        <?php
+                                                        if ($threeGPCNT > 0):
+                                                            if ($formatType[$formatIndex] == '3gp')
+                                                                $formatType[$formatIndex] = '3gpp';
+                                                        endif;
+                                                        $formatType['5'] = (strpos($fullFormats->quality, 'hd') !== false) ? str_replace('hd', '', $fullFormats->quality . 'p') : $formatType[$formatIndex];
+                                                        $vQuality = ($fullFormats->quality == 'medium' || $fullFormats->quality == 'small') ? $quality[$formatType[$formatIndex]] : $fullFormats->quality;
+                                                        ?>
+                                                        <td><?= (strpos($vQuality, 'hd') !== false) ? str_replace('hd', '', $vQuality) . 'p <span class="badge badge-danger">HD</span>' : $vQuality . 'p' ?></td>
+                                                        <td><?= $resolution[$formatType['5']] . ' x ' . str_replace('hd', '', $vQuality) ?></td>
+                                                        <td><?= App\Helpers\Y2D2::getFileSize($fullFormats->url) ?></td>
+                                                        <td>
+                                                            <span class="download">
+                                                                <a href="<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>" class="dwn_load btn btn-success" download="<?= str_replace(' ', '_', $videoInfo->title . '.' . $formatType[$formatIndex]) ?>" target="_BLANK"><i class="fa fa-download"></i>  {{__('video.download') }}</a>
+                                                            </span>
+                                                            <span>
+                                                                <button class="share-vdo"  id= "<?= isset($fullFormats->url) ? $fullFormats->url : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                    if ($formatType[$formatIndex] == '3gp'):
+                                                        $threeGPCNT++;
+                                                    endif;
+                                                endforeach;
                                             endforeach;
                                             ?>
                                         </table>
-
                                         <table>
                                             <div class="video-heading">{{__('video.video_without_audio') }}</div>
                                             <?php
-                                            foreach ($videoFormat as $format):
+                                            foreach ($videoFormatWithoutAudio as $format):
+                                                $ki = 0;
                                                 foreach ($videoInfo->adaptive_formats as $afullFormats):
                                                     $aformatType = explode(';', str_replace('video/', '', $afullFormats->type));
                                                     if (!isset($afullFormats->quality_label))
@@ -104,16 +112,21 @@
                                                         continue;
                                                     endif;
 
+                                                    if ($ki > 2):
+                                                        continue;
+                                                    endif;
+                                                    $ki++;
                                                     $aformatTypeT = explode('.', $afullFormats->filename);
+                                                    $aformatTypeTIndex = count($aformatTypeT) - 1;
                                                     ?>
                                                     <tr>
-                                                        <td><?= $aformatTypeT['1'] ?></td>
+                                                        <td><?= $aformatTypeT[$aformatTypeTIndex] ?></td>
                                                         <td><?= isset($afullFormats->quality_label) ? ($afullFormats->quality_label >= 720) ? $afullFormats->quality_label . ' <span class="badge badge-danger">HD</span>' : $afullFormats->quality_label : '-' ?> </td>
                                                         <td><?= isset($afullFormats->size) ? $afullFormats->size : '-' ?></td>
                                                         <td><?= App\Helpers\Y2D2::getFileSize($afullFormats->url) ?></td>
                                                         <td>
-                                                            <span class="download btn btn-success">
-                                                                <a href="<?= isset($afullFormats->url) ? $afullFormats->url : '' ?>" class="dwn_load" download target="_BLANK"><i class="fa fa-download"></i> {{__('video.download') }}</a>
+                                                            <span class="download">
+                                                                <a href="<?= isset($afullFormats->url) ? $afullFormats->url : '' ?>" class="dwn_load btn btn-success" download target="_BLANK"><i class="fa fa-download"></i> {{__('video.download') }}</a>
                                                             </span>
                                                             <span>
                                                                 <button class="share-vdo" id ="<?= isset($afullFormats->url) ? $afullFormats->url : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
@@ -134,11 +147,13 @@
                                                 <th>{{__('video.quality') }}</th>
                                                 <th>{{__('video.size') }}</th>
                                                 <th></th>
-<!--                                                <th>{{__('video.download_links') }}</th>-->
+                                                <th></th>
+                                                <!--<th>{{__('video.download_links') }}</th>-->
                                             </tr>
                                             <?php
                                             foreach ($audioFormat as $aformat):
-                                                foreach ($videoInfo->adaptive_formats as $audiofullFormats):
+                                                foreach ($adaptive_formats as $audiofullFormats):
+                                                    $audiofullFormats = (object) $audiofullFormats;
                                                     $audioformatType = explode(';', $audiofullFormats->type);
 
 //                                                dd($audiofullFormats);
@@ -152,8 +167,8 @@
                                                         <td><?= App\Helpers\Y2D2::getFileSize($audiofullFormats->url) ?></td>
                                                         <td></td>
                                                         <td>
-                                                            <span class="download btn btn-success">
-                                                                <a href="<?= isset($audiofullFormats->url) ? $audiofullFormats->url : '' ?>" class="dwn_load" download target="_BLANK"><i class="fa fa-download"></i> {{__('video.download') }}</a>
+                                                            <span class="download">
+                                                                <a href="<?= isset($audiofullFormats->url) ? $audiofullFormats->url : '' ?>" class="dwn_load  btn btn-success" download target="_BLANK"><i class="fa fa-download"></i> {{__('video.download') }}</a>
                                                             </span>
                                                             <span>
                                                                 <button class="share-vdo" id = "<?= isset($audiofullFormats->url) ? $audiofullFormats->url : '' ?>" onclick ="generateLinks(this.id)"  data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
@@ -204,44 +219,60 @@
                                                             <th></th>
                                                         </tr>
                                                         <?php
-                                                        foreach ($videoInfo->captions as $captions):
-                                                            ?>
-                                                            <tr>
-                                                                <td><?= $captions->name->simpleText ?></td>
-                                                                <td>{{__('video.uploaded') }}</td>
-                                                                <td>
-                                                                    <select class="form-control format">
-                                                                        <?php foreach ($captionFormat as $k => $format): ?>
-                                                                            <option><?= $format ?></option>
-                                                                        <?php endforeach; ?>
-                                                                    </select>
-                                                                </td>
-                                                                <td>
-                                                                    <div class="checkbox">
-                                                                        <input name="textonly" type="checkbox" value="" class="textonly" checked="checked" id="single-textonly<?= $k ?>">
-                                                                        <!--<label for="single-textonly<?= $k ?>">{{__('video.timeline') }}</label>-->
-                                                                    </div>
-                                                                </td>
-                                                                <td >
-                                                                    <span class="download caption btn btn-success">
-                                                                        <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load preview" target="_BLANK"> <i class="fa fa-download"></i> {{__('video.preview') }}</a>
-                                                                    </span>
-                                                                    <span class="download btn btn-success">
-                                                                        <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" data-href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load caption-downloader" target="_BLANK"><i class="fa fa-download"></i> {{__('video.download') }}</a>
-                                                                    </span>
-                <!--                                                            <span>
-                                                                        <button class="share-vdo" id ="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
-                                                                    </span>-->
-                                                                </td>
-                                                            </tr>
-                                                        <?php endforeach; ?>
+                                                        foreach (['auto-generated', 'auto-generated'] as $k => $type):
+                                                            foreach ($videoInfo->captions as $captions):
+                                                                if ($k == '1'):
+                                                                    if (strpos($captions->name->simpleText, $type) === true):
+                                                                        continue;
+                                                                    endif;
+                                                                else:
+                                                                    if (strpos($captions->name->simpleText, $type) === false):
+                                                                        continue;
+                                                                    endif;
+                                                                endif;
+                                                                ?>
+                                                                <tr>
+                                                                    <td><?= ($k == 0) ? str_replace('(auto-generated)', '', $captions->name->simpleText) : $captions->name->simpleText ?></td>
+                                                                    <td><?= ($k == 0) ? __('video.auto_generated') : __('video.uploaded') ?></td>
+                                                                    <td>
+                                                                        <select class="form-control format">
+                                                                            <?php foreach ($captionFormat as $k => $format): ?>
+                                                                                <option><?= $format ?></option>
+                                                                            <?php endforeach; ?>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="checkbox">
+                                                                            <input name="textonly" type="checkbox" value="" class="textonly" checked="checked" id="single-textonly<?= $k ?>">
+                                                                            <!--<label for="single-textonly<?= $k ?>">{{__('video.timeline') }}</label>-->
+                                                                        </div>
+                                                                    </td>
+                                                                    <td >
+                                                                        <span class="download caption">
+                                                                            <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load preview btn btn-success" target="_BLANK"> <i class="fa fa-eye"></i> {{__('video.preview') }}</a>
+                                                                        </span>
+                                                                        <span class="download">
+                                                                            <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" data-href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load caption-downloader btn btn-success" target="_BLANK"><i class="fa fa-download"></i> {{__('video.download') }}</a>
+                                                                        </span>
+                    <!--                                                            <span>
+                                                                            <button class="share-vdo" id ="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                                                                        </span>-->
+                                                                    </td>
+                                                                </tr>
+                                                                <?php
+                                                            endforeach;
+                                                        endforeach;
+                                                        ?>
                                                         <?php
                                                         foreach ($videoInfo->captions_auto_generated as $ki => $captionsAutoGenerated):
                                                             if ((isset($CPsignatureLang) && isset($CPasrLang) && isset($CPexpire))):
+
+                                                                $captionURL = 'https://www.youtube.com/api/timedtext?lang=en&xorp=True&sparams=' . urlencode($sparams) . '&hl=en&asr_langs=' . urlencode($CPasrLang) . '&fmt=ttml&v=' . $videoInfo->video_id . '&caps=asr&expire=' . $CPexpire . '&tlang=' . $captionsAutoGenerated->languageCode . '&key=yttt1&signature=' . $CPsignatureLang . '&xoaf=1';
+                                                                $captionURL.=($sparams == 'asr_langs,caps,v,expire') ? '&name=en' : '';
                                                                 ?>
                                                                 <tr>
                                                                     <td><?= $captionsAutoGenerated->languageName->simpleText ?></td>
-                                                                    <td>{{__('video.auto_generated') }}</td>
+                                                                    <td>{{__('video.auto_transalted') }}</td>
                                                                     <td>
                                                                         <select class="form-control format">
                                                                             <?php foreach ($captionFormat as $format): ?>
@@ -256,11 +287,14 @@
                                                                         </div>
                                                                     </td>
                                                                     <td >
-                                                                        <span class="download caption btn btn-success">
-                                                                            <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captionsAutoGenerated->languageName->simpleText) ?>" href="<?= $captionAutoGenerateURL . '&asr_langs=' . $CPasrLang . '&signature=' . $CPsignatureLang . '&expire=' . $CPexpire . '&tlang=' . $captionsAutoGenerated->languageCode . '&fmt=ttml' ?>" class="dwn_load preview" target="_BLANK"><i class="fa fa-eye"></i> {{__('video.preview') }}</a>
+                                                                        <span class="download caption">
+                                                                            <?php /* ?>
+                                                                              <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captionsAutoGenerated->languageName->simpleText) ?>" href="<?= $captionAutoGenerateURL . '&asr_langs=' . $CPasrLang . '&signature=' . $CPsignatureLang . '&expire=' . $CPexpire . '&tlang=' . $captionsAutoGenerated->languageCode . '&fmt=ttml' ?>" class="dwn_load preview" target="_BLANK"><i class="fa fa-eye"></i> {{__('video.preview') }}</a>
+                                                                              <? */ ?>
+                                                                            <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captionsAutoGenerated->languageName->simpleText) ?>" href="<?= $captionURL ?>" class="dwn_load preview btn btn-success" target="_BLANK"><i class="fa fa-eye"></i> {{__('video.preview') }}</a>
                                                                         </span>
-                                                                        <span class="download btn btn-success">
-                                                                            <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" data-href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load caption-downloader" target="_BLANK"><i class="fa fa-download"></i> {{__('video.download') }}</a>
+                                                                        <span class="download">
+                                                                            <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" data-href="<?= $captionURL ?>" class="dwn_load caption-downloader btn btn-success" target="_BLANK"><i class="fa fa-download"></i> {{__('video.download') }}</a>
                                                                         </span>
                     <!--                                                            <span>
                                                                             <button class="share-vdo" id ="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
@@ -321,10 +355,10 @@
                                                             </td>
                                                             <td >
                                                                 <span class="download caption">
-                                                                    <a class="dwn_load preview" data-type="preview">{{__('video.preview') }}</a>
+                                                                    <a class="dwn_load preview btn btn-success" data-type="preview"><i class="fa fa-eye"></i> {{__('video.preview') }}</a>
                                                                 </span>
-                                                                <span class="download btn btn-success">
-                                                                    <a class="dwn_load preview" data-type="download">{{__('video.download') }}</a>
+                                                                <span class="download">
+                                                                    <a class="dwn_load preview btn btn-success" data-type="download"><i class="fa fa-download"></i>{{__('video.download') }}</a>
                                                                 </span>
                                                             </td>
                                                         </tr>

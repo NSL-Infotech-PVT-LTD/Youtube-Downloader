@@ -2,6 +2,7 @@
 
 return [
     'auto_generated' => 'Auto Generated',
+    'auto_transalted' => 'Auto Transalted',
     'preview' => 'Preview',
     'duration' => 'Duration',
     'views' => 'Views',

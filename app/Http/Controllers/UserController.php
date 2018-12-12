@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Validator;
 
 class UserController extends Controller {
 
@@ -108,15 +109,25 @@ class UserController extends Controller {
 
     public function contactUS(Request $request) {
         try {
-            $to_name = 'Support';
-            $to_email = 'gauravsethi376@gmail.com';
-            $data = ['name' => $request->name, "email" => $request->email, 'support_msg' => $request->message];
-            \Mail::send(['html' => 'emails.contactus'], $data, function($message) use ($to_name, $to_email) {
-//            dd($data);
-                $message->to($to_email, $to_name)->subject('Support Y2D2.com');
-                $message->from('info@y2d2.com', 'Y2D2');
-            });
-            return \Redirect::back()->with(['message' => 'Thanks for contacting support']);
+            $rules = [
+                'name' => 'required',
+                'email' => 'required|email',
+                'support_msg' => 'required|min:10|max:10',
+                'g-recaptcha-response' => 'required|recaptcha'
+            ];
+            $validator = Validator::make(Input::all(), $rules);
+            if ($validator->fails()) {
+                return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
+            } else {
+                $to_name = 'Support';
+                $to_email = 'gauravsethi376@gmail.com';
+                $data = ['name' => $request->name, "email" => $request->email, 'support_msg' => $request->message];
+                \Mail::send(['html' => 'emails.contactus'], $data, function($message) use ($to_name, $to_email) {
+                    $message->to($to_email, $to_name)->subject('Support Y2D2.com');
+                    $message->from('info@y2d2.com', 'Y2D2');
+                });
+                return \Redirect::back()->with(['message' => 'Thanks for contacting support']);
+            }
         } catch (\Exception $ex) {
             return \Redirect::back()->with(['error' => 'Something Went Wrong']);
         }

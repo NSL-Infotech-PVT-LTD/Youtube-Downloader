@@ -8,12 +8,13 @@ use Masih\YoutubeDownloader\YoutubeDownloader;
 
 class VideoController extends Controller {
 
-    public $videoFormat = ['mp4', 'webm'];
+    public $videoFormat = ['mp4', 'webm', '3gp', '3gpp'];
+    public $videoFormatWithoutAudio = ['mp4', 'webm'];
     public $audioFormat = ['audio/mp4', 'audio/webm'];
     public $videoResolution = ['1080p', '720p', '360p', '240p'];
     private $cardLimit = '8';
-    public $resolution = ['720p' => '1280 x 720', 'mp4' => '640 x 360', '3gp' => '320 x 180', '3gpp' => '176 x 144', 'webm' => '640 x 360'];
-    public $quality = ['mp4' => '360p', '3gp' => '180p', '3gpp' => '144p', 'webm' => '360p'];
+    public $resolution = ['720p' => '1280', 'mp4' => '640', '3gp' => '320 ', '3gpp' => '176 ', 'webm' => '640'];
+    public $quality = ['mp4' => '360', '3gp' => '180', '3gpp' => '144', 'webm' => '360'];
 //    public $captionFormat = ['srt', 'txt', 'xml', 'ass', 'lrc', 'vtt', 'sbv'];
     public $captionFormat = ['srt', 'txt'];
     public $captionAutoGenerateURL = 'https://www.youtube.com/api/timedtext?lang=en&xorp=True&sparams=asr_langs%2Ccaps%2Cv%2Cxoaf%2Cxorp%2Cexpire&hl=en&fmt=ttml&caps=asr&key=yttt1&v=p3VF6acYG7I&xoaf=1';
@@ -27,6 +28,7 @@ class VideoController extends Controller {
                 $publishedAt = isset($youTubeVideoDetails['items'][0]['snippet']['publishedAt']) ? date('Y-m-d', strtotime($youTubeVideoDetails['items'][0]['snippet']['publishedAt'])) : '';
                 $videoInfo = $youtube->getInfo(true);
                 $videoFormat = $this->videoFormat;
+                $videoFormatWithoutAudio = $this->videoFormatWithoutAudio;
                 $videoResolution = $this->videoResolution;
                 $audioFormat = $this->audioFormat;
                 $resolution = $this->resolution;
@@ -35,13 +37,26 @@ class VideoController extends Controller {
                 $captionAutoGenerateURL = $this->captionAutoGenerateURL;
                 if (isset($videoInfo->captions['0'])):
                     $captionsParams = [];
-                    parse_str($videoInfo->captions['0']->baseUrl, $captionsParams);
+                    parse_str(str_replace('https://www.youtube.com/api/timedtext?', '&', $videoInfo->captions['0']->baseUrl), $captionsParams);
                     $CPasrLang = isset($captionsParams['asr_langs']) ? $captionsParams['asr_langs'] : '';
                     $CPsignatureLang = isset($captionsParams['signature']) ? $captionsParams['signature'] : '';
                     $CPexpire = isset($captionsParams['expire']) ? $captionsParams['expire'] : '';
                 endif;
                 \QRCode::url($request->url() . '?search=' . $videoInfo->video_id)->setOutfile(public_path('qrcodes/' . $videoInfo->video_id . '.png'))->setSize(8)->setMargin(2)->png();
-                return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution', 'captionFormat', 'captionAutoGenerateURL', 'CPasrLang', 'CPsignatureLang', 'CPexpire', 'publishedAt'));
+                $adaptiveF = [];
+                foreach ($videoInfo->adaptive_formats as $k => $ar) {
+                    $adaptiveF[$k] = (array) $ar;
+                }
+                $adaptive_formats = array_reverse(self::sortArray($adaptiveF, 'bitrate'));
+                $file_headers = @get_headers('https://www.youtube.com/api/timedtext?lang=en&xorp=True&sparams=' . urlencode('asr_langs,caps,v,xoaf,xorp,expire') . '&hl=en&asr_langs=' . urlencode($CPasrLang) . '&fmt=ttml&v=' . $videoInfo->video_id . '&caps=asr&expire=' . $CPexpire . '&tlang=af&key=yttt1&signature=' . $CPsignatureLang . '&xoaf=1&name=en');
+                if (!$file_headers || (strpos($file_headers[0], '404 Not Found') !== false)) {
+                    $sparams = 'asr_langs,caps,v,expire';
+                } else {
+                    $sparams = 'asr_langs,caps,v,xoaf,xorp,expire';
+                }
+//                echo $sparams;
+//                dd($file_headers);
+                return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution', 'captionFormat', 'captionAutoGenerateURL', 'CPasrLang', 'CPsignatureLang', 'CPexpire', 'publishedAt', 'adaptive_formats', 'sparams', 'videoFormatWithoutAudio'));
             else:
                 $page = ['offset' => '0', 'limit' => $this->cardLimit];
                 return view('video.playlist', compact('videoInfo', 'request', 'page'));
@@ -306,6 +321,20 @@ class VideoController extends Controller {
         curl_close($ch);
         $data = json_decode($response);
         return json_decode(json_encode($data), true);
+    }
+
+    private static function sortArray($data, $field) {
+        if (!is_array($field))
+            $field = array($field);
+        usort($data, function($a, $b) use($field) {
+            $retval = 0;
+            foreach ($field as $fieldname) {
+                if ($retval == 0)
+                    $retval = strnatcmp($a[$fieldname], $b[$fieldname]);
+            }
+            return $retval;
+        });
+        return $data;
     }
 
 }
