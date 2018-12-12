@@ -1,6 +1,8 @@
 @extends('layouts.frontend')
+@section('title', 'Contact')
 @section('content')
 <script src='https://www.google.com/recaptcha/api.js'></script>
+
 <!--inner page content start here-->
 <section class="content-area contact">
     <div class="container">
@@ -36,9 +38,8 @@
                     </div>
                     <div class="form-group">
                         <textarea class="textarea-contactus" placeholder="{{__('contact.placeholder_message') }}*"  required="" name="message"></textarea>
-                        <div class="g-recaptcha" 
-                             data-sitekey="{{env('GOOGLE_RECAPTCHA_KEY')}}">
-                        </div>
+                        <div class="g-recaptcha" data-sitekey="6Levs4AUAAAAAJE188EUePJZ5RgIS9Pls6IZFDGy"></div>
+
                         <div class="form-group btns">
                             <!-- <button class="btn">Prevent spam</button> -->
                             <button class="btn submit">{{__('contact.send_message') }}</button>

@@ -1,4 +1,5 @@
 @extends('layouts.frontend')
+@section('title', 'Terms Of Use')
 @section('content')
 <!--inner page content start here-->
 <section class="content-area terms">

@@ -191,5 +191,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'QRCode' => LaravelQRCode\Facades\QRCode::class,
         'Share' => Jorenvh\Share\ShareFacade::class,
+        'Captcha' => \Buzz\LaravelGoogleCaptcha\CaptchaFacade::class
     ],
 ];

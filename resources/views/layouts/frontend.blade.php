@@ -8,7 +8,7 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Y2D2') }}</title>
+        <title>{{ config('app.name', 'Y2D2') }} - @yield('title')</title>
         <meta property=og:title content="Free YouTube Video & Subtitle Downloader | Online MP3 & MP4 Converter">
         <meta property=og:url content="https://y2d2.com/">
         <meta property=og:type content="website">
@@ -106,10 +106,10 @@
             <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
-<!--                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">{{__('video.close') }}</button>
-                        <h4 class="modal-title">{{__('video.share_option') }}</h4>
-                    </div>-->
+                    <!--                    <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">{{__('video.close') }}</button>
+                                            <h4 class="modal-title">{{__('video.share_option') }}</h4>
+                                        </div>-->
                     <div class="modal-body row">
                         <div class="col-md-12 model-links">
                             <div> <img src="<?= url('home-qrcode.png') ?>"/></div   >

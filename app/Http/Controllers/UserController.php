@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Facades\Input;
 
 class UserController extends Controller {
 
@@ -108,16 +109,17 @@ class UserController extends Controller {
     }
 
     public function contactUS(Request $request) {
+
         try {
             $rules = [
                 'name' => 'required',
                 'email' => 'required|email',
-                'support_msg' => 'required|min:10|max:10',
-                'g-recaptcha-response' => 'required|recaptcha'
+                'g-recaptcha-response' => 'required',
+                'message' => 'required|min:10|max:100',
             ];
             $validator = Validator::make(Input::all(), $rules);
             if ($validator->fails()) {
-                return response()->json(array('errors' => $validator->getMessageBag()->toArray()));
+                return redirect()->back()->withErrors($validator->getMessageBag()->toArray());
             } else {
                 $to_name = 'Support';
                 $to_email = 'gauravsethi376@gmail.com';
@@ -126,10 +128,10 @@ class UserController extends Controller {
                     $message->to($to_email, $to_name)->subject('Support Y2D2.com');
                     $message->from('info@y2d2.com', 'Y2D2');
                 });
-                return \Redirect::back()->with(['message' => 'Thanks for contacting support']);
+                return redirect()->back()->with(['message' => 'Thanks for contacting support']);
             }
         } catch (\Exception $ex) {
-            return \Redirect::back()->with(['error' => 'Something Went Wrong']);
+            return redirect()->back()->with(['error' => 'Something Went Wrong']);
         }
     }
 
