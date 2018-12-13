@@ -131,7 +131,7 @@ class UserController extends Controller {
                 return redirect()->back()->with(['message' => 'Thanks for contacting support']);
             }
         } catch (\Exception $ex) {
-            return redirect()->back()->with(['error' => 'Something Went Wrong']);
+            return redirect()->back()->withErrors([$ex->getMessage()]);
         }
     }
 
