@@ -1,4 +1,5 @@
 @extends('layouts.frontend')
+@section('title', 'Playlist Search')
 @section('content')
 <script type="text/javascript">
     var offset = 0;

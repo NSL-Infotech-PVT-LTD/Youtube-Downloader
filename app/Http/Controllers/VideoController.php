@@ -42,6 +42,25 @@ class VideoController extends Controller {
                     $CPasrLang = isset($captionsParams['asr_langs']) ? $captionsParams['asr_langs'] : '';
                     $CPsignatureLang = isset($captionsParams['signature']) ? $captionsParams['signature'] : '';
                     $CPexpire = isset($captionsParams['expire']) ? $captionsParams['expire'] : '';
+
+                    /*                     * ***************Caption Autogenrate URL standard****** */
+                    $cpURL = 'https://www.youtube.com/api/timedtext?lang=en&xorp=True&sparams=' . urlencode('asr_langs,caps,v,xoaf,xorp,expire') . '&hl=en&asr_langs=' . urlencode($CPasrLang) . '&fmt=ttml&v=' . $videoInfo->video_id . '&caps=asr&expire=' . $CPexpire . '&tlang=af&key=yttt1&signature=' . $CPsignatureLang . '&xoaf=1';
+                    $file_headers = @get_headers($cpURL);
+                    if (!$file_headers || (strpos($file_headers[0], '404 Not Found') !== false)) {
+                        $sparams = 'asr_langs,caps,v,expire';
+                    } else {
+                        $sparams = 'asr_langs,caps,v,xoaf,xorp,expire';
+                    }
+                    $cpname = '';
+                    if ($file_headers['8'] == 'Content-Length:0'):
+                        $cpURL.='&name=en';
+                        $file_headers1 = @get_headers($cpURL);
+                        if (!$file_headers1 || (strpos($file_headers1[0], '404 Not Found') !== false)) {
+                            $cpname = '&name=en';
+                        }
+                    endif;
+                    $kindURL = ($file_headers['8'] == 'Content-Length: 0') ? '&kind=asr' : '';
+                /*                 * **************Caption Autogenrate URL standard end****** */
                 endif;
                 \QRCode::url($request->url() . '?search=' . $videoInfo->video_id)->setOutfile(public_path('qrcodes/' . $videoInfo->video_id . '.png'))->setSize(8)->setMargin(2)->png();
                 $adaptiveF = [];
@@ -49,16 +68,11 @@ class VideoController extends Controller {
                     $adaptiveF[$k] = (array) $ar;
                 }
                 $adaptive_formats = array_reverse(self::sortArray($adaptiveF, 'bitrate'));
-                $file_headers = @get_headers('https://www.youtube.com/api/timedtext?lang=en&xorp=True&sparams=' . urlencode('asr_langs,caps,v,xoaf,xorp,expire') . '&hl=en&asr_langs=' . urlencode($CPasrLang) . '&fmt=ttml&v=' . $videoInfo->video_id . '&caps=asr&expire=' . $CPexpire . '&tlang=af&key=yttt1&signature=' . $CPsignatureLang . '&xoaf=1&name=en');
-                if (!$file_headers || (strpos($file_headers[0], '404 Not Found') !== false)) {
-                    $sparams = 'asr_langs,caps,v,expire';
-                } else {
-                    $sparams = 'asr_langs,caps,v,xoaf,xorp,expire';
-                }
-                $kindURL = ($file_headers['8'] == 'Content-Length: 0') ? '&kind=asr' : '';
-                return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution', 'captionFormat', 'captionAutoGenerateURL', 'CPasrLang', 'CPsignatureLang', 'CPexpire', 'publishedAt', 'adaptive_formats', 'sparams', 'videoFormatWithoutAudio', 'kindURL'));
+
+                return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution', 'captionFormat', 'captionAutoGenerateURL', 'CPasrLang', 'CPsignatureLang', 'CPexpire', 'publishedAt', 'adaptive_formats', 'sparams', 'videoFormatWithoutAudio', 'kindURL', 'cpname'));
             else:
                 $page = ['offset' => '0', 'limit' => $this->cardLimit];
+//            dd($videoInfo);
                 return view('video.playlist', compact('videoInfo', 'request', 'page'));
             endif;
         } catch (\Exception $ex) {
