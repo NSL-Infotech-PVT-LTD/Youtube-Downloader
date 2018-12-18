@@ -1,3 +1,6 @@
+body{
+    background-color: #f7f7fa !important;
+}
 ul.useful-links{margin-bottom:0px;float:right;}
 .navbar-nav > li > .dropdown-menu{border-radius:5px !important;}
 li.language.dropdown ul li a {
@@ -620,8 +623,7 @@ tr td, tr th {
     border: 1px solid #cccccc;
 }
 .video-des {
-    padding: 15px;
-
+    padding: 2px 0px 0 6px;
 }
 .video-des table {
     padding: 0px;
@@ -858,14 +860,11 @@ div.col-md-8 > div > div > ul > li:nth-child(4) > div > a {
 div#dual-language tr td:nth-child(1), div#dual-language tr td:nth-child(2) {
     max-width: 120px;
 }
-body.contact .banner {
-    margin-top: 55px;
+body.contact .banner, body.faq .banner {
+    margin-top: 60px;
 }
 #video > table:nth-child(1) > tbody  td:nth-child(2) {
-    min-width: 120px;
-}
-.textarea-contactus{
-    resize:none;
+    min-width: 110px;
 }
 #subtitle input[type="checkbox"] {
     margin: 0px;
@@ -890,7 +889,17 @@ span.badge.badge-danger {
     box-shadow: 0 0  0px !important;
     border: none;
 }
-#single-language tr td:nth-child(1) {max-width: 140px;}
+#single-language tr td:nth-child(1) {max-width: 140px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+div#playList-card > div.col-md-3 {
+    width: 20%;
+}
+div#playList-card .video_thum {
+    max-height: 220px;
+}
+div#playList-card .video_thum img {
+    max-height: 150px;
+    width: 100%;
+}
 /******video style end here*****/
 
 
@@ -997,10 +1006,11 @@ span.badge.badge-danger {
         bottom: 0;
         width: 100%;
     }
-    .site-map footer, .public footer, .contact footer, .blog footer {
+    .faq footer, .site-map footer, .public footer, .contact footer, .blog footer {
         position: fixed;
         bottom: 0;
         width: 100%;
+        z-index: 99999;
     }
 
 }

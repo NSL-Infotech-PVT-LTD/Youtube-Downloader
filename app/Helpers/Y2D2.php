@@ -287,8 +287,8 @@ class Y2D2 {
     }
 
     public static function convertBitrateToKilobits($bitrate) {
-        $ar = ['128', '160', '70', '50'];
-        return self::_getClosest(($bitrate / 1000), $ar);
+        $ar = ['128', '160', '387', '195', '70', '50'];
+        return ((($bitrate / 1000) > 130) && ($bitrate / 1000) < 170) ? 160 : self::_getClosest(($bitrate / 1000), $ar);
     }
 
 }

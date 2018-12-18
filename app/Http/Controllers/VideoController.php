@@ -12,7 +12,7 @@ class VideoController extends Controller {
     public $videoFormatWithoutAudio = ['mp4', 'webm'];
     public $audioFormat = ['audio/mp4', 'audio/webm'];
     public $videoResolution = ['1080p', '720p', '360p', '240p'];
-    private $cardLimit = '8';
+    private $cardLimit = '10';
     public $resolution = ['720p' => '1280', 'mp4' => '640', '3gp' => '320 ', '3gpp' => '176 ', 'webm' => '640'];
     public $quality = ['mp4' => '360', '3gp' => '180', '3gpp' => '144', 'webm' => '360'];
 //    public $captionFormat = ['srt', 'txt', 'xml', 'ass', 'lrc', 'vtt', 'sbv'];
@@ -24,6 +24,7 @@ class VideoController extends Controller {
             $youtube = new YoutubeDownloader($request->search);
             $videoInfo = $youtube->getInfo();
             if ($videoInfo->response_type === 'video'):
+//                dd($videoInfo->captions);
                 $youTubeVideoDetails = $this->__getYOUTUBEVideoDetails($videoInfo->video_id);
                 $publishedAt = isset($youTubeVideoDetails['items'][0]['snippet']['publishedAt']) ? date('Y-m-d', strtotime($youTubeVideoDetails['items'][0]['snippet']['publishedAt'])) : '';
                 $videoInfo = $youtube->getInfo(true);
@@ -54,9 +55,8 @@ class VideoController extends Controller {
                 } else {
                     $sparams = 'asr_langs,caps,v,xoaf,xorp,expire';
                 }
-//                echo $sparams;
-//                dd($file_headers);
-                return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution', 'captionFormat', 'captionAutoGenerateURL', 'CPasrLang', 'CPsignatureLang', 'CPexpire', 'publishedAt', 'adaptive_formats', 'sparams', 'videoFormatWithoutAudio'));
+                $kindURL = ($file_headers['8'] == 'Content-Length: 0') ? '&kind=asr' : '';
+                return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution', 'captionFormat', 'captionAutoGenerateURL', 'CPasrLang', 'CPsignatureLang', 'CPexpire', 'publishedAt', 'adaptive_formats', 'sparams', 'videoFormatWithoutAudio', 'kindURL'));
             else:
                 $page = ['offset' => '0', 'limit' => $this->cardLimit];
                 return view('video.playlist', compact('videoInfo', 'request', 'page'));

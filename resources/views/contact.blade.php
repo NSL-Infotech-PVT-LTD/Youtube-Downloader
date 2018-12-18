@@ -38,7 +38,7 @@
                     </div>
                     <div class="form-group">
                         <textarea class="textarea-contactus" placeholder="{{__('contact.placeholder_message') }}*"  required="" name="message"></textarea>
-                        <div class="g-recaptcha" data-sitekey="6Levs4AUAAAAAJE188EUePJZ5RgIS9Pls6IZFDGy"></div>
+                        <div class="col-md-7 g-recaptcha" data-sitekey="6Levs4AUAAAAAJE188EUePJZ5RgIS9Pls6IZFDGy"></div>
 
                         <div class="form-group btns">
                             <!-- <button class="btn">Prevent spam</button> -->

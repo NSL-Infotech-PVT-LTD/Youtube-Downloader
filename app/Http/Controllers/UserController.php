@@ -114,7 +114,7 @@ class UserController extends Controller {
             $rules = [
                 'name' => 'required',
                 'email' => 'required|email',
-                'g-recaptcha-response' => 'required',
+//                'g-recaptcha-response' => 'required',
                 'message' => 'required|min:10|max:100',
             ];
             $validator = Validator::make(Input::all(), $rules);

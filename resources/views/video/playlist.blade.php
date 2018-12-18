@@ -7,7 +7,7 @@
 <section class="content-area video">
     <div class="container">
         <div class="row banner">
-            <div class="col-md-10 search-video search-video-playlist">					
+            <div class="col-md-12 search-video search-video-playlist">					
                 <div class="search-container">
                     <form action="<?= url('video-search') ?>">
                         <input type="text"  autocomplete="off" placeholder="{{__('home.search_placeholder')}}" name="search" value="<?= $request->search ?>">
