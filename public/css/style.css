@@ -133,7 +133,7 @@ li.language.dropdown a {
     padding: 10px 0px;
     width: 100%;
 }
-.search-container button , .load-more{
+.search-container button {
     /* height: 60px; */
     /* width: 20%; */
     margin: 0;
@@ -145,6 +145,15 @@ li.language.dropdown a {
     position: absolute;
     right: 5%;
     bottom: 42%;
+}
+.load-more{
+    height: 60px; 
+    width: 20%; 
+    margin: 0;
+    display: inline-block;
+    background: #fb0200;
+    border: none;
+    transition:all .7s ease;
 }
 button.load-more:hover{
     background: #da0c0b;
@@ -515,11 +524,9 @@ p.sub-heading {
 .video .search-container {
     max-width: 100%;
 }
-.video .search-container input[type="text"] {
-    width: 90% !important;
-}
-.video .search-container button {
-    width: 10%;
+#video-search div.search-container > form > button, .search-video-playlist div.search-container > form > button {
+    top: 3%;
+    bottom: inherit;
 }
 .video {
     background: #f7f7fa;

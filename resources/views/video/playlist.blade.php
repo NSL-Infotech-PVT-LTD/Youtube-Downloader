@@ -12,7 +12,7 @@
                 <div class="search-container">
                     <form action="<?= url('video-search') ?>">
                         <input type="text"  autocomplete="off" placeholder="{{__('home.search_placeholder')}}" name="search" value="<?= $request->search ?>">
-                        <button type="submit"><img src="images/search.png"></button>
+                        <button type="submit"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
                 <div class="search-data">
