@@ -16,7 +16,7 @@
                     </form>
                 </div>
                 <div class="search-data">
-                    <h4><?= $videoInfo->title ?></h4>
+                    <a target="_BLANK" href="<?= $request->search ?>"><h4><?= $videoInfo->title ?></h4></a>
                     <h5><?= count($videoInfo->video) ?> {{__('video.videos_found') }}</h5>
                 </div>                
                 <div class="row">

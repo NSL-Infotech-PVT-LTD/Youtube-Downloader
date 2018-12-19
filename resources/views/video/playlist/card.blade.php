@@ -10,6 +10,9 @@ for ($i = $page['offset']; $i <= count($videoInfo->video) - 1; $i++):
     <div class="col-md-3">
         <div class="video_thum">
             <div class="video_inr">
+                <div class="vid-offset vid-duration">
+                    <span><?= $i + 1 ?></span>
+                </div>
                 <img width="auto" height="200" src="<?= 'https://i.ytimg.com/vi/' . $videoInfo->video[$i]->encrypted_id . '/hqdefault.jpg' ?>" />
                 <div class="vid-duration">
                     <span><?= $videoInfo->video[$i]->duration ?></span>

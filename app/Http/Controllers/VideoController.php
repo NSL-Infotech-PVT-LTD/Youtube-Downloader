@@ -24,55 +24,60 @@ class VideoController extends Controller {
             $youtube = new YoutubeDownloader($request->search);
             $videoInfo = $youtube->getInfo();
             if ($videoInfo->response_type === 'video'):
-//                dd($videoInfo->captions);
-                $youTubeVideoDetails = $this->__getYOUTUBEVideoDetails($videoInfo->video_id);
-                $publishedAt = isset($youTubeVideoDetails['items'][0]['snippet']['publishedAt']) ? date('Y-m-d', strtotime($youTubeVideoDetails['items'][0]['snippet']['publishedAt'])) : '';
-                $videoInfo = $youtube->getInfo(true);
-                $videoFormat = $this->videoFormat;
-                $videoFormatWithoutAudio = $this->videoFormatWithoutAudio;
-                $videoResolution = $this->videoResolution;
-                $audioFormat = $this->audioFormat;
-                $resolution = $this->resolution;
-                $quality = $this->quality;
-                $captionFormat = $this->captionFormat;
-                $captionAutoGenerateURL = $this->captionAutoGenerateURL;
-                if (isset($videoInfo->captions['0'])):
-                    $captionsParams = [];
-                    parse_str(str_replace('https://www.youtube.com/api/timedtext?', '&', $videoInfo->captions['0']->baseUrl), $captionsParams);
-                    $CPasrLang = isset($captionsParams['asr_langs']) ? $captionsParams['asr_langs'] : '';
-                    $CPsignatureLang = isset($captionsParams['signature']) ? $captionsParams['signature'] : '';
-                    $CPexpire = isset($captionsParams['expire']) ? $captionsParams['expire'] : '';
+                if ($request->ajax()):
+                    $youTubeVideoDetails = $this->__getYOUTUBEVideoDetails($videoInfo->video_id);
+                    $publishedAt = isset($youTubeVideoDetails['items'][0]['snippet']['publishedAt']) ? date('Y-m-d', strtotime($youTubeVideoDetails['items'][0]['snippet']['publishedAt'])) : '';
+                    $videoInfo = $youtube->getInfo(true);
+                    $videoFormat = $this->videoFormat;
+                    $videoFormatWithoutAudio = $this->videoFormatWithoutAudio;
+                    $videoResolution = $this->videoResolution;
+                    $audioFormat = $this->audioFormat;
+                    $resolution = $this->resolution;
+                    $quality = $this->quality;
+                    $captionFormat = $this->captionFormat;
+                    $captionAutoGenerateURL = $this->captionAutoGenerateURL;
+                    if (isset($videoInfo->captions['0'])):
+                        $captionsParams = [];
+                        parse_str(str_replace('https://www.youtube.com/api/timedtext?', '&', $videoInfo->captions['0']->baseUrl), $captionsParams);
+                        $CPasrLang = isset($captionsParams['asr_langs']) ? $captionsParams['asr_langs'] : '';
+                        $CPsignatureLang = isset($captionsParams['signature']) ? $captionsParams['signature'] : '';
+                        $CPexpire = isset($captionsParams['expire']) ? $captionsParams['expire'] : '';
 
-                    /*                     * ***************Caption Autogenrate URL standard****** */
-                    $cpURL = 'https://www.youtube.com/api/timedtext?lang=en&xorp=True&sparams=' . urlencode('asr_langs,caps,v,xoaf,xorp,expire') . '&hl=en&asr_langs=' . urlencode($CPasrLang) . '&fmt=ttml&v=' . $videoInfo->video_id . '&caps=asr&expire=' . $CPexpire . '&tlang=af&key=yttt1&signature=' . $CPsignatureLang . '&xoaf=1';
-                    $file_headers = @get_headers($cpURL);
-                    if (!$file_headers || (strpos($file_headers[0], '404 Not Found') !== false)) {
-                        $sparams = 'asr_langs,caps,v,expire';
-                    } else {
-                        $sparams = 'asr_langs,caps,v,xoaf,xorp,expire';
-                    }
-                    $cpname = '';
-                    if ($file_headers['8'] == 'Content-Length:0'):
-                        $cpURL.='&name=en';
-                        $file_headers1 = @get_headers($cpURL);
-                        if (!$file_headers1 || (strpos($file_headers1[0], '404 Not Found') !== false)) {
-                            $cpname = '&name=en';
+                        /*                         * ***************Caption Autogenrate URL standard****** */
+                        $cpURL = 'https://www.youtube.com/api/timedtext?lang=en&xorp=True&sparams=' . urlencode('asr_langs,caps,v,xoaf,xorp,expire') . '&hl=en&asr_langs=' . urlencode($CPasrLang) . '&fmt=ttml&v=' . $videoInfo->video_id . '&caps=asr&expire=' . $CPexpire . '&tlang=af&key=yttt1&signature=' . $CPsignatureLang . '&xoaf=1';
+                        $file_headers = @get_headers($cpURL);
+                        if (!$file_headers || (strpos($file_headers[0], '404 Not Found') !== false)) {
+                            $sparams = 'asr_langs,caps,v,expire';
+                        } else {
+                            $sparams = 'asr_langs,caps,v,xoaf,xorp,expire';
                         }
+                        $cpname = '';
+                        if ($file_headers['8'] == 'Content-Length:0'):
+                            $cpURL.='&name=en';
+                            $file_headers1 = @get_headers($cpURL);
+                            if (!$file_headers1 || (strpos($file_headers1[0], '404 Not Found') !== false)) {
+                                $cpname = '&name=en';
+                            }
+                        endif;
+//                        echo $cpURL;
+//                        dd($file_headers['8']);
+                        $kindURL = ($file_headers['8'] == 'Content-Length: 0') ? '&kind=asr' : '';
+                    /*                     * **************Caption Autogenrate URL standard end****** */
                     endif;
-                    $kindURL = ($file_headers['8'] == 'Content-Length: 0') ? '&kind=asr' : '';
-                /*                 * **************Caption Autogenrate URL standard end****** */
-                endif;
-                \QRCode::url($request->url() . '?search=' . $videoInfo->video_id)->setOutfile(public_path('qrcodes/' . $videoInfo->video_id . '.png'))->setSize(8)->setMargin(2)->png();
-                $adaptiveF = [];
-                foreach ($videoInfo->adaptive_formats as $k => $ar) {
-                    $adaptiveF[$k] = (array) $ar;
-                }
-                $adaptive_formats = array_reverse(self::sortArray($adaptiveF, 'bitrate'));
+                    \QRCode::url($request->url() . '?search=' . $videoInfo->video_id)->setOutfile(public_path('qrcodes/' . $videoInfo->video_id . '.png'))->setSize(8)->setMargin(2)->png();
+                    $adaptiveF = [];
+                    foreach ($videoInfo->adaptive_formats as $k => $ar) {
+                        $adaptiveF[$k] = (array) $ar;
+                    }
+                    $adaptive_formats = array_reverse(self::sortArray($adaptiveF, 'bitrate'));
 
-                return view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution', 'captionFormat', 'captionAutoGenerateURL', 'CPasrLang', 'CPsignatureLang', 'CPexpire', 'publishedAt', 'adaptive_formats', 'sparams', 'videoFormatWithoutAudio', 'kindURL', 'cpname'));
+                    $view = view('video.detail', compact('videoInfo', 'request', 'videoFormat', 'videoResolution', 'audioFormat', 'quality', 'resolution', 'captionFormat', 'captionAutoGenerateURL', 'CPasrLang', 'CPsignatureLang', 'CPexpire', 'publishedAt', 'adaptive_formats', 'sparams', 'videoFormatWithoutAudio', 'kindURL', 'cpname'))->render();
+                    return response()->json(['html' => $view]);
+                else:
+                    return view('video.detail-loading', compact('request'));
+                endif;
             else:
                 $page = ['offset' => '0', 'limit' => $this->cardLimit];
-//            dd($videoInfo);
                 return view('video.playlist', compact('videoInfo', 'request', 'page'));
             endif;
         } catch (\Exception $ex) {
