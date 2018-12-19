@@ -525,7 +525,7 @@ p.sub-heading {
     max-width: 100%;
 }
 #video-search div.search-container > form > button, .search-video-playlist div.search-container > form > button {
-    top: 3%;
+    top: 20px;
     bottom: inherit;
 }
 .video {

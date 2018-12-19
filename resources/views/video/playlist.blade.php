@@ -24,7 +24,7 @@
                         @include('video.playlist.card')
                     </div>
                     <div class="ajax-load text-center" style="display:none">
-                        <p><img src="http://demo.itsolutionstuff.com/plugin/loader.gif">{{__('video.fetching_more') }}</p>
+                        <p><img src="//demo.itsolutionstuff.com/plugin/loader.gif">{{__('video.fetching_more') }}</p>
                     </div>
                     <button type="button" class="load-more" onclick="loadMoreCard();">{{__('video.load_more') }}</button>
                 </div>		
