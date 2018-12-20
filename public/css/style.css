@@ -528,7 +528,7 @@ p.sub-heading {
     top: 20px;
     bottom: inherit;
 }
-body > section > div > div > div > div.search-container > form > button {
+.video-search div.search-container > form > button {
     top: 20px;
     bottom: inherit;
 }
