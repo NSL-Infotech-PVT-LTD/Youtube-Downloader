@@ -332,8 +332,8 @@ class VideoController extends Controller {
 //        $r_m = ($r_m < 10) ? "0" . $r_m : $r_m;
 //        $r_s = ($r_s < 10) ? "0" . $r_s : $r_s;
 //        $r_ms = (2 == strlen($r_ms)) ? "0" . $r_ms : ((1 == strlen($r_ms)) ? "00" . $r_ms : $r_ms);
-        $o = "{$o_h}:{$o_m}:{$o_s}:{$o_ms}";
-        $r = "{$a_h}:{$a_m}:{$a_s}:{$a_ms}";
+        $o = "{$o_h}:{$o_m}:{$o_s}.{$o_ms}";
+        $r = "{$a_h}:{$a_m}:{$a_s}.{$a_ms}";
         return "{$o} --> {$r}";
     }
 
