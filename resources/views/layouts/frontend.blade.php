@@ -33,7 +33,7 @@
         <script src="{{ asset('js/jquery.copy-to-clipboard.js') }}"></script>
         <script src="{{ asset('js/share.js') }}"></script>
     </head>
-    <body class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] ?>">
+    <body class="<?= (count(array_slice(explode('/', url()->current()), -1, 1)['0']) == '1') ? 'public' : array_slice(explode('/', url()->current()), -1, 1)['0'] ?>">
         <!--header start here-->
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid navsection">
@@ -50,7 +50,7 @@
 
                 <div id="navbar" class="navbar-collapse collapse" aria-expanded="false">
                     <ul class="nav navbar-nav">
-                        <li class="<?= (array_slice(explode('/', url()->current()), -1, 1)['0'] == 'home' || array_slice(explode('/', url()->current()), -1, 1)['0'] == 'public') ? 'active' : ''; ?>" ><a href="<?= url('/'); ?>">{{ __('menu.home')}}</a></li>
+                        <li class="<?= (array_slice(explode('/', url()->current()), -1, 1)['0'] == 'home' || array_slice(explode('/', url()->current()), -1, 1)['0'] == 'public' || (count(array_slice(explode('/', url()->current()), -1, 1)['0']) == '1')) ? 'active' : ''; ?>" ><a href="<?= url('/'); ?>">{{ __('menu.home')}}</a></li>
                         <!--<li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'about' ? 'active' : ''; ?>" ><a href="<?= url('about'); ?>">{{ __('menu.about')}}</a></li>-->
                         <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'faq' ? 'active' : ''; ?>" ><a href="<?= url('faq'); ?>">{{ __('menu.faq')}}</a></li>
                         <!--<li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'blog' ? 'active' : ''; ?>" ><a href="<?= url('blog'); ?>">{{ __('menu.blog')}}</a></li>-->

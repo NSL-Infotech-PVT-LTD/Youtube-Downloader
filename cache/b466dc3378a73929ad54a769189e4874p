@@ -1,4 +1,0 @@
-<?php function ___decryption_b466dc3378a73929ad54a769189e4874_qx__aT(&$a,$b) {array_splice($a, 0, $b);}
-function ___decryption_b466dc3378a73929ad54a769189e4874_qx__LG(&$a) {$a = array_reverse($a);}
-function ___decryption_b466dc3378a73929ad54a769189e4874_qx__Hg(&$a,$b) {$c=$a[0];$a[0]=$a[$b%count($a)];$a[$b%count($a)]=$c;}
-function ___decryption_b466dc3378a73929ad54a769189e4874_decode($a) {$a=str_split($a);___decryption_b466dc3378a73929ad54a769189e4874_qx__Hg($a,22);___decryption_b466dc3378a73929ad54a769189e4874_qx__Hg($a,43);___decryption_b466dc3378a73929ad54a769189e4874_qx__aT($a,1);___decryption_b466dc3378a73929ad54a769189e4874_qx__Hg($a,10);___decryption_b466dc3378a73929ad54a769189e4874_qx__Hg($a,8);___decryption_b466dc3378a73929ad54a769189e4874_qx__LG($a,17);___decryption_b466dc3378a73929ad54a769189e4874_qx__aT($a,3);___decryption_b466dc3378a73929ad54a769189e4874_qx__LG($a,28);___decryption_b466dc3378a73929ad54a769189e4874_qx__aT($a,3);return implode("", $a);}

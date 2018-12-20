@@ -1,4 +1,0 @@
-<?php function ___decryption_b782de8ccd1302272c09c8e35200509b_qx__SB(&$a,$b) {array_splice($a, 0, $b);}
-function ___decryption_b782de8ccd1302272c09c8e35200509b_qx__uc(&$a,$b) {$c=$a[0];$a[0]=$a[$b%count($a)];$a[$b%count($a)]=$c;}
-function ___decryption_b782de8ccd1302272c09c8e35200509b_qx__Qa(&$a) {$a = array_reverse($a);}
-function ___decryption_b782de8ccd1302272c09c8e35200509b_decode($a) {$a=str_split($a);___decryption_b782de8ccd1302272c09c8e35200509b_qx__uc($a,59);___decryption_b782de8ccd1302272c09c8e35200509b_qx__uc($a,12);___decryption_b782de8ccd1302272c09c8e35200509b_qx__SB($a,2);___decryption_b782de8ccd1302272c09c8e35200509b_qx__Qa($a,78);___decryption_b782de8ccd1302272c09c8e35200509b_qx__SB($a,1);___decryption_b782de8ccd1302272c09c8e35200509b_qx__uc($a,10);___decryption_b782de8ccd1302272c09c8e35200509b_qx__Qa($a,50);return implode("", $a);}
