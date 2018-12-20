@@ -1,3 +1,6 @@
+@extends('layouts.frontend')
+@section('title', 'Video Search')
+@section('content')
 <!--inner page content start here-->
 <section class="content-area video">
     <div class="container">
@@ -379,48 +382,69 @@
                                                     <th></th>
                                                 </tr>
                                                 <?php
-                                                foreach (['auto-generated', 'auto-generated'] as $k => $type):
-                                                    foreach ($videoInfo->captions as $captions):
-                                                        if ($k == '1'):
-                                                            if (!(strpos($captions->name->simpleText, $type) === false)):
-                                                                continue;
-                                                            endif;
-                                                        else:
-                                                            if (strpos($captions->name->simpleText, $type) === false):
-                                                                continue;
-                                                            endif;
-                                                        endif;
-                                                        ?>
-                                                        <tr>
-                                                            <td><?= ($k == 0) ? str_replace('(auto-generated)', '', $captions->name->simpleText) : $captions->name->simpleText ?></td>
-                                                            <td><?= ($k == 0) ? __('video.auto_generated') : __('video.uploaded') ?></td>
-                                                            <td>
-                                                                <select class="form-control format">
-                                                                    <?php foreach ($captionFormat as $k => $format): ?>
-                                                                        <option><?= $format ?></option>
-                                                                    <?php endforeach; ?>
-                                                                </select>
-                                                            </td>
-                                                            <td>
-                                                                <div class="checkbox">
-                                                                    <input name="textonly" type="checkbox" value="" class="textonly" checked="checked" id="single-textonly<?= $k ?>">
-                                                                    <!--<label for="single-textonly<?= $k ?>">{{__('video.timeline') }}</label>-->
-                                                                </div>
-                                                            </td>
-                                                            <td >
-                                                                <span class="download caption">
-                                                                    <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load preview btn btn-primary" target="_BLANK"> <i class="fa fa-eye"></i> {{__('video.preview') }}</a>
-                                                                </span>
-                                                                <span class="download">
-                                                                    <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" data-href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load caption-downloader btn btn-success" target="_BLANK"><i class="fa fa-download"></i> {{__('video.download') }}</a>
-                                                                </span>
-            <!--                                                            <span>
-                                                                    <button class="share-vdo" id ="<?= isset($captions->baseUrl) ? $captions->baseUrl : '' ?>" onclick ="generateLinks(this.id)" data-toggle="modal" data-target="#share"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
-                                                                </span>-->
-                                                            </td>
-                                                        </tr>
-                                                        <?php
-                                                    endforeach;
+                                                foreach ($videoInfo->captions as $captions):
+                                                    if (strpos($captions->name->simpleText, '(auto-generated)') === false):
+                                                        continue;
+                                                    endif;
+                                                    ?>
+                                                    <tr>
+                                                        <td><?= $captions->name->simpleText ?></td>
+                                                        <td><?= __('video.auto_generated') ?></td>
+                                                        <td>
+                                                            <select class="form-control format">
+                                                                <?php foreach ($captionFormat as $k => $format): ?>
+                                                                    <option><?= $format ?></option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <div class="checkbox">
+                                                                <input name="textonly" type="checkbox" value="" class="textonly" checked="checked" id="single-textonly<?= $k ?>">
+                                                            </div>
+                                                        </td>
+                                                        <td >
+                                                            <span class="download caption">
+                                                                <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load preview btn btn-primary" target="_BLANK"> <i class="fa fa-eye"></i> {{__('video.preview') }}</a>
+                                                            </span>
+                                                            <span class="download">
+                                                                <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" data-href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load caption-downloader btn btn-success" target="_BLANK"><i class="fa fa-download"></i> {{__('video.download') }}</a>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                endforeach;
+                                                ?>
+                                                     <?php
+                                                foreach ($videoInfo->captions as $captions):
+                                                    if (!strpos($captions->name->simpleText, '(auto-generated)') === false):
+                                                        continue;
+                                                    endif;
+                                                    ?>
+                                                    <tr>
+                                                        <td><?= $captions->name->simpleText ?></td>
+                                                        <td><?= __('video.uploaded') ?></td>
+                                                        <td>
+                                                            <select class="form-control format">
+                                                                <?php foreach ($captionFormat as $k => $format): ?>
+                                                                    <option><?= $format ?></option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <div class="checkbox">
+                                                                <input name="textonly" type="checkbox" value="" class="textonly" checked="checked" id="single-textonly<?= $k ?>">
+                                                            </div>
+                                                        </td>
+                                                        <td >
+                                                            <span class="download caption">
+                                                                <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load preview btn btn-primary" target="_BLANK"> <i class="fa fa-eye"></i> {{__('video.preview') }}</a>
+                                                            </span>
+                                                            <span class="download">
+                                                                <a data-name="<?= str_replace(' ', '_', $videoInfo->title . '_' . $captions->name->simpleText) ?>" data-href="<?= isset($captions->baseUrl) ? $captions->baseUrl . '&fmt=ttml' : '' ?>" class="dwn_load caption-downloader btn btn-success" target="_BLANK"><i class="fa fa-download"></i> {{__('video.download') }}</a>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
                                                 endforeach;
                                                 ?>
                                                 <?php
@@ -690,3 +714,4 @@
         });
     });
 </script>
+@endsection
