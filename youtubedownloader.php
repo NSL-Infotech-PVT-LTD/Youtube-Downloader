@@ -177,13 +177,13 @@ class YoutubeDownloader {
         ));
 
         $this->onComplete = function ($filePath, $fileSize) {
-            
+
         };
         $this->onProgress = function ($downloadedBytes, $fileSize) {
-            
+
         };
         $this->onFinalized = function () {
-            
+
         };
         $this->sanitizeFileName = function ($fileName) {
             return $this->pathSafeFilename($fileName);
@@ -547,13 +547,11 @@ class YoutubeDownloader {
                     unset($stream_maps[$key]['sig']);
                 }
 
-                $typeParts = isset($stream_maps[$key]['type']) ? explode(';', $stream_maps[$key]['type']) : ['0' => ''];
-
+                $typeParts = explode(';', $stream_maps[$key]['type']);
                 // TODO: Use container of known itags as extension here
                 $stream_maps[$key]['filename'] = $filename . '.' . $this->getExtension(trim($typeParts[0]));
 
                 $stream_maps[$key] = (object) $stream_maps[$key];
-   
             }
             $result['full_formats'] = $stream_maps;
 
@@ -999,7 +997,7 @@ EOF;
                 if ($response->getStatusCode() == 200)
                     $file->setCover($response->getBody());
             } catch (\Exception $e) {
-                
+
             }
 
             $file->setTrackName($this->videoInfo->title);

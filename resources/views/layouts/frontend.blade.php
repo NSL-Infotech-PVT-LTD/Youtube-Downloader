@@ -33,7 +33,8 @@
         <script src="{{ asset('js/jquery.copy-to-clipboard.js') }}"></script>
         <script src="{{ asset('js/share.js') }}"></script>
     </head>
-    <body class="<?= (count(array_slice(explode('/', url()->current()), -1, 1)['0']) == '1') ? 'public' : array_slice(explode('/', url()->current()), -1, 1)['0'] ?>">
+    <?php $currentRoute = \Route::current()->uri() ?>
+    <body class="<?= ($currentRoute == '/') ? 'public' : $currentRoute ?>">
         <!--header start here-->
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container-fluid navsection">
@@ -50,12 +51,12 @@
 
                 <div id="navbar" class="navbar-collapse collapse" aria-expanded="false">
                     <ul class="nav navbar-nav">
-                        <li class="<?= (array_slice(explode('/', url()->current()), -1, 1)['0'] == 'home' || array_slice(explode('/', url()->current()), -1, 1)['0'] == 'public' || (count(array_slice(explode('/', url()->current()), -1, 1)['0']) == '1')) ? 'active' : ''; ?>" ><a href="<?= url('/'); ?>">{{ __('menu.home')}}</a></li>
-                        <!--<li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'about' ? 'active' : ''; ?>" ><a href="<?= url('about'); ?>">{{ __('menu.about')}}</a></li>-->
-                        <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'faq' ? 'active' : ''; ?>" ><a href="<?= url('faq'); ?>">{{ __('menu.faq')}}</a></li>
-                        <!--<li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'blog' ? 'active' : ''; ?>" ><a href="<?= url('blog'); ?>">{{ __('menu.blog')}}</a></li>-->
-                       <!--  <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'feedback' ? 'active' : ''; ?>" ><a href="<?= url('feedback'); ?>">{{ __('menu.feedback')}}</a></li> -->
-                        <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'contact' ? 'active' : ''; ?>" ><a href="<?= url('contact'); ?>">{{ __('menu.contact')}}</a></li>
+                        <li class="<?= ($currentRoute == 'home' || $currentRoute == 'public' || $currentRoute == '/') ? 'active' : ''; ?>" ><a href="<?= url('/'); ?>">{{ __('menu.home')}}</a></li>
+                        <!--<li class="<?= $currentRoute == 'about' ? 'active' : ''; ?>" ><a href="<?= url('about'); ?>">{{ __('menu.about')}}</a></li>-->
+                        <li class="<?= $currentRoute == 'faq' ? 'active' : ''; ?>" ><a href="<?= url('faq'); ?>">{{ __('menu.faq')}}</a></li>
+                        <!--<li class="<?= $currentRoute == 'blog' ? 'active' : ''; ?>" ><a href="<?= url('blog'); ?>">{{ __('menu.blog')}}</a></li>-->
+                       <!--  <li class="<?= $currentRoute == 'feedback' ? 'active' : ''; ?>" ><a href="<?= url('feedback'); ?>">{{ __('menu.feedback')}}</a></li> -->
+                        <li class="<?= $currentRoute == 'contact' ? 'active' : ''; ?>" ><a href="<?= url('contact'); ?>">{{ __('menu.contact')}}</a></li>
 
                         <li class="language dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@if(session('locale')=='en'){{ __('English')}} @else {{ __('中文')}} @endif<span class="caret"></span></a>
@@ -92,9 +93,9 @@
 
                     <div class="col-md-6 col-sm-12">
                         <ul class="useful-links">
-                            <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'terms' ? 'active' : ''; ?>" ><a href="<?= url('terms') ?>">{{ __('menu.Terms_of_Use')}}</a></li>
-                            <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'privacy-policy' ? 'active' : ''; ?>"><a  href="<?= url('privacy-policy') ?>">{{ __('menu.Privacy_Policy')}} </a></li>
-                            <li class="<?= array_slice(explode('/', url()->current()), -1, 1)['0'] == 'site-map' ? 'active' : ''; ?>" ><a href="<?= url('site-map') ?>">{{ __('menu.Site_Map')}} </a></li>
+                            <li class="<?= $currentRoute == 'terms' ? 'active' : ''; ?>" ><a href="<?= url('terms') ?>">{{ __('menu.Terms_of_Use')}}</a></li>
+                            <li class="<?= $currentRoute == 'privacy-policy' ? 'active' : ''; ?>"><a  href="<?= url('privacy-policy') ?>">{{ __('menu.Privacy_Policy')}} </a></li>
+                            <li class="<?= $currentRoute == 'site-map' ? 'active' : ''; ?>" ><a href="<?= url('site-map') ?>">{{ __('menu.Site_Map')}} </a></li>
                         </ul>
                     </div>
                 </div>
