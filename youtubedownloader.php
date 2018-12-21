@@ -3,7 +3,7 @@
 /**
  * Youtube Downloader
  *
- * @author Gaurav Sethi <gaurav@netscapelabs.com>
+ * @author Masih Yeganeh <masihyeganeh@outlook.com>
  * @package YoutubeDownloader
  *
  * @version 2.9.5
@@ -177,13 +177,13 @@ class YoutubeDownloader {
         ));
 
         $this->onComplete = function ($filePath, $fileSize) {
-
+            
         };
         $this->onProgress = function ($downloadedBytes, $fileSize) {
-
+            
         };
         $this->onFinalized = function () {
-
+            
         };
         $this->sanitizeFileName = function ($fileName) {
             return $this->pathSafeFilename($fileName);
@@ -547,7 +547,8 @@ class YoutubeDownloader {
                     unset($stream_maps[$key]['sig']);
                 }
 
-                $typeParts = explode(';', $stream_maps[$key]['type']);
+                $typeParts = !isset($stream_maps[$key]['type']) ? explode(';', $stream_maps[$key]['type']) : ['0' => ''];
+
                 // TODO: Use container of known itags as extension here
                 $stream_maps[$key]['filename'] = $filename . '.' . $this->getExtension(trim($typeParts[0]));
 
@@ -997,7 +998,7 @@ EOF;
                 if ($response->getStatusCode() == 200)
                     $file->setCover($response->getBody());
             } catch (\Exception $e) {
-
+                
             }
 
             $file->setTrackName($this->videoInfo->title);
