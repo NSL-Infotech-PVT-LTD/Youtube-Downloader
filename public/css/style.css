@@ -146,6 +146,9 @@ li.language.dropdown a {
     right: 5%;
     top: 20px;
 }
+.public .search-container button {
+    top: 120px;
+}
 .load-more{
     height: 60px; 
     width: 20%; 
