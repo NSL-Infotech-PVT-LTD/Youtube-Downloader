@@ -144,7 +144,7 @@ li.language.dropdown a {
     transition:all .7s ease;
     position: absolute;
     right: 5%;
-    bottom: 42%;
+    top: 20px;
 }
 .load-more{
     height: 60px; 

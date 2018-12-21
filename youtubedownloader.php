@@ -547,12 +547,13 @@ class YoutubeDownloader {
                     unset($stream_maps[$key]['sig']);
                 }
 
-                $typeParts = !isset($stream_maps[$key]['type']) ? explode(';', $stream_maps[$key]['type']) : ['0' => ''];
+                $typeParts = isset($stream_maps[$key]['type']) ? explode(';', $stream_maps[$key]['type']) : ['0' => ''];
 
                 // TODO: Use container of known itags as extension here
                 $stream_maps[$key]['filename'] = $filename . '.' . $this->getExtension(trim($typeParts[0]));
 
                 $stream_maps[$key] = (object) $stream_maps[$key];
+   
             }
             $result['full_formats'] = $stream_maps;
 
