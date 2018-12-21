@@ -3,7 +3,7 @@
 /**
  * Youtube Downloader
  *
- * @author Masih Yeganeh <masihyeganeh@outlook.com>
+ * @author Gaurav Sethi <gaurav@netscapelabs.com>
  * @package YoutubeDownloader
  *
  * @version 2.9.5
@@ -177,13 +177,13 @@ class YoutubeDownloader {
         ));
 
         $this->onComplete = function ($filePath, $fileSize) {
-            
+
         };
         $this->onProgress = function ($downloadedBytes, $fileSize) {
-            
+
         };
         $this->onFinalized = function () {
-            
+
         };
         $this->sanitizeFileName = function ($fileName) {
             return $this->pathSafeFilename($fileName);
@@ -997,7 +997,7 @@ EOF;
                 if ($response->getStatusCode() == 200)
                     $file->setCover($response->getBody());
             } catch (\Exception $e) {
-                
+
             }
 
             $file->setTrackName($this->videoInfo->title);
